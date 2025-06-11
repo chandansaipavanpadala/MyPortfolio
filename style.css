@@ -45,10 +45,109 @@ body {
   padding: 0 4rem;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px); /* Safari support */
+  -webkit-backdrop-filter: blur(20px);
   z-index: 1000;
   transition: var(--transition);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Enhanced Portfolio Logo */
+.name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--heading-color);
+  transition: var(--transition);
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  
+  /* Add gradient text effect */
+  background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  
+  /* Add subtle text shadow for depth */
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Add hover effect */
+.name:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.15));
+}
+
+
+/* Alternative icon option - uncomment if you prefer */
+.name::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--accent-color);
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.8rem;
+  box-shadow: 0 0 10px var(--accent-color);
+  animation: glow-dot 2s ease-in-out infinite;
+} 
+
+/* Add underline effect on hover */
+.name::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+  transition: width 0.3s ease;
+}
+
+.name:hover::after {
+  width: 100%;
+}
+
+/* Animations */
+@keyframes pulse-icon {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes glow-dot {
+  0%, 100% { 
+    box-shadow: 0 0 5px var(--accent-color);
+    opacity: 0.8;
+  }
+  50% { 
+    box-shadow: 0 0 15px var(--accent-color), 0 0 25px var(--accent-color);
+    opacity: 1;
+  }
+}
+
+/* Dark mode adjustments */
+body.dark .name {
+  background: linear-gradient(45deg, #ff5f6d, #ffc371);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(2px 2px 4px rgba(255, 255, 255, 0.1));
+}
+
+body.dark .name:hover {
+  filter: drop-shadow(3px 3px 6px rgba(255, 255, 255, 0.2));
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .name {
+    font-size: 1.2rem;
+  }
+  
+  .name::before {
+    font-size: 1em;
+    margin-right: 0.3rem;
+  }
 }
 
 .navbar.scrolled {
@@ -137,6 +236,10 @@ body {
 .hero-content {
   max-width: 600px;
   z-index: 2;
+  position: relative; /* Add this */
+  margin-left: auto; /* Add this to push content to the right */
+  margin-right: auto; /* Add some spacing from edge */
+  text-align: center; /* Add this to right-align the text */
 }
 
 .hero h1 {
@@ -147,6 +250,8 @@ body {
   opacity: 0;
   transform: translateY(30px);
   animation: fadeUp 1s forwards 0.3s;
+  white-space: nowrap; /* Add this line */
+  overflow: hidden; /* Add this line */
 }
 
 .hero p {
@@ -191,7 +296,7 @@ body {
   width: 600px;
   height: 600px;
   opacity: 0.6;
-  z-index: 1;
+  z-index: 1; /* Change this to z-index: 3; so circles appear above text */
 }
 
 .cyber-graphic {
@@ -534,6 +639,51 @@ a:hover {
   margin-bottom: 0.5rem;
 }
 
+/* ---------- PROJECT FOOTER & GITHUB BUTTON ---------- */
+.project-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.github-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #333;
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: var(--transition);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.github-btn:hover {
+  background: #24292e;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  color: white;
+}
+
+/* Dark mode styling for GitHub button */
+body.dark .project-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark .github-btn {
+  background: #555;
+}
+
+body.dark .github-btn:hover {
+  background: #666;
+  color: white;
+}
+
 /* ---------- CERTIFICATIONS SECTION ---------- */
 .cert-container {
   display: grid;
@@ -548,6 +698,41 @@ a:hover {
   background: rgba(255, 255, 255, 0.5);
   border-radius: 16px;
   transition: var(--transition);
+  justify-content: space-between;
+}
+
+.cert-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--accent-color);
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: var(--transition);
+  box-shadow: 0 2px 10px rgba(204, 0, 0, 0.2);
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.cert-link-btn:hover {
+  background: #ff4b4b;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(204, 0, 0, 0.3);
+  color: white;
+}
+
+/* Dark mode styling for certificate link button */
+body.dark .cert-link-btn {
+  background: #ff5f6d;
+}
+
+body.dark .cert-link-btn:hover {
+  background: #ff8c8c;
+  color: white;
 }
 
 .cert-item:hover {
@@ -559,6 +744,10 @@ a:hover {
   font-size: 2rem;
   margin-right: 1.5rem;
   color: #4285F9;
+}
+
+.cert-info {
+  flex: 1;
 }
 
 /* ---------- EXTRACURRICULARS SECTION ---------- */
@@ -708,7 +897,9 @@ body.dark a:hover {
   }
   
   .hero h1 {
-    font-size: 3rem;
+    font-size: 2.5rem; /* Reduce font size */
+    white-space: normal; /* Allow wrapping on mobile */
+    overflow: visible; /* Allow overflow on mobile */
   }
   
   .navbar {
@@ -720,13 +911,14 @@ body.dark a:hover {
   }
   
   .hero-content {
-    text-align: center;
-    margin: 0 auto;
+    text-align: left;
+    align-items: flex-start; /* if it's using flexbox */
   }}
 
   .hero-name {
   display: inline-block;
   position: relative;
+  text-align: left;
 }
 
 .nav-name.active {
