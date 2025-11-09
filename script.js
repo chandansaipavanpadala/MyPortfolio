@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         const navHeight = document.querySelector('.navbar').offsetHeight;
         const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
-        
+
         window.scrollTo({
           top: targetPosition,
           behavior: 'smooth'
         });
-        
+
         targetElement.classList.add('highlight-section');
         setTimeout(() => {
           targetElement.classList.remove('highlight-section');
@@ -22,16 +22,33 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // Initialize GSAP ScrollTrigger
   gsap.registerPlugin(ScrollTrigger);
-  
+
+  // Initialize particles.js (if available) with site accent colors
+  if (window.particlesJS) {
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 6, density: { enable: true, value_area: 800 } },
+        color: { value: '#cc0000' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.06, random: true },
+        size: { value: 160, random: false, anim: { enable: true, speed: 10, size_min: 40 } },
+        line_linked: { enable: false },
+        move: { enable: true, speed: 6, out_mode: 'out' }
+      },
+      interactivity: { detect_on: 'canvas', events: { onhover: { enable: false }, onclick: { enable: false }, resize: true } },
+      retina_detect: true
+    });
+  }
+
   // Theme Toggle Functionality - Fixed function assignment
   const themeToggleButton = document.querySelector('.theme-toggle');
   themeToggleButton.addEventListener('click', toggleTheme);
-  
+
   // Check saved theme preference
   if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark');
   }
-  
+
   // Navbar shrink on scroll effect
   window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
@@ -41,16 +58,58 @@ document.addEventListener('DOMContentLoaded', () => {
       navbar.classList.remove('scrolled');
     }
   });
-  
+
   // Initialize scroll animations
   initScrollAnimations();
-  
+
   // Initialize skill bars
   animateSkillBars();
-  
+
   // Initialize progress bars
   animateProgressBars();
 });
+
+// Highlight center nav links on scroll and keep them in sync with sections
+(function () {
+  const navLinks = document.querySelectorAll('.nav-center-list a');
+  if (!navLinks || navLinks.length === 0) return;
+
+  // Build list of {link, targetEl}
+  const items = Array.from(navLinks).map(a => {
+    const href = a.getAttribute('href');
+    const el = document.querySelector(href);
+    return { link: a, el };
+  }).filter(i => i.el);
+
+  function updateActive() {
+    const offset = document.querySelector('.navbar') ? document.querySelector('.navbar').offsetHeight + 10 : 80;
+    const scrollPos = window.pageYOffset + offset;
+
+    let current = items[0];
+    for (let i = 0; i < items.length; i++) {
+      const rectTop = items[i].el.getBoundingClientRect().top + window.pageYOffset;
+      if (scrollPos >= rectTop) current = items[i];
+    }
+
+    items.forEach(it => it.link.classList.toggle('active', it === current));
+  }
+
+  // Throttle updates for performance
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      updateActive();
+      ticking = false;
+    });
+  }, { passive: true });
+
+  // Also update on load
+  window.addEventListener('load', updateActive);
+  // And on resize (recompute offsets)
+  window.addEventListener('resize', updateActive);
+})();
 
 // Theme Toggle Function defined outside the event listener
 function toggleTheme() {
@@ -62,7 +121,7 @@ function toggleTheme() {
 function initScrollAnimations() {
   // Section fade-in animations
   const sections = document.querySelectorAll('.section-fade');
-  
+
   sections.forEach((section) => {
     gsap.to(section, {
       scrollTrigger: {
@@ -73,7 +132,7 @@ function initScrollAnimations() {
       }
     });
   });
-  
+
   // Hero parallax effect
   gsap.timeline({
     scrollTrigger: {
@@ -83,10 +142,10 @@ function initScrollAnimations() {
       scrub: true
     }
   })
-  .to(".hero-content", { y: 100, opacity: 0.5, ease: "power1.inOut" })
-  .to(".cyber-graphic", { y: -100, opacity: 0.2, ease: "power1.inOut" }, 0);
-  
-// Animate navbar on scroll
+    .to(".hero-content", { y: 100, opacity: 0.5, ease: "power1.inOut" })
+    .to(".cyber-graphic", { y: -100, opacity: 0.2, ease: "power1.inOut" }, 0);
+
+  // Animate navbar on scroll
   gsap.timeline({
     scrollTrigger: {
       trigger: "body",
@@ -95,12 +154,12 @@ function initScrollAnimations() {
       scrub: true
     }
   })
-  .to(".nav-name", { fontSize: "1rem", ease: "power1.out" }, 0);
-  
-  // Animate cards when scrolling
+    .to(".nav-name", { fontSize: "1rem", ease: "power1.out" }, 0);
+
+  // Animate cards when scrolling (original behavior)
   gsap.utils.toArray('.card').forEach((card, i) => {
     const delay = i * 0.1;
-    
+
     gsap.timeline({
       scrollTrigger: {
         trigger: card,
@@ -108,40 +167,56 @@ function initScrollAnimations() {
         toggleActions: "play none none reverse"
       }
     })
-    .from(card, { 
-      duration: 0.8, 
-      opacity: 0, 
-      y: 50, 
-      ease: "power3.out",
-      delay: delay
-    });
+      .from(card, {
+        duration: 0.8,
+        opacity: 0,
+        y: 50,
+        ease: "power3.out",
+        delay: delay
+      });
   });
-  
-  // Create a smooth scroll for page navigation
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+
+  // Smooth slide-in transition for navigation clicks (like wallofportfolios)
+  document.querySelectorAll('.nav-center-list a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
       e.preventDefault();
-      
+
       const targetId = this.getAttribute('href');
       const targetElement = document.querySelector(targetId);
-      
+
       if (targetElement) {
-        // Add a small delay to ensure all elements are properly loaded
+        const navHeight = document.querySelector('.navbar').offsetHeight;
+        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+
+        // Set initial state for smooth slide-in animation
+        gsap.set(targetElement, {
+          y: 80,
+          opacity: 0,
+          scale: 0.95
+        });
+
+        // Scroll to position
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+
+        // Animate section sliding in smoothly
         setTimeout(() => {
-          const navHeight = document.querySelector('.navbar').offsetHeight;
-          const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
-          
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
+          gsap.to(targetElement, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.8,
+            ease: 'power3.out'
           });
-          
-          // Add a visual indicator for better feedback
-          targetElement.classList.add('highlight-section');
-          setTimeout(() => {
-            targetElement.classList.remove('highlight-section');
-          }, 1500);
-        }, 100);
+        }, 200);
+
+        // Add a visual indicator for better feedback
+        targetElement.classList.add('highlight-section');
+        setTimeout(() => {
+          targetElement.classList.remove('highlight-section');
+        }, 1500);
       }
     });
   });
@@ -150,13 +225,13 @@ function initScrollAnimations() {
 // Animate skill bars
 function animateSkillBars() {
   const skillLevels = document.querySelectorAll('.skill-level');
-  
+
   skillLevels.forEach(skill => {
     const width = skill.style.width;
-    
+
     // Reset width to 0 initially
     skill.style.width = '0%';
-    
+
     // Create scroll trigger for each skill
     ScrollTrigger.create({
       trigger: skill,
@@ -170,13 +245,13 @@ function animateSkillBars() {
 // Animate education progress bar
 function animateProgressBars() {
   const progressBars = document.querySelectorAll('.progress');
-  
+
   progressBars.forEach(bar => {
     const width = bar.style.width;
-    
+
     // Reset width to 0 initially
     bar.style.width = '0%';
-    
+
     // Create scroll trigger for progress bar
     ScrollTrigger.create({
       trigger: bar,
@@ -185,27 +260,27 @@ function animateProgressBars() {
       once: true
     });
   });
-  
+
   // Add number counter animation for education stats
   const eduStats = document.querySelectorAll('.education-stat span:last-child');
-  
+
   eduStats.forEach(stat => {
     const finalValue = parseFloat(stat.textContent);
     const decimalPlaces = (stat.textContent.split('.')[1] || '').length;
-    
+
     // Reset to zero
     stat.textContent = '0';
-    
+
     // Create scroll trigger for counter
     ScrollTrigger.create({
       trigger: stat,
       start: "top 90%",
       onEnter: () => {
-        gsap.to({value: 0}, {
+        gsap.to({ value: 0 }, {
           value: finalValue,
           duration: 2,
           ease: "power2.out",
-          onUpdate: function() {
+          onUpdate: function () {
             stat.textContent = this.targets()[0].value.toFixed(decimalPlaces);
           }
         });
@@ -221,11 +296,11 @@ let lastCursorTime = 0;
 const THROTTLE_DELAY = 50; // milliseconds
 
 // Custom animation to create the effect of hero name moving to navbar
-document.addEventListener('scroll', function() {
+document.addEventListener('scroll', function () {
   // Get scroll position
   const scrollPos = window.scrollY;
   const navName = document.querySelector('.nav-name');
-  
+
   // Make navbar name visible after scrolling past certain point
   if (scrollPos > 150) {
     navName.classList.add('active');
@@ -238,14 +313,14 @@ document.addEventListener('mousemove', (e) => {
   const now = Date.now();
   if (now - lastCursorTime < THROTTLE_DELAY) return;
   lastCursorTime = now;
-  
+
   const cursor = document.createElement('div');
   cursor.className = 'cursor-trail';
   cursor.style.left = e.pageX + 'px';
   cursor.style.top = e.pageY + 'px';
-  
+
   document.body.appendChild(cursor);
-  
+
   setTimeout(() => {
     cursor.remove();
   }, 500);
@@ -290,26 +365,26 @@ document.addEventListener('mousemove', (e) => {
   const now = Date.now();
   if (now - lastParallaxTime < PARALLAX_THROTTLE) return;
   lastParallaxTime = now;
-  
+
   const cards = document.querySelectorAll('.card');
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
   const moveX = (e.clientX - centerX) / 50;
   const moveY = (e.clientY - centerY) / 50;
-  
+
   cards.forEach(card => {
     const rect = card.getBoundingClientRect();
     // Check if card is in viewport before applying effect
     if (rect.top < window.innerHeight && rect.bottom > 0) {
       const cardCenterX = rect.left + rect.width / 2;
       const cardCenterY = rect.top + rect.height / 2;
-      
+
       // Only apply effect if mouse is close to the card
       const distance = Math.sqrt(
-        Math.pow(e.clientX - cardCenterX, 2) + 
+        Math.pow(e.clientX - cardCenterX, 2) +
         Math.pow(e.clientY - cardCenterY, 2)
       );
-      
+
       if (distance < 400) {
         gsap.to(card, {
           x: moveX,
@@ -328,5 +403,52 @@ document.addEventListener('mousemove', (e) => {
         });
       }
     }
+  });
+});
+
+// Additional ru-style enhancements: typewriter + hero-shape parallax (init after DOM ready)
+document.addEventListener('DOMContentLoaded', function () {
+  // Typewriter (if element exists)
+  const typewriterText = document.getElementById('typewriter');
+  if (typewriterText) {
+    const texts = [
+      'Embedded Systems Engineer',
+      'IoT & Security Enthusiast',
+      'VLSI / Low-Power Designer',
+      'Hardware-Software Integrator'
+    ];
+    let textIndex = 0, charIndex = 0, isDeleting = false, typeSpeed = 100;
+    function typeWriter() {
+      const currentText = texts[textIndex];
+      if (isDeleting) {
+        typewriterText.textContent = currentText.substring(0, charIndex - 1);
+        charIndex--;
+        typeSpeed = 50;
+      } else {
+        typewriterText.textContent = currentText.substring(0, charIndex + 1);
+        charIndex++;
+        typeSpeed = 100;
+      }
+      if (!isDeleting && charIndex === currentText.length) {
+        typeSpeed = 2000;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        textIndex = (textIndex + 1) % texts.length;
+        typeSpeed = 500;
+      }
+      setTimeout(typeWriter, typeSpeed);
+    }
+    typeWriter();
+  }
+
+  // Parallax for hero shapes
+  window.addEventListener('scroll', function () {
+    const scrolled = window.pageYOffset;
+    document.querySelectorAll('.hero-shape').forEach((shape, index) => {
+      const speed = 0.4 + (index * 0.1);
+      const yPos = -(scrolled * speed);
+      shape.style.transform = `translateY(${yPos}px)`;
+    });
   });
 });
