@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="C icon">
+  <defs>
+    <!-- dark base + red gradient -->
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#330000"/>
+      <stop offset="100%" stop-color="#cc0000"/>
+    </linearGradient>
+
+    <!-- subtle red glow filter -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- soft inset shadow for depth -->
+    <filter id="inset" x="-20%" y="-20%" width="140%" height="140%">
+      <feOffset dx="0" dy="1" result="off1"/>
+      <feGaussianBlur in="off1" stdDeviation="1" result="blur1"/>
+      <feComposite in="SourceGraphic" in2="blur1" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- inner red panel with gradient and subtle glow (transparent background) -->
+  <rect x="6" y="6" width="52" height="52" rx="10" fill="url(#redGrad)" filter="url(#inset)"/>
+
+  <!-- letter C with white fill and slight red glow -->
+  <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle"
+        font-family="Poppins, Arial, sans-serif" font-weight="700" font-size="36"
+        fill="#ffffff" style="filter:url(#glow);">C</text>
+</svg>
