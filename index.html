@@ -5,31 +5,54 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chandan Sai Pavan Padala</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
 
 <body>
   <!-- Navigation Bar -->
   <nav class="navbar">
-    <div class="name">My Portfolio</div>
-    <div class="theme-toggle" title="Toggle Theme">
-      <i class="fas fa-moon moon-icon"></i>
-      <i class="fas fa-sun sun-icon"></i>
+    <div class="nav-left">
+      <div class="name">My Portfolio</div>
+    </div>
+
+    <div class="nav-center">
+      <ul class="nav-center-list">
+        <li><a href="#professional-summary">Summary</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#technical-projects">Projects</a></li>
+        <li><a href="#technical-skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-right">
+      <a class="resume-btn"
+        href="https://aseblr-my.sharepoint.com/:b:/g/personal/bl_en_u4ece23205_bl_students_amrita_edu/ETjNV9YpqWpCivv7GiIhuAMB0FYRy10SUQ779CobT0ZyxA?e=SWnQm3"
+        target="_blank" rel="noopener noreferrer">View Resume</a>
+      <div class="theme-toggle" title="Toggle Theme">
+        <i class="fas fa-moon moon-icon"></i>
+        <i class="fas fa-sun sun-icon"></i>
+      </div>
     </div>
   </nav>
 
   <!-- Hero Section -->
   <section class="hero">
+    <div id="particles-js" class="particles-container"></div>
+    <div class="hero-background">
+      <div class="hero-shape shape-1"></div>
+      <div class="hero-shape shape-2"></div>
+      <div class="hero-shape shape-3"></div>
+    </div>
     <div class="container">
       <div class="hero-content">
+        <div class="hero-greeting reveal-text">I'm</div>
         <h1 class="reveal-text hero-name">Chandan Sai Pavan Padala</h1>
-        <p class="reveal-text">Embedded Systems | IoT Engineer</p>
-        <div class="hero-cta">
-          <a href="#professional-summary" class="cta-button">Get in Touch</a>
-        </div>
+        <div class="hero-subtitle reveal-text"><span id="typewriter"></span><span class="cursor">|</span></div>
       </div>
       <div class="hero-graphic">
         <div class="cyber-graphic">
@@ -60,7 +83,7 @@
       </section>
 
       <!-- Education -->
-      <section class="card section-fade">
+      <section id="education" class="card section-fade">
         <div class="section-icon"><i class="fas fa-graduation-cap"></i></div>
         <div class="section-content">
           <h2>Education</h2>
@@ -87,8 +110,69 @@
         </div>
       </section>
 
+      <!-- Technical Projects -->
+      <section id="technical-projects" class="card section-fade">
+        <div class="section-icon"><i class="fas fa-rocket"></i></div>
+        <div class="section-content">
+          <div class="projects-header">
+            <h2>Technical Projects</h2>
+            <a class="view-all-btn" href="projects.html">View All Projects</a>
+          </div>
+
+          <div class="projects-list">
+            <div class="project-card">
+              <div class="project-header">
+                <h3>Autonomous Car</h3><span class="project-tag">Present</span>
+              </div>
+              <div class="project-details">
+                <ul>
+                  <li>Raspberry Pi–driven car with ADAS features: Lane Keep Assist (LKA), Automatic Emergency Braking
+                    (AEB), Traffic Sign Recognition (TSR).</li>
+                  <li>OpenCV for traffic sign recognition and sensor fusion for control.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-header">
+                <h3>Ultra Low-Voltage Low-Power CMOS 5-2 Compressor Implementation</h3><span
+                  class="project-tag">November 2025</span>
+              </div>
+              <div class="project-details">
+                <ul>
+                  <li>Implemented a 5:2 compressor circuit using Cadence Virtuoso for fast arithmetic applications.</li>
+                  <li>Designed, simulated, and analyzed the circuit’s power and delay performance under low-voltage
+                    operation.</li>
+                </ul>
+                <div class="project-footer">
+                  <a href="https://github.com/chandansaipavanpadala/UltraLowVoltageLowPowerCompressor-CadenceVirtuoso"
+                    target="_blank" class="github-btn" title="View GitHub"><i class="fab fa-github"></i></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-header">
+                <h3>IoT Security System</h3><span class="project-tag">April 2024</span>
+              </div>
+              <div class="project-details">
+                <ul>
+                  <li>IoT-based home security solution with real-time monitoring and sensor alerts to mobile.</li>
+                  <li>Built using Arduino IDE and MIT App Inventor.</li>
+                </ul>
+                <div class="project-footer">
+                  <a href="https://github.com/chandansaipavanpadala/SafeHouse-ArduinoUno" target="_blank"
+                    class="github-btn" title="View GitHub"><i class="fab fa-github"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       <!-- Technical Skills -->
-      <section class="card section-fade">
+      <section id="technical-skills" class="card section-fade">
         <div class="section-icon"><i class="fas fa-laptop-code"></i></div>
         <div class="section-content">
           <h2>Technical Skills</h2>
@@ -159,67 +243,6 @@
         </div>
       </section>
 
-      <!-- Projects -->
-      <section class="card section-fade">
-        <div class="section-icon"><i class="fas fa-rocket"></i></div>
-        <div class="section-content">
-          <div class="projects-header">
-            <h2>Projects</h2>
-            <a class="view-all-btn" href="projects.html">View All Projects</a>
-          </div>
-
-          <div class="projects-list">
-            <div class="project-card">
-              <div class="project-header">
-                <h3>Autonomous Car</h3><span class="project-tag">Present</span>
-              </div>
-              <div class="project-details">
-                <ul>
-                  <li>Raspberry Pi–driven car with ADAS features: Lane Keep Assist (LKA), Automatic Emergency Braking
-                    (AEB), Traffic Sign Recognition (TSR).</li>
-                  <li>OpenCV for traffic sign recognition and sensor fusion for control.</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="project-card">
-              <div class="project-header">
-                <h3>Ultra Low-Voltage Low-Power CMOS 5-2 Compressor Implementation</h3><span
-                  class="project-tag">November 2025</span>
-              </div>
-              <div class="project-details">
-                <ul>
-                  <li>Implemented a 5:2 compressor circuit using Cadence Virtuoso for fast arithmetic applications.</li>
-                  <li>Designed, simulated, and analyzed the circuit’s power and delay performance under low-voltage
-                    operation.</li>
-                </ul>
-                <div class="project-footer">
-                  <a href="https://github.com/chandansaipavanpadala/UltraLowVoltageLowPowerCompressor-CadenceVirtuoso"
-                    target="_blank" class="github-btn" title="View GitHub"><i class="fab fa-github"></i></a>
-                </div>
-              </div>
-            </div>
-
-            <div class="project-card">
-              <div class="project-header">
-                <h3>IoT Security System</h3><span class="project-tag">April 2024</span>
-              </div>
-              <div class="project-details">
-                <ul>
-                  <li>IoT-based home security solution with real-time monitoring and sensor alerts to mobile.</li>
-                  <li>Built using Arduino IDE and MIT App Inventor.</li>
-                </ul>
-                <div class="project-footer">
-                  <a href="https://github.com/chandansaipavanpadala/SafeHouse-ArduinoUno" target="_blank"
-                    class="github-btn" title="View GitHub"><i class="fab fa-github"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
       <!-- Certifications -->
       <section class="card section-fade">
         <div class="section-icon"><i class="fas fa-certificate"></i></div>
@@ -256,6 +279,10 @@
             <div class="extra-item">
               <div class="extra-icon"><i class="fas fa-dumbbell"></i></div>
               <span>Gym Enthusiast</span>
+            </div>
+            <div class="extra-item">
+              <div class="extra-icon"><i class="fas fa-plane"></i></div>
+              <span>Travel Enthusiast</span>
             </div>
           </div>
         </div>
