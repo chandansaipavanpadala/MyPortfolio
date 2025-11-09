@@ -61,13 +61,13 @@ body {
   display: flex;
   align-items: center;
   cursor: pointer;
-  
+
   /* Add gradient text effect */
   background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  
+
   /* Add subtle text shadow for depth */
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
 }
@@ -90,7 +90,7 @@ body {
   margin-right: 0.8rem;
   box-shadow: 0 0 10px var(--accent-color);
   animation: glow-dot 2s ease-in-out infinite;
-} 
+}
 
 /* Add underline effect on hover */
 .name::after {
@@ -110,16 +110,26 @@ body {
 
 /* Animations */
 @keyframes pulse-icon {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 @keyframes glow-dot {
-  0%, 100% { 
+
+  0%,
+  100% {
     box-shadow: 0 0 5px var(--accent-color);
     opacity: 0.8;
   }
-  50% { 
+
+  50% {
     box-shadow: 0 0 15px var(--accent-color), 0 0 25px var(--accent-color);
     opacity: 1;
   }
@@ -143,7 +153,7 @@ body.dark .name:hover {
   .name {
     font-size: 1.2rem;
   }
-  
+
   .name::before {
     font-size: 1em;
     margin-right: 0.3rem;
@@ -236,10 +246,15 @@ body.dark .name:hover {
 .hero-content {
   max-width: 600px;
   z-index: 2;
-  position: relative; /* Add this */
-  margin-left: auto; /* Add this to push content to the right */
-  margin-right: auto; /* Add some spacing from edge */
-  text-align: center; /* Add this to right-align the text */
+  position: relative;
+  /* Add this */
+  margin-left: auto;
+  /* Add this to push content to the right */
+  margin-right: auto;
+  /* Add some spacing from edge */
+  text-align: center;
+  /* Add this to right-align the text */
+  transform: translateX(-40px);
 }
 
 .hero h1 {
@@ -250,8 +265,10 @@ body.dark .name:hover {
   opacity: 0;
   transform: translateY(30px);
   animation: fadeUp 1s forwards 0.3s;
-  white-space: nowrap; /* Add this line */
-  overflow: hidden; /* Add this line */
+  white-space: nowrap;
+  /* Add this line */
+  overflow: hidden;
+  /* Add this line */
 }
 
 .hero p {
@@ -296,7 +313,8 @@ body.dark .name:hover {
   width: 600px;
   height: 600px;
   opacity: 0.6;
-  z-index: 1; /* Change this to z-index: 3; so circles appear above text */
+  z-index: 1;
+  /* Change this to z-index: 3; so circles appear above text */
 }
 
 .cyber-graphic {
@@ -342,7 +360,8 @@ body.dark .name:hover {
   border-radius: 50%;
   background: rgba(255, 95, 109, 0.1);
   backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px); /* Safari support */
+  -webkit-backdrop-filter: blur(5px);
+  /* Safari support */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -360,7 +379,8 @@ main {
 .card {
   background: var(--bg-card);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px); /* Safari support */
+  -webkit-backdrop-filter: blur(20px);
+  /* Safari support */
   padding: 3rem;
   border-radius: 24px;
   box-shadow: var(--shadow);
@@ -451,7 +471,8 @@ ul li {
 }
 
 ul li::before {
-  content: '●';
+  /* Use a proper Unicode bullet to avoid mojibake/encoding issues */
+  content: '\2022';
   position: absolute;
   left: 0;
   color: var(--accent-color);
@@ -471,7 +492,8 @@ a:hover {
 
 /* ---------- CONTACT SECTION ---------- */
 .contact-section {
-  scroll-margin-top: 100px; /* Ensures the section is visible when scrolled to */
+  scroll-margin-top: 100px;
+  /* Ensures the section is visible when scrolled to */
 }
 
 .contact-grid {
@@ -524,6 +546,15 @@ a:hover {
   display: flex;
   align-items: center;
   margin-top: 1rem;
+}
+
+.edu-date {
+  position: absolute;
+  right: 1rem;
+  top: 0.6rem;
+  color: var(--accent-color);
+  /* Match project date font weight/style by using normal weight; visual box comes from .project-tag */
+  font-weight: normal;
 }
 
 .progress-bar {
@@ -639,6 +670,38 @@ a:hover {
   margin-bottom: 0.5rem;
 }
 
+/* Projects header, view-all button and list spacing */
+.projects-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.view-all-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(45deg, var(--accent-color), #ff4b4b);
+  color: #fff;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(204, 0, 0, 0.15);
+  transition: var(--transition);
+}
+
+.view-all-btn:hover {
+  transform: translateY(-3px);
+}
+
+.projects-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  /* creates vertical gap between project cards */
+}
+
 /* ---------- PROJECT FOOTER & GITHUB BUTTON ---------- */
 .project-footer {
   display: flex;
@@ -750,6 +813,19 @@ body.dark .cert-link-btn:hover {
   flex: 1;
 }
 
+.cert-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cert-date {
+  color: var(--accent-color);
+  /* Match project date font weight/style */
+  font-weight: normal;
+}
+
 /* ---------- EXTRACURRICULARS SECTION ---------- */
 .extra-grid {
   display: grid;
@@ -781,14 +857,16 @@ body.dark .cert-link-btn:hover {
 
 /* Fix for badminton icon */
 .fa-badminton::before {
-  content: "\f434"; /* Using table tennis icon as a replacement */
+  content: "\f434";
+  /* Using table tennis icon as a replacement */
 }
 
 /* ---------- FOOTER ---------- */
 footer {
   background: rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  -webkit-backdrop-filter: blur(10px);
+  /* Safari support */
   padding: 2rem 0;
   text-align: center;
   color: var(--text-light);
@@ -806,16 +884,20 @@ footer {
   0% {
     transform: translate(-50%, -50%) rotate(0deg);
   }
+
   100% {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 0.2;
   }
+
   50% {
     transform: translate(-50%, -50%) scale(1.1);
     opacity: 0.3;
@@ -879,7 +961,7 @@ body.dark a:hover {
     height: 400px;
     right: -100px;
   }
-  
+
   .navbar {
     padding: 0 2rem;
   }
@@ -890,35 +972,41 @@ body.dark a:hover {
     flex-direction: column;
     padding: 2rem;
   }
-  
+
   .section-icon {
     margin-right: 0;
     margin-bottom: 1.5rem;
   }
-  
+
   .hero h1 {
-    font-size: 2.5rem; /* Reduce font size */
-    white-space: normal; /* Allow wrapping on mobile */
-    overflow: visible; /* Allow overflow on mobile */
+    font-size: 2.5rem;
+    /* Reduce font size */
+    white-space: normal;
+    /* Allow wrapping on mobile */
+    overflow: visible;
+    /* Allow overflow on mobile */
   }
-  
+
   .navbar {
     padding: 0 1rem;
   }
-  
+
   .nav-name {
     display: none;
   }
-  
+
   .hero-content {
     text-align: left;
-    align-items: flex-start; /* if it's using flexbox */
-  }}
+    align-items: flex-start;
+    transform: none;
+    /* if it's using flexbox */
+  }
+}
 
-  .hero-name {
+.hero-name {
   display: inline-block;
   position: relative;
-  text-align: left;
+  text-align: center;
 }
 
 .nav-name.active {
