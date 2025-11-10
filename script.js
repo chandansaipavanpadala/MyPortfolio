@@ -408,34 +408,61 @@ document.addEventListener('mousemove', (e) => {
 
 // Additional ru-style enhancements: typewriter + hero-shape parallax (init after DOM ready)
 document.addEventListener('DOMContentLoaded', function () {
-  // Typewriter (if element exists)
+  // Typewriter with glitch effect (if element exists)
   const typewriterText = document.getElementById('typewriter');
   if (typewriterText) {
     const texts = [
       'Embedded Systems Engineer',
       'IoT & Security Enthusiast',
-      'VLSI / Low-Power Designer',
-      'Hardware-Software Integrator'
+      'Hardware Software Integrator'
     ];
-    let textIndex = 0, charIndex = 0, isDeleting = false, typeSpeed = 100;
+
+    const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+    let textIndex = 0, charIndex = 0, isDeleting = false, typeSpeed = 50;
+    let glitchIterations = 0;
+    const maxGlitchIterations = 8; // Number of random character iterations before showing real text
+
+    function getRandomChar() {
+      return randomChars[Math.floor(Math.random() * randomChars.length)];
+    }
+
     function typeWriter() {
       const currentText = texts[textIndex];
+
       if (isDeleting) {
         typewriterText.textContent = currentText.substring(0, charIndex - 1);
         charIndex--;
-        typeSpeed = 50;
+        typeSpeed = 30;
+        glitchIterations = 0;
       } else {
-        typewriterText.textContent = currentText.substring(0, charIndex + 1);
-        charIndex++;
-        typeSpeed = 100;
+        // Glitch effect: show random chars first, then reveal real character
+        if (charIndex < currentText.length) {
+          if (glitchIterations < maxGlitchIterations) {
+            // Show random characters for current position
+            let glitchText = currentText.substring(0, charIndex);
+            glitchText += getRandomChar();
+            typewriterText.textContent = glitchText;
+            glitchIterations++;
+            typeSpeed = 40;
+          } else {
+            // Show real character
+            typewriterText.textContent = currentText.substring(0, charIndex + 1);
+            charIndex++;
+            glitchIterations = 0; // Reset for next character
+            typeSpeed = 80;
+          }
+        }
       }
+
       if (!isDeleting && charIndex === currentText.length) {
-        typeSpeed = 2000;
+        typeSpeed = 2500;
         isDeleting = true;
       } else if (isDeleting && charIndex === 0) {
         isDeleting = false;
         textIndex = (textIndex + 1) % texts.length;
         typeSpeed = 500;
+        glitchIterations = 0;
       }
       setTimeout(typeWriter, typeSpeed);
     }
@@ -451,4 +478,5 @@ document.addEventListener('DOMContentLoaded', function () {
       shape.style.transform = `translateY(${yPos}px)`;
     });
   });
+
 });
