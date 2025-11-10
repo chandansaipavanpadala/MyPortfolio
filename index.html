@@ -13,6 +13,14 @@
 </head>
 
 <body>
+  <!-- Stars and Shooting Stars for Dark Mode -->
+  <div class="stars"></div>
+  <div class="shooting-star"></div>
+  <div class="shooting-star"></div>
+  <div class="shooting-star"></div>
+  <div class="shooting-star"></div>
+  <div class="shooting-star"></div>
+
   <!-- Navigation Bar -->
   <nav class="navbar">
     <div class="nav-left">
@@ -173,70 +181,85 @@
 
       <!-- Technical Skills -->
       <section id="technical-skills" class="card section-fade">
+        <div class="line-clipper"></div>
         <div class="section-icon"><i class="fas fa-laptop-code"></i></div>
         <div class="section-content">
           <h2>Technical Skills</h2>
-          <div class="skills-grid">
-            <div class="skill-category">
-              <h3>Programming Languages</h3>
-              <div class="skill-tags">
-                <span class="skill-tag">Assembly Language</span>
-                <span class="skill-tag">Embedded C</span>
-                <span class="skill-tag">C</span>
-                <span class="skill-tag">C++</span>
-                <span class="skill-tag">Python</span>
+          <div class="skills-container">
+            <div class="visible-skills-section">
+              <div class="skill-category visible-category">
+                <h3>Programming Languages</h3>
+                <div class="skill-tags">
+                  <span class="skill-tag">Assembly Language</span>
+                  <span class="skill-tag">Embedded C</span>
+                  <span class="skill-tag">C</span>
+                  <span class="skill-tag">C++</span>
+                  <span class="skill-tag">Python</span>
+                </div>
+              </div>
+
+              <div class="skill-category visible-category">
+                <h3>Development Tools</h3>
+                <div class="skill-tags">
+                  <span class="skill-tag">Keil uVision</span>
+                  <span class="skill-tag">Proteus</span>
+                  <span class="skill-tag">Arduino IDE</span>
+                  <span class="skill-tag">MIT App Inventor</span>
+                  <span class="skill-tag">Cadence Virtuoso</span>
+                  <span class="skill-tag">Spectre Simulator</span>
+                  <span class="skill-tag">LTspice</span>
+                </div>
               </div>
             </div>
 
-            <div class="skill-category">
-              <h3>Microcontrollers &amp; Hardware</h3>
-              <div class="skill-tags">
-                <span class="skill-tag">ARM7 (LPC2148)</span>
-                <span class="skill-tag">Arduino</span>
-                <span class="skill-tag">ESP32</span>
+            <div class="skills-folder">
+              <div class="folder-header">
+                <i class="fas fa-folder folder-icon"></i>
+                <span class="folder-name">All Skills</span>
               </div>
-            </div>
+              <div class="folder-content">
+                <!-- Top-right diagonal subsection -->
+                <div class="skill-category skill-corner skill-top-right">
+                  <h3>Microcontrollers &amp; Hardware</h3>
+                  <div class="skill-tags">
+                    <span class="skill-tag">ARM7 (LPC2148)</span>
+                    <span class="skill-tag">Arduino</span>
+                    <span class="skill-tag">ESP32</span>
+                  </div>
+                </div>
 
-            <div class="skill-category">
-              <h3>Communication Protocols</h3>
-              <div class="skill-tags">
-                <span class="skill-tag">UART</span>
-                <span class="skill-tag">I2C</span>
-                <span class="skill-tag">SPI</span>
-                <span class="skill-tag">Bluetooth</span>
-                <span class="skill-tag">Wi-Fi</span>
-              </div>
-            </div>
+                <!-- Top-left diagonal subsection -->
+                <div class="skill-category skill-corner skill-top-left">
+                  <h3>Communication Protocols</h3>
+                  <div class="skill-tags">
+                    <span class="skill-tag">UART</span>
+                    <span class="skill-tag">I2C</span>
+                    <span class="skill-tag">SPI</span>
+                    <span class="skill-tag">Bluetooth</span>
+                    <span class="skill-tag">Wi-Fi</span>
+                  </div>
+                </div>
 
-            <div class="skill-category">
-              <h3>Development Tools</h3>
-              <div class="skill-tags">
-                <span class="skill-tag">Keil uVision</span>
-                <span class="skill-tag">Proteus</span>
-                <span class="skill-tag">Arduino IDE</span>
-                <span class="skill-tag">MIT App Inventor</span>
-                <span class="skill-tag">Cadence Virtuoso</span>
-                <span class="skill-tag">Spectre Simulator</span>
-                <span class="skill-tag">LTspice</span>
-              </div>
-            </div>
+                <!-- Bottom-right diagonal subsection -->
+                <div class="skill-category skill-corner skill-bottom-right">
+                  <h3>Technologies</h3>
+                  <div class="skill-tags">
+                    <span class="skill-tag">Internet of Things</span>
+                    <span class="skill-tag">Embedded Systems</span>
+                    <span class="skill-tag">VLSI Design</span>
+                    <span class="skill-tag">Digital Signal Processing</span>
+                  </div>
+                </div>
 
-            <div class="skill-category">
-              <h3>Technologies</h3>
-              <div class="skill-tags">
-                <span class="skill-tag">Internet of Things</span>
-                <span class="skill-tag">Embedded Systems</span>
-                <span class="skill-tag">VLSI Design</span>
-                <span class="skill-tag">Digital Signal Processing</span>
-              </div>
-            </div>
-
-            <div class="skill-category">
-              <h3>Software &amp; Frameworks</h3>
-              <div class="skill-tags">
-                <span class="skill-tag">GitHub</span>
-                <span class="skill-tag">MATLAB / Simulink</span>
-                <span class="skill-tag">Streamlit</span>
+                <!-- Bottom-left diagonal subsection -->
+                <div class="skill-category skill-corner skill-bottom-left">
+                  <h3>Software &amp; Frameworks</h3>
+                  <div class="skill-tags">
+                    <span class="skill-tag">GitHub</span>
+                    <span class="skill-tag">MATLAB / Simulink</span>
+                    <span class="skill-tag">Streamlit</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
