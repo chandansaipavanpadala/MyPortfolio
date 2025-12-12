@@ -479,4 +479,90 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  // Vertical Sliding Clock Functionality
+  // Initialize strips (wrap numbers in divs if not already done)
+  function initClockStrips() {
+    const strips = document.querySelectorAll('.tape-strip');
+    strips.forEach(strip => {
+      // Check if content is just text
+      if (strip.children.length === 0) {
+        const text = strip.textContent.trim();
+        strip.textContent = ''; // Clear text
+        // Split by spaces or chars if no spaces (flexible)
+        // Based on HTML: "0 1 2..."
+        const chars = text.split(/\s+/);
+        chars.forEach(char => {
+          const div = document.createElement('div');
+          div.textContent = char;
+          strip.appendChild(div);
+        });
+      }
+    });
+  }
+
+  function updateSlidingClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    const h1 = parseInt(hours[0]);
+    const h2 = parseInt(hours[1]);
+    const m1 = parseInt(minutes[0]);
+    const m2 = parseInt(minutes[1]);
+    const s1 = parseInt(seconds[0]);
+    const s2 = parseInt(seconds[1]);
+
+    // Helper to set strip position
+    // Each number grid cell is 60px height.
+    // To center number N, we need to shift up by N * 60.
+    const setStrip = (id, val) => {
+      const el = document.querySelector(`#${id} .tape-strip`);
+      if (el) {
+        el.style.transform = `translateY(-${val * 60}px)`;
+      }
+    };
+
+    setStrip('col-h1', h1);
+    setStrip('col-h2', h2);
+    setStrip('col-m1', m1);
+    setStrip('col-m2', m2);
+    setStrip('col-s1', s1);
+    setStrip('col-s2', s2);
+
+    // Update Date Display
+    const dateEl = document.getElementById('tape-date');
+    if (dateEl) {
+      const options = { weekday: 'short', month: 'short', day: '2-digit', year: 'numeric' };
+      dateEl.textContent = now.toLocaleDateString('en-US', options).toUpperCase(); // e.g., MON, JAN 01 2025
+    }
+  }
+
+  // Initialize clock logic
+  const clockContainer = document.querySelector('.sliding-clock-container');
+  if (clockContainer) {
+    initClockStrips();
+    updateSlidingClock();
+    setInterval(updateSlidingClock, 1000);
+
+    // Dynamic 3D Tilt Effect
+    clockContainer.addEventListener('mousemove', (e) => {
+      const rect = clockContainer.getBoundingClientRect();
+      const x = e.clientX - rect.left; // Mouse x within element
+      const y = e.clientY - rect.top;  // Mouse y within element
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * -10; // Max 10 deg
+      const rotateY = ((x - centerX) / centerX) * 10;  // Max 10 deg
+
+      clockContainer.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    clockContainer.addEventListener('mouseleave', () => {
+      clockContainer.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+    });
+  }
+
 });
