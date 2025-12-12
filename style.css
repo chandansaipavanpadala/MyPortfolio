@@ -580,7 +580,7 @@ body.dark .name:hover {
 
 .hero-graphic {
   position: absolute;
-  right: 0;
+  right: 40px;
   top: 50%;
   transform: translateY(-50%);
   width: 600px;
@@ -590,55 +590,184 @@ body.dark .name:hover {
   /* Change this to z-index: 3; so circles appear above text */
 }
 
-.cyber-graphic {
-  position: relative;
-  width: 100%;
-  height: 100%;
+/* ---------- SLIDING TAPE CLOCK ---------- */
+.sliding-clock-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 30px 50px;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* Tilt effect handled by JS */
+  transform: perspective(1000px);
+  transition: transform 0.1s ease-out;
+  /* Faster transition for mouse movement */
+  margin-top: 180px;
+  /* Move it down vertically */
 }
 
-.cyber-circle {
+.tape-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tape-column {
+  position: relative;
+  width: 70px;
+  height: 180px;
+  /* Visible height showing ~3 numbers (prev, current, next) */
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.4);
+  /* Darker background for contrast */
+  border-radius: 40px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Add blur masks using radial gradient to surround the circle */
+.tape-column::after {
+  content: '';
   position: absolute;
-  width: 400px;
-  height: 400px;
-  border-radius: 50%;
-  border: 4px solid rgba(255, 255, 255, 0.1);
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  /* Create a hole in the center matching the highlight */
+  background: radial-gradient(circle at center, transparent 28px, rgba(0, 0, 0, 0.4) 30px);
+  /* Mask the backdrop filter so the center is NOT blurred */
+  mask-image: radial-gradient(circle at center, transparent 28px, black 30px);
+  -webkit-mask-image: radial-gradient(circle at center, transparent 28px, black 30px);
+}
+
+.tape-strip {
+  display: flex;
+  flex-direction: column;
+  color: rgba(255, 255, 255, 0.95);
+  /* High contrast */
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  line-height: 60px;
+  /* Height of each number */
+  text-align: center;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Smooth easing */
+  padding-top: 60px;
+  /* Initial offset to center '0' if transform is 0 */
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Format the strip content from string to vertical block */
+/* NOTE: The HTML content is minimal ("0 1 2..."), we rely on JS to split/format or we use simple layout */
+/* Actually, for better control, JS should populate the strip with <div>digit</div>. 
+   If HTML is static text, we can use a monospaced font width or flex column.
+   Let's assume the HTML text is just numbers separated by spaces for now, but better is to structure it.
+   We will style assuming the JS will replace text with block elements OR we style this text node.
+   For simplicity with current HTML text content "0 1 ...", let's make it behave like a vertical column 
+   by limiting width and allowing wrap? No, that's flaky.
+   BETTER: Let's assume the JS part will wrap each digit in a <div>. 
+   I will add a rule for the children.
+*/
+
+.tape-strip div {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tape-highlight {
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  animation: rotate 20s linear infinite;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  z-index: 10;
+  /* Remove blur from center to keep it sharp */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
-.cyber-circle::before,
-.cyber-circle::after {
-  content: '';
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  background: var(--accent-color);
-  border-radius: 50%;
-  top: -7.5px;
-  left: calc(50% - 7.5px);
+.tape-separator {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin: 0 5px;
+  animation: blink 2s infinite;
+  text-shadow: 0 0 10px var(--accent-color);
+}
+
+.clock-info-section {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.clock-date-display {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1rem;
+  color: #fff;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+}
+
+.clock-label-display {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.8rem;
+  color: var(--accent-color);
+  letter-spacing: 3px;
+  text-shadow: 0 0 5px rgba(255, 95, 109, 0.5);
+  animation: blink 3s infinite;
+}
+
+/* Current number style change? 
+   Hard to do with pure CSS transform offset, 
+   but the highlight bubble provides the visual focus.
+*/
+
+/* Dark Mode Adjustments */
+body.dark .sliding-clock-container {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark .tape-column {
+  background: rgba(30, 30, 30, 0.6);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark .tape-strip {
+  color: #fff;
+}
+
+body.dark .tape-highlight {
+  background: rgba(255, 95, 109, 0.2);
+  border-color: var(--accent-color);
   box-shadow: 0 0 15px var(--accent-color);
 }
 
-.cyber-circle::after {
-  top: calc(50% - 7.5px);
-  left: -7.5px;
-}
-
-.cyber-shield {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: rgba(255, 95, 109, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  /* Safari support */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: pulse 4s ease-in-out infinite;
+/* Responsiveness */
+@media (max-width: 768px) {
+  .sliding-clock-container {
+    transform: scale(0.7);
+    padding: 10px 20px;
+  }
 }
 
 /* ---------- MAIN CONTENT ---------- */
@@ -1021,6 +1150,27 @@ a:hover {
 #technical-skills.card .skill-corner {
   position: absolute;
   z-index: 1001;
+}
+
+/* Fix for Dark Mode Skills Visibility */
+body.dark .skill-corner {
+  background: rgba(30, 30, 30, 0.95);
+  border-color: rgba(255, 95, 109, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+body.dark .skill-corner h3 {
+  color: #fff;
+}
+
+body.dark .skill-corner .skill-tag {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ff8c8c;
+}
+
+body.dark .skill-corner .skill-tag:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
 }
 
 .folder-header:hover~.folder-content .skill-corner {
