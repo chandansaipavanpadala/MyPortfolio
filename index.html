@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +8,9 @@
   <title>Chandan Sai Pavan Padala</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;500;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
@@ -63,11 +66,45 @@
         <div class="hero-subtitle reveal-text"><span id="typewriter"></span><span class="cursor">|</span></div>
       </div>
       <div class="hero-graphic">
-        <div class="cyber-graphic">
-          <div class="cyber-circle circle-1" data-tooltip="Embedded Systems"></div>
-          <div class="cyber-circle circle-2" data-tooltip="IoT & Security"></div>
-          <div class="cyber-circle circle-3" data-tooltip="Robotics & Automation"></div>
-          <div class="cyber-shield"></div>
+        <div class="sliding-clock-container">
+          <div class="tape-wrapper">
+            <!-- Hours -->
+            <div class="tape-column" id="col-h1">
+              <div class="tape-strip">0 1 2</div>
+              <div class="tape-highlight"></div>
+            </div>
+            <div class="tape-column" id="col-h2">
+              <div class="tape-strip">0 1 2 3 4 5 6 7 8 9</div>
+              <div class="tape-highlight"></div>
+            </div>
+            <!-- Separator -->
+            <div class="tape-separator">:</div>
+            <!-- Minutes -->
+            <div class="tape-column" id="col-m1">
+              <div class="tape-strip">0 1 2 3 4 5</div>
+              <div class="tape-highlight"></div>
+            </div>
+            <div class="tape-column" id="col-m2">
+              <div class="tape-strip">0 1 2 3 4 5 6 7 8 9</div>
+              <div class="tape-highlight"></div>
+            </div>
+            <!-- Separator -->
+            <div class="tape-separator">:</div>
+            <!-- Seconds -->
+            <div class="tape-column" id="col-s1">
+              <div class="tape-strip">0 1 2 3 4 5</div>
+              <div class="tape-highlight"></div>
+            </div>
+            <div class="tape-column" id="col-s2">
+              <div class="tape-strip">0 1 2 3 4 5 6 7 8 9</div>
+              <div class="tape-highlight"></div>
+            </div>
+          </div>
+
+          <div class="clock-info-section">
+            <div class="clock-date-display" id="tape-date">MON, JAN 01 2025</div>
+            <div class="clock-label-display">SYSTEM ACTIVE</div>
+          </div>
         </div>
       </div>
     </div>
