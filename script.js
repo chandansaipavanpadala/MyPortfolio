@@ -44,6 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggleButton = document.querySelector('.theme-toggle');
   themeToggleButton.addEventListener('click', toggleTheme);
 
+  // Scroll to top when clicking 'My Portfolio'
+  const portfolioName = document.querySelector('.navbar .name');
+  if (portfolioName) {
+    portfolioName.style.cursor = 'pointer';
+    portfolioName.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+
   // Check saved theme preference
   if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark');
