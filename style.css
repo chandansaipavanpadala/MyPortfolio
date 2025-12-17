@@ -213,6 +213,65 @@ body.dark .name:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Global "Sexy" Selection */
+::selection {
+  background: var(--accent-color);
+  color: white;
+}
+
+/* Button & Link Glow Effects */
+.btn:hover,
+.view-all-btn:hover,
+.github-btn:hover,
+.video-btn:hover,
+.cert-link-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 5px 20px rgba(255, 95, 109, 0.4);
+  /* Glow matching primary color */
+}
+
+/* Button Click Micro-interaction */
+.btn:active,
+.view-all-btn:active,
+.github-btn:active,
+.video-btn:active,
+.cert-link-btn:active {
+  transform: scale(0.98);
+}
+
+/* Hero Title Shimmer Animation */
+.hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, #750000, #ff5f6d, #750000);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 5s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.4);
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  display: inline-block;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
 .nav-name {
   font-size: 1.2rem;
   font-weight: 600;
@@ -1747,3 +1806,388 @@ body.dark a:hover {
   opacity: 1;
   visibility: visible;
 }
+
+/* Hero Social Icons */
+.hero-social-links {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 1.2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.8s;
+  position: relative;
+  z-index: 5;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-color);
+  /* Theme accent color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-color);
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: transparent;
+  box-shadow: 0 0 5px rgba(204, 0, 0, 0.2);
+}
+
+.social-icon:hover {
+  background: var(--accent-color);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(204, 0, 0, 0.5);
+  transform: translateY(-3px);
+  border-color: var(--accent-color);
+}
+
+/* Specific icons adjustment if needed */
+.social-icon i {
+  transition: transform 0.3s ease;
+}
+
+.social-icon:hover i {
+  transform: scale(1.1);
+}
+
+/* Responsive adjustment */
+@media (max-width: 780px) {
+  .hero-social-links {
+    justify-content: center;
+  }
+}
+
+/* Combined Contact Section Split Layout */
+.contact-container {
+  display: flex;
+  flex-direction: row;
+  gap: 4rem;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+
+.contact-left,
+.contact-right {
+  flex: 1;
+  width: 50%;
+}
+
+.contact-intro {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* Ensure contact grid in left column flows nicely */
+.contact-grid {
+  display: flex;
+  flex-direction: column;
+  /* Stack icons vertically on standard view if preferred, or keep grid */
+  gap: 1.5rem;
+}
+
+/* Responsive: stack column on mobile */
+@media (max-width: 900px) {
+  .contact-container {
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .contact-left,
+  .contact-right {
+    width: 100%;
+  }
+
+  .contact-grid {
+    flex-direction: row;
+    /* Horizontal icons on mobile stack */
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .contact-intro {
+    text-align: center;
+  }
+}
+
+/* Contact Form Styles */
+.contact-form {
+  margin-top: 0;
+  /* Remove top margin as container handles gap */
+}
+
+#form-status {
+  width: 100%;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  padding: 0;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.status-success {
+  padding: 10px !important;
+  background-color: rgba(46, 204, 113, 0.2);
+  border: 1px solid #2ecc71;
+  color: #2ecc71;
+}
+
+.status-error {
+  padding: 10px !important;
+  background-color: rgba(231, 76, 60, 0.2);
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  color: var(--text-color);
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 10px rgba(204, 0, 0, 0.1);
+}
+
+/* Dark mode inputs */
+body.dark .contact-form input,
+body.dark .contact-form textarea {
+  background: rgba(255, 255, 255, 0.1);
+  /* Increased visibility */
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  /* Force bright white text */
+}
+
+body.dark .contact-form input::placeholder,
+body.dark .contact-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Fix Card Accent Line Visibility in Dark Mode */
+body.dark .card::before {
+  /* Use vibrant accent colors instead of dark mode variables */
+  background: linear-gradient(to bottom, #ff5f6d, #ffc371);
+}
+
+body.dark .contact-form input:focus,
+body.dark .contact-form textarea:focus {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: var(--accent-color);
+}
+
+.submit-btn {
+  background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 5px 15px rgba(204, 0, 0, 0.2);
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(204, 0, 0, 0.3);
+}
+
+/* Back to Top Button */
+#back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+#back-to-top:hover {
+  background: var(--primary-color);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(204, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+    /* Prevent header text cutoff */
+    word-break: break-word;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .container {
+    padding: 0 1.5rem;
+    /* Ensure safe padding on mobile */
+  }
+
+  .projects-list .project-card,
+  .projects-carousel .project-card {
+    min-width: 100%;
+    /* Force full width on mobile */
+    max-width: 100%;
+  }
+
+  .nav-links {
+    backdrop-filter: blur(15px);
+    /* Stronger blur for mobile menu */
+    -webkit-backdrop-filter: blur(15px);
+  }
+
+  #back-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+  }
+}
+
+/* Projects Grid Layout (for projects.html) */
+/* Projects List Layout (Back to List) */
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.projects-list .project-card,
+.projects-carousel .project-card {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  /* Ensure content stays within border radius */
+  /* Visual Enhancement */
+  border-left: 5px solid var(--accent-color);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(240, 240, 240, 0.5) 100%);
+}
+
+/* Dark mode adjustment for card background */
+body.dark .projects-list .project-card h3 i,
+body.dark .projects-carousel .project-card h3 i {
+  color: var(--accent-color);
+  /* Match theme accent (Red/Pink) instead of Yellow */
+}
+
+/* Fix Technical Skills Accent Line in Dark Mode */
+body.dark #technical-skills.card .line-clipper::before {
+  background: linear-gradient(to bottom, #ff5f6d, #ffc371);
+}
+
+/* Fix Submit Button Gradient in Dark Mode to remain vibrant */
+body.dark .submit-btn {
+  background: linear-gradient(45deg, #ff5f6d, #ffc371);
+}
+
+body.dark .projects-list .project-card,
+body.dark .projects-carousel .project-card {
+  background: linear-gradient(135deg, #503535 0%, #3e2828 100%);
+  /* Lighter warm tint */
+}
+
+.projects-list .project-card,
+.projects-carousel .project-card {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  /* Ensure content stays within border radius */
+  /* Visual Enhancement */
+  border-left: 5px solid var(--accent-color);
+  /* Warm Sunset Fade: Light Pink to Soft Peach */
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe0d5 100%);
+}
+
+.projects-list .project-card h3 i,
+.projects-carousel .project-card h3 i {
+  margin-right: 0.5rem;
+  color: var(--accent-color);
+  width: 25px;
+  text-align: center;
+}
+
+/* Hide details (description AND links) by default */
+.projects-list .project-card .project-details,
+.projects-carousel .project-card .project-details {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  margin-top: 0;
+}
+
+
+/* Reveal details on hover */
+.projects-list .project-card:hover .project-details,
+.projects-carousel .project-card:hover .project-details {
+  max-height: 500px;
+  /* Expand to fit content */
+  opacity: 1;
+  margin-top: 1rem;
+}
+
+/* Hover effects for card itself */
+.projects-list .project-card:hover,
+.projects-carousel .project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.read-more-btn {
+  display: none;
+}
+
+/* Projects Carousel styles removed as per request */
