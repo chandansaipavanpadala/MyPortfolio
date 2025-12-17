@@ -577,4 +577,77 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Back to Top Button Functionality
+  const backToTopBtn = document.getElementById('back-to-top');
+
+  if (backToTopBtn) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+
+  // AJAX Form Submission
+  const contactForm = document.querySelector('.contact-form');
+  const formStatus = document.getElementById('form-status');
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(contactForm);
+      const submitBtn = contactForm.querySelector('.submit-btn');
+      const originalBtnText = submitBtn.innerHTML;
+
+      // Disable button and show loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+      formStatus.innerHTML = '';
+      formStatus.className = '';
+
+      fetch(contactForm.getAttribute('action'), {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+        .then(response => {
+          if (response.ok) {
+            formStatus.innerHTML = "Thanks for your message! I'll get back to you soon.";
+            formStatus.className = 'status-success';
+            contactForm.reset();
+          } else {
+            return response.json().then(data => {
+              if (Object.hasOwn(data, 'errors')) {
+                formStatus.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+              } else {
+                formStatus.innerHTML = "Oops! There was a problem submitting your form";
+              }
+              formStatus.className = 'status-error';
+            })
+          }
+        })
+        .catch(error => {
+          formStatus.innerHTML = "Oops! There was a problem submitting your form";
+          formStatus.className = 'status-error';
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+        });
+    });
+  }
+
+
 });
