@@ -1539,6 +1539,24 @@ body.dark .skill-corner .skill-tag:hover {
   transform: translateY(-2px);
 }
 
+/* ---------- EDUCATION SECTION ---------- */
+.education-details {
+  margin-bottom: 1.5rem;
+}
+
+.education-details:last-child {
+  margin-bottom: 0;
+}
+
+.education-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 /* ---------- PROJECT SECTION ---------- */
 .project-card {
   background: rgba(255, 255, 255, 0.5);
