@@ -44,6 +44,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggleButton = document.querySelector('.theme-toggle');
   themeToggleButton.addEventListener('click', toggleTheme);
 
+  // Hamburger menu toggle
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const navCenter = document.getElementById('nav-center');
+  if (hamburgerBtn && navCenter) {
+    hamburgerBtn.addEventListener('click', () => {
+      hamburgerBtn.classList.toggle('active');
+      navCenter.classList.toggle('open');
+    });
+    // Close menu when a nav link is clicked
+    navCenter.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburgerBtn.classList.remove('active');
+        navCenter.classList.remove('open');
+      });
+    });
+  }
+
   // Scroll to top when clicking 'My Portfolio'
   const portfolioName = document.querySelector('.navbar .name');
   if (portfolioName) {
@@ -81,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
   animateProgressBars();
 });
 
-// Highlight center nav links on scroll and keep them in sync with sections
+// Highlight center nav links on scroll, sync with sections, and handle browser history
 (function () {
   const navLinks = document.querySelectorAll('.nav-center-list a');
   if (!navLinks || navLinks.length === 0) return;
@@ -90,8 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const items = Array.from(navLinks).map(a => {
     const href = a.getAttribute('href');
     const el = document.querySelector(href);
-    return { link: a, el };
+    return { link: a, el, hash: href };
   }).filter(i => i.el);
+
+  let currentHash = '';
+  let isPopStateScrolling = false; // prevent pushState during popstate scroll
 
   function updateActive() {
     const offset = document.querySelector('.navbar') ? document.querySelector('.navbar').offsetHeight + 10 : 80;
@@ -104,9 +124,63 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     items.forEach(it => it.link.classList.toggle('active', it === current));
+
+    // Update URL hash silently as user scrolls (replaceState, not pushState)
+    if (current && current.hash !== currentHash && !isPopStateScrolling) {
+      currentHash = current.hash;
+      history.replaceState({ section: currentHash }, '', currentHash);
+    }
   }
 
-  // Throttle updates for performance
+  // Intercept nav link clicks to push history entries
+  items.forEach(item => {
+    item.link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const hash = item.hash;
+      currentHash = hash;
+      // Push a new history entry so Back button can navigate
+      history.pushState({ section: hash }, '', hash);
+      // Smooth scroll to the section
+      item.el.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Handle Back/Forward button — popstate event
+  window.addEventListener('popstate', (e) => {
+    const hash = (e.state && e.state.section) ? e.state.section : '';
+    if (hash) {
+      const targetEl = document.querySelector(hash);
+      if (targetEl) {
+        isPopStateScrolling = true;
+        currentHash = hash;
+        targetEl.scrollIntoView({ behavior: 'smooth' });
+        // Reset flag after scroll finishes
+        setTimeout(() => { isPopStateScrolling = false; }, 1000);
+        return;
+      }
+    }
+    // No hash or unknown — scroll to top (hero)
+    isPopStateScrolling = true;
+    currentHash = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => { isPopStateScrolling = false; }, 1000);
+  });
+
+  // On page load, if there's a hash in the URL, scroll to it
+  if (window.location.hash) {
+    const targetEl = document.querySelector(window.location.hash);
+    if (targetEl) {
+      currentHash = window.location.hash;
+      // Replace the initial state so popstate has context
+      history.replaceState({ section: currentHash }, '', currentHash);
+      setTimeout(() => targetEl.scrollIntoView({ behavior: 'smooth' }), 300);
+    }
+  } else {
+    // Set initial state for the top of the page
+    history.replaceState({ section: '' }, '', window.location.pathname);
+  }
+
+  // Throttle scroll updates for performance
   let ticking = false;
   window.addEventListener('scroll', () => {
     if (ticking) return;
@@ -122,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // And on resize (recompute offsets)
   window.addEventListener('resize', updateActive);
 })();
+
 
 // Theme Toggle Function defined outside the event listener
 function toggleTheme() {
