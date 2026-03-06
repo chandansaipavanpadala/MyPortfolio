@@ -363,10 +363,80 @@ body.dark .name:hover {
   box-shadow: inset 0 -2px 0 rgba(204, 0, 0, 0.12);
 }
 
-/* Hide center nav on small screens to keep navbar compact */
+/* ---------- HAMBURGER MENU ---------- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1002;
+}
+
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2.5px;
+  background: var(--heading-color);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger.active .hamburger-line:nth-child(1) {
+  transform: translateY(7.5px) rotate(45deg);
+}
+
+.hamburger.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger.active .hamburger-line:nth-child(3) {
+  transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/* Hide center nav on small screens, show as mobile overlay */
 @media (max-width: 900px) {
+  .hamburger {
+    display: flex;
+  }
+
   .nav-center {
     display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 1001;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  body.dark .nav-center {
+    background: rgba(18, 18, 18, 0.97);
+  }
+
+  .nav-center.open {
+    display: flex;
+  }
+
+  .nav-center-list {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .nav-center-list a {
+    font-size: 1.3rem;
+    padding: 0.75rem 2rem;
   }
 
   .navbar {
@@ -453,6 +523,16 @@ body.dark .name:hover {
   overflow: hidden;
 }
 
+.hero>.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
 /* Particles and hero floating shapes (ported from ru theme, adapted) */
 .particles-container {
   position: absolute;
@@ -522,6 +602,8 @@ body.dark .name:hover {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  width: 100%;
+  max-width: 460px;
   opacity: 0;
   transform: translateY(15px);
   animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.6s;
@@ -534,18 +616,15 @@ body.dark .name:hover {
 
 
 .hero-content {
-  max-width: 600px;
   z-index: 2;
-  /* position the hero block absolutely so it sits at the left edge while remaining vertically centered */
-  position: absolute;
-  left: 2rem;
-  top: 50%;
-  transform: translateY(-50%);
+  position: relative;
   text-align: left;
+  flex: 1 1 50%;
+  min-width: 280px;
 }
 
 .hero-greeting {
-  font-size: 4rem;
+  font-size: clamp(2rem, 3vw, 4rem);
   font-weight: 700;
   color: var(--heading-color);
   line-height: 1.2;
@@ -553,21 +632,20 @@ body.dark .name:hover {
   transform: translateY(20px) scale(0.95);
   animation: heroFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
   margin-bottom: 0.5rem;
-  white-space: nowrap;
   overflow: visible;
+  white-space: normal;
 }
 
 .hero h1 {
-  font-size: 4rem;
+  font-size: clamp(1.8rem, 2.8vw, 4rem);
   font-weight: 700;
   color: var(--heading-color);
   line-height: 1.2;
   opacity: 0;
   transform: translateY(20px) scale(0.95);
   animation: heroFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s;
-  /* keep the hero name on a single line on larger screens */
-  white-space: nowrap;
   overflow: visible;
+  white-space: normal;
 }
 
 @keyframes heroFadeIn {
@@ -582,24 +660,75 @@ body.dark .name:hover {
   }
 }
 
-/* Responsive: allow wrapping and scale font on small screens */
-@media (max-width: 780px) {
-  .hero-content {
-    position: static;
-    transform: none;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+/* Tablet: stack hero vertically */
+@media (max-width: 1023px) {
+
+  .hero-greeting,
+  .hero h1 {
+    white-space: normal;
   }
 
+  .hero>.container {
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .hero-content {
+    text-align: center;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .hero-graphic {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    max-width: 100vw;
+    height: auto;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .sliding-clock-container {
+    margin-top: 0;
+    transform: scale(0.85);
+    padding: 25px 35px;
+  }
+
+  .hero-social-links {
+    justify-content: center;
+  }
+}
+
+/* Mobile: smaller fonts and smaller clock */
+@media (max-width: 780px) {
   .hero-greeting {
-    white-space: normal;
     font-size: clamp(2rem, 6vw, 3rem);
   }
 
   .hero h1 {
-    white-space: normal;
-    font-size: clamp(2rem, 6vw, 3rem);
+    font-size: clamp(1.8rem, 5.5vw, 2.8rem);
+  }
+
+  .sliding-clock-container {
+    transform: scale(0.6);
+    transform-origin: center center;
+    margin: -40px -30px;
+    padding: 15px 20px;
+  }
+}
+
+/* Small mobile: even smaller clock */
+@media (max-width: 420px) {
+  .sliding-clock-container {
+    transform: scale(0.5);
+    margin: -60px -50px;
+    padding: 10px 15px;
   }
 }
 
@@ -638,15 +767,27 @@ body.dark .name:hover {
 }
 
 .hero-graphic {
-  position: absolute;
-  right: 40px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 600px;
-  height: 600px;
-  opacity: 0.6;
-  z-index: 1;
-  /* Change this to z-index: 3; so circles appear above text */
+  position: relative;
+  right: auto;
+  top: auto;
+  transform: none;
+  width: auto;
+  height: auto;
+  opacity: 1;
+  z-index: 2;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Scale clock down on standard laptops to prevent hero overlap */
+@media (min-width: 1024px) and (max-width: 1440px) {
+  .sliding-clock-container {
+    transform: scale(0.7) perspective(1000px);
+    transform-origin: right center;
+    margin-right: -15%;
+  }
 }
 
 /* ---------- SLIDING TAPE CLOCK ---------- */
@@ -663,12 +804,9 @@ body.dark .name:hover {
   -webkit-backdrop-filter: blur(15px);
   box-shadow: var(--shadow);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  /* Tilt effect handled by JS */
   transform: perspective(1000px);
   transition: transform 0.1s ease-out;
-  /* Faster transition for mouse movement */
-  margin-top: 180px;
-  /* Move it down vertically */
+  margin-top: 0;
 }
 
 .tape-wrapper {
@@ -821,13 +959,6 @@ body.dark .tape-highlight {
   box-shadow: 0 0 15px var(--accent-color);
 }
 
-/* Responsiveness */
-@media (max-width: 768px) {
-  .sliding-clock-container {
-    transform: scale(0.7);
-    padding: 10px 20px;
-  }
-}
 
 /* ---------- MAIN CONTENT ---------- */
 main {
@@ -1069,12 +1200,14 @@ a:hover {
 }
 
 .edu-date {
-  position: absolute;
-  right: 1rem;
-  top: 0.6rem;
+  position: relative;
+  right: auto;
+  top: auto;
   color: var(--accent-color);
-  /* Match project date font weight/style by using normal weight; visual box comes from .project-tag */
   font-weight: normal;
+  display: inline-block;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .progress-bar {
@@ -1328,6 +1461,8 @@ body.dark .skill-corner .skill-tag:hover {
   .visible-category {
     margin-right: 0;
     margin-bottom: 1rem;
+    min-width: 0;
+    width: 100%;
   }
 
   .skills-folder {
@@ -1339,6 +1474,25 @@ body.dark .skill-corner .skill-tag:hover {
     position: relative;
     min-width: 100%;
     margin-top: 0.5rem;
+  }
+
+  .skill-corner {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    opacity: 0;
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+    margin-bottom: 0.75rem;
+  }
+
+  .folder-header:hover~.folder-content .skill-corner {
+    opacity: 1;
+    transform: none !important;
   }
 }
 
@@ -1403,6 +1557,8 @@ body.dark .skill-corner .skill-tag:hover {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .project-tag {
@@ -1598,7 +1754,8 @@ body.dark .cert-link-btn:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .cert-date {
@@ -1748,13 +1905,6 @@ body.dark a:hover {
 
 /* ---------- RESPONSIVE STYLES ---------- */
 @media (max-width: 1024px) {
-  .hero-graphic {
-    opacity: 0.4;
-    width: 400px;
-    height: 400px;
-    right: -100px;
-  }
-
   .navbar {
     padding: 0 2rem;
   }
@@ -1763,21 +1913,18 @@ body.dark a:hover {
 @media (max-width: 768px) {
   .card {
     flex-direction: column;
-    padding: 2rem;
+    padding: 1.5rem;
   }
 
   .section-icon {
     margin-right: 0;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .hero h1 {
-    font-size: 2.5rem;
-    /* Reduce font size */
+    font-size: clamp(1.8rem, 5.5vw, 2.5rem);
     white-space: normal;
-    /* Allow wrapping on mobile */
     overflow: visible;
-    /* Allow overflow on mobile */
   }
 
   .navbar {
@@ -1789,10 +1936,46 @@ body.dark a:hover {
   }
 
   .hero-content {
-    text-align: left;
-    align-items: flex-start;
-    transform: none;
-    /* if it's using flexbox */
+    text-align: center;
+    align-items: center;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .education-details {
+    padding-left: 1rem;
+  }
+
+  .cert-item {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .cert-icon {
+    margin-right: 0.75rem;
+    font-size: 1.5rem;
+  }
+
+  .extra-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .contact-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .contact-left,
+  .contact-right {
+    width: 100%;
+  }
+
+  .projects-header {
+    flex-wrap: wrap;
   }
 }
 
@@ -1812,6 +1995,9 @@ body.dark a:hover {
   display: flex;
   gap: 1.2rem;
   margin-top: 1.2rem;
+  width: 100%;
+  max-width: 460px;
+  justify-content: center;
   opacity: 0;
   transform: translateY(20px);
   animation: heroFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.8s;
