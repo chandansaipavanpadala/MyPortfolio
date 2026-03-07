@@ -136,6 +136,7 @@ body.wave .fluids-icon {
 body.wave .wave-icon {
   opacity: 1 !important;
   transform: translateY(0) !important;
+  color: #ffffff !important;
 }
 
 /* ================================================================
@@ -206,7 +207,8 @@ body.wave .nav-center-list a.active {
 }
 
 body.wave .resume-btn {
-  background: linear-gradient(45deg, #ffffff, #11998e) !important;
+  background: #ffffff !important;
+  color: #000000 !important;
   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.25) !important;
 }
 
@@ -228,13 +230,13 @@ body.wave .card:hover {
   border-color: rgba(255, 255, 255, 0.4) !important;
 }
 
-/* Card left accent bar → cyan */
+/* Card left accent bar → white */
 body.wave .card::before {
-  background: linear-gradient(to bottom, #ffffff, #11998e) !important;
+  background: #ffffff !important;
 }
 
 body.wave #technical-skills.card .line-clipper::before {
-  background: linear-gradient(to bottom, #ffffff, #11998e) !important;
+  background: #ffffff !important;
 }
 
 /* --- Section Icons (the circle icons) --- */
@@ -300,7 +302,7 @@ body.wave .skill-tag:hover {
 }
 
 body.wave .skill-level {
-  background: linear-gradient(to right, #11998e, #ffffff) !important;
+  background: #ffffff !important;
 }
 
 body.wave .folder-header {
@@ -347,8 +349,8 @@ body.wave .project-footer {
 }
 
 body.wave .view-all-btn {
-  background: linear-gradient(45deg, #ffffff, #11998e) !important;
-  color: #fff !important;
+  background: #ffffff !important;
+  color: #000000 !important;
   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2) !important;
 }
 
@@ -447,8 +449,8 @@ body.wave .contact-form textarea:focus {
 }
 
 body.wave .submit-btn {
-  background: linear-gradient(45deg, #ffffff, #11998e) !important;
-  color: #fff !important;
+  background: #ffffff !important;
+  color: #000000 !important;
   box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3) !important;
 }
 
@@ -546,8 +548,8 @@ body.wave .theme-opt-btn {
 }
 
 body.wave .theme-opt-btn:hover {
-  background: linear-gradient(45deg, #ffffff, #11998e) !important;
-  color: #fff !important;
+  background: #ffffff !important;
+  color: #000000 !important;
 }
 
 /* --- Mobile Nav Overlay in Wave --- */

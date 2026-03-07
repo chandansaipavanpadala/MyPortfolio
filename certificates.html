@@ -22,23 +22,48 @@
         <div class="wave"></div>
     </div>
     <nav class="navbar">
-        <div class="name">My Portfolio</div>
-        <div class="theme-toggle" title="Toggle Theme">
-            <i class="fas fa-moon moon-icon"></i>
-            <i class="fas fa-sun sun-icon"></i>
-            <i class="fas fa-tint fluids-icon"></i>
-            <i class="fas fa-water wave-icon"></i>
+        <div class="nav-left">
+            <div class="name">My Portfolio</div>
         </div>
-        <!-- Theme Selection Prompt -->
-        <div class="theme-selection-prompt" id="theme-prompt" style="display: none;">
-            <div class="prompt-arrow"></div>
-            <h3>Select a Theme</h3>
-            <div class="theme-options">
-                <button class="theme-opt-btn" data-theme="wave"><i class="fas fa-water"></i> Wave</button>
-                <button class="theme-opt-btn" data-theme="light"><i class="fas fa-sun"></i> Light</button>
-                <hr class="theme-divider">
-                <button class="theme-opt-btn" data-theme="dark"><i class="fas fa-moon"></i> Dark</button>
-                <button class="theme-opt-btn" data-theme="fluids"><i class="fas fa-tint"></i> Fluids</button>
+
+        <button class="hamburger" id="hamburger-btn" aria-label="Toggle navigation menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+
+        <div class="nav-center" id="nav-center">
+            <ul class="nav-center-list">
+                <li><a href="index.html#professional-summary">Summary</a></li>
+                <li><a href="index.html#education">Education</a></li>
+                <li><a href="index.html#technical-skills">Skills</a></li>
+                <li><a href="index.html#technical-projects">Projects</a></li>
+                <li><a href="index.html#certifications">Certificates</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-right">
+            <a class="resume-btn"
+                href="https://aseblr-my.sharepoint.com/:b:/g/personal/bl_en_u4ece23205_bl_students_amrita_edu/IQCUHM5loOrGTI2a_mGnIsp6AYSs-JfBI9svElYQMGdba4k?e=NVsgWp"
+                target="_blank" rel="noopener noreferrer">View Resume</a>
+            <div class="theme-toggle" title="Toggle Theme">
+                <i class="fas fa-moon moon-icon"></i>
+                <i class="fas fa-sun sun-icon"></i>
+                <i class="fas fa-tint fluids-icon"></i>
+                <i class="fas fa-water wave-icon"></i>
+            </div>
+            <!-- Theme Selection Prompt -->
+            <div class="theme-selection-prompt" id="theme-prompt" style="display: none;">
+                <div class="prompt-arrow"></div>
+                <h3>Select a Theme</h3>
+                <div class="theme-options">
+                    <button class="theme-opt-btn" data-theme="wave"><i class="fas fa-water"></i> Wave</button>
+                    <button class="theme-opt-btn" data-theme="light"><i class="fas fa-sun"></i> Light</button>
+                    <hr class="theme-divider">
+                    <button class="theme-opt-btn" data-theme="dark"><i class="fas fa-moon"></i> Dark</button>
+                    <button class="theme-opt-btn" data-theme="fluids"><i class="fas fa-tint"></i> Fluids</button>
+                </div>
             </div>
         </div>
     </nav>

@@ -2407,6 +2407,7 @@ body.dark .projects-carousel .project-card {
 body.fluids .fluids-icon {
   opacity: 1;
   transform: translateY(0);
+  color: #ff5f6d;
 }
 
 body.fluids .moon-icon {
@@ -2558,4 +2559,3 @@ body.theme-selection-active::after {
   pointer-events: all;
   animation: promptFadeIn 0.4s ease forwards;
 }
-
