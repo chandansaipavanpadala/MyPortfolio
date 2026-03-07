@@ -2540,6 +2540,7 @@ body.theme-selection-active .hero-background,
 body.theme-selection-active .stars,
 body.theme-selection-active .shooting-star,
 body.theme-selection-active #fluid-canvas,
+body.theme-selection-active .wave-container,
 body.theme-selection-active .container {
   filter: blur(8px);
   pointer-events: none;
@@ -2557,3 +2558,4 @@ body.theme-selection-active::after {
   pointer-events: all;
   animation: promptFadeIn 0.4s ease forwards;
 }
+

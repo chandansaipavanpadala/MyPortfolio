@@ -1,0 +1,558 @@
+/* ---------- WAVE THEME ---------- */
+body.wave {
+  /* Ocean-inspired dark gradient without red/orange */
+  background: linear-gradient(315deg, #65005E 3%, #3C84CE 38%, #30EEE2 68%, #FF1919 98%);
+  animation: gradient-wave 15s ease infinite;
+  background-size: 400% 400%;
+  background-attachment: fixed !important;
+  color: #fff;
+
+  /* Override global variables to White/Black/Neutral instead of Orange/Red */
+  --primary-color: #444444;
+  /* Replaces primary orange */
+  --secondary-color: #111111;
+  /* Replaces secondary orange */
+  --accent-color: #ffffff;
+  /* Replaces red accents */
+  --text-color: #f0f0f0;
+  --heading-color: #ffffff;
+  --text-light: #cccccc;
+  --bg-card: rgba(0, 0, 0, 0.4);
+  /* Cool dark transparent cards */
+}
+
+@keyframes gradient-wave {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 100% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.wave-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+body.wave .wave-container {
+  display: block;
+}
+
+.wave-container .wave {
+  background: rgb(255 255 255 / 25%);
+  border-radius: 1000% 1000% 0 0;
+  position: absolute;
+  width: 200%;
+  height: 12em;
+  animation: wave 10s -3s linear infinite;
+  transform: translate3d(0, 0, 0);
+  opacity: 0.8;
+  bottom: 0;
+  left: 0;
+}
+
+.wave-container .wave:nth-of-type(2) {
+  bottom: -1.25em;
+  animation: wave 18s linear reverse infinite;
+  opacity: 0.8;
+}
+
+.wave-container .wave:nth-of-type(3) {
+  bottom: -2.5em;
+  animation: wave 20s -1s reverse infinite;
+  opacity: 0.9;
+}
+
+@keyframes wave {
+  2% {
+    transform: translateX(1%);
+  }
+
+  25% {
+    transform: translateX(-25%);
+  }
+
+  50% {
+    transform: translateX(-50%);
+  }
+
+  75% {
+    transform: translateX(-25%);
+  }
+
+  100% {
+    transform: translateX(1%);
+  }
+}
+
+/* Icon Toggles for Themes */
+.wave-icon {
+  opacity: 0;
+  transform: translateY(20px);
+  color: #30eee2;
+}
+
+body.dark .sun-icon,
+body.wave .sun-icon,
+body.fluids .sun-icon {
+  opacity: 0 !important;
+  transform: translateY(-20px) !important;
+}
+
+body.dark:not(.fluids):not(.wave) .moon-icon {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+body.fluids .moon-icon {
+  opacity: 0 !important;
+  transform: translateY(-20px) !important;
+}
+
+body.fluids .fluids-icon {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+body.wave .moon-icon,
+body.wave .fluids-icon {
+  opacity: 0 !important;
+  transform: translateY(-20px) !important;
+}
+
+body.wave .wave-icon {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* ================================================================
+   WAVE THEME — COMPREHENSIVE OVERRIDES
+   Covers every element that has hardcoded red/orange colors.
+   ================================================================ */
+
+/* Theme Selection Divider */
+.theme-divider {
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0.2rem 0;
+  width: 100%;
+}
+
+body.dark .theme-divider,
+body.wave .theme-divider,
+body.fluids .theme-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Hide elements that don't belong in wave theme */
+body.wave #particles-js,
+body.wave .cursor-trail,
+body.wave .hero-shape,
+body.wave .stars,
+body.wave #fluid-canvas {
+  display: none !important;
+}
+
+/* --- Navbar --- */
+body.wave .navbar {
+  background: rgba(0, 0, 0, 0.35) !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.wave .name {
+  background: linear-gradient(45deg, #ffffff, #ffffff) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3)) !important;
+}
+
+body.wave .name::before {
+  background: #ffffff !important;
+  box-shadow: 0 0 10px #ffffff !important;
+}
+
+body.wave .name::after {
+  background: linear-gradient(45deg, #ffffff, #ffffff) !important;
+}
+
+body.wave .nav-center-list a {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+body.wave .nav-center-list a:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+body.wave .nav-center-list a.active {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+body.wave .resume-btn {
+  background: linear-gradient(45deg, #ffffff, #11998e) !important;
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.25) !important;
+}
+
+body.wave .hamburger-line {
+  background: #fff !important;
+}
+
+/* --- Cards (all sections) --- */
+body.wave .card {
+  background: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.wave .card:hover {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Card left accent bar → cyan */
+body.wave .card::before {
+  background: linear-gradient(to bottom, #ffffff, #11998e) !important;
+}
+
+body.wave #technical-skills.card .line-clipper::before {
+  background: linear-gradient(to bottom, #ffffff, #11998e) !important;
+}
+
+/* --- Section Icons (the circle icons) --- */
+body.wave .section-icon {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+/* --- Headings & Text --- */
+body.wave h2 {
+  color: #fff !important;
+}
+
+body.wave h2::after {
+  background: linear-gradient(to right, #ffffff, transparent) !important;
+}
+
+body.wave h3 {
+  color: #ffffff !important;
+  /* Fixes red h3 education titles */
+}
+
+body.wave p,
+body.wave li,
+body.wave span,
+body.wave .education-details p,
+body.wave .project-details li,
+body.wave ul li em {
+  color: #d0d0d0 !important;
+}
+
+body.wave a {
+  color: #ffffff !important;
+}
+
+body.wave a:hover {
+  color: #66e5ff !important;
+}
+
+body.wave ul li::before {
+  color: #ffffff !important;
+}
+
+/* --- Education Section --- */
+body.wave .education-details {
+  border-left-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+body.wave .education-details::before {
+  background: #ffffff !important;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* --- Skills Section --- */
+body.wave .skill-tag {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+
+body.wave .skill-tag:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+body.wave .skill-level {
+  background: linear-gradient(to right, #11998e, #ffffff) !important;
+}
+
+body.wave .folder-header {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+body.wave .folder-header:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+body.wave .folder-icon {
+  color: #ffffff !important;
+}
+
+body.wave .folder-name {
+  color: #fff !important;
+}
+
+body.wave .skill-corner {
+  background: rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* --- Project Section --- */
+body.wave .project-card {
+  background: rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.wave .project-card:hover {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+body.wave .project-tag,
+body.wave .edu-date,
+body.wave .cert-date {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+body.wave .project-footer {
+  border-top-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.wave .view-all-btn {
+  background: linear-gradient(45deg, #ffffff, #11998e) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2) !important;
+}
+
+body.wave .github-btn {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+}
+
+body.wave .github-btn:hover {
+  background: #ffffff !important;
+  color: #000 !important;
+}
+
+body.wave .video-btn {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+body.wave .video-btn:hover {
+  background: #ffffff !important;
+  color: #000 !important;
+}
+
+/* --- Certifications --- */
+body.wave .cert-item {
+  background: rgba(0, 0, 0, 0.3) !important;
+}
+
+body.wave .cert-item:hover {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+body.wave .cert-icon {
+  color: #ffffff !important;
+}
+
+body.wave .cert-link-btn {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+body.wave .cert-link-btn:hover {
+  background: #ffffff !important;
+  color: #000 !important;
+}
+
+/* --- Extracurriculars --- */
+body.wave .extra-item {
+  background: rgba(0, 0, 0, 0.3) !important;
+}
+
+body.wave .extra-item:hover {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+body.wave .extra-icon {
+  color: #ffffff !important;
+}
+
+/* --- Contact Section --- */
+body.wave .contact-item {
+  background: rgba(0, 0, 0, 0.35) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.wave .contact-item:hover {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+body.wave .contact-item i {
+  color: #ffffff !important;
+}
+
+body.wave .contact-item a {
+  color: #fff !important;
+}
+
+body.wave .contact-form input,
+body.wave .contact-form textarea {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+}
+
+body.wave .contact-form input::placeholder,
+body.wave .contact-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+body.wave .contact-form input:focus,
+body.wave .contact-form textarea:focus {
+  border-color: #ffffff !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2) !important;
+}
+
+body.wave .submit-btn {
+  background: linear-gradient(45deg, #ffffff, #11998e) !important;
+  color: #fff !important;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3) !important;
+}
+
+body.wave .submit-btn:hover {
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4) !important;
+}
+
+/* --- Hero Section --- */
+body.wave .hero-greeting,
+body.wave .hero h1 {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+body.wave .hero-subtitle {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+body.wave .cursor {
+  color: #ffffff !important;
+}
+
+body.wave .social-icon {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.wave .social-icon:hover {
+  background: #ffffff !important;
+  color: #000 !important;
+}
+
+/* --- Clock Widget --- */
+body.wave .sliding-clock-container {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+body.wave .tape-strip div {
+  color: #fff !important;
+}
+
+body.wave .tape-separator {
+  color: #ffffff !important;
+}
+
+body.wave .tape-highlight {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.3) !important;
+}
+
+body.wave .clock-date-display,
+body.wave .clock-label-display {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* --- Footer --- */
+body.wave footer {
+  background: rgba(0, 0, 0, 0.3) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+body.wave footer p {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* --- Back to Top Button --- */
+body.wave #back-to-top {
+  background: #ffffff !important;
+  color: #000 !important;
+}
+
+/* --- Theme Selection Prompt in Wave --- */
+body.wave .theme-selection-prompt {
+  background: rgba(10, 20, 40, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+body.wave .prompt-arrow {
+  background: rgba(10, 20, 40, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+body.wave .theme-selection-prompt h3 {
+  color: #fff !important;
+}
+
+body.wave .theme-opt-btn {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+body.wave .theme-opt-btn:hover {
+  background: linear-gradient(45deg, #ffffff, #11998e) !important;
+  color: #fff !important;
+}
+
+/* --- Mobile Nav Overlay in Wave --- */
+@media (max-width: 900px) {
+  body.wave .nav-center {
+    background: rgba(10, 20, 40, 0.97) !important;
+  }
+}
