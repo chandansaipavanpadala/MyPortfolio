@@ -85,6 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
   } else if (savedTheme === 'fluids') {
     document.body.classList.add('dark', 'fluids');
     loadFluidsScript();
+  } else if (savedTheme === 'wave') {
+    document.body.classList.add('wave');
   }
 
   // Show theme prompt once per session (every time the site is opened)
@@ -231,21 +233,33 @@ document.addEventListener('DOMContentLoaded', () => {
 // Theme Toggle Function defined outside the event listener
 window.setThemeDirectly = function (themeName) {
   const body = document.body;
-  body.classList.remove('dark', 'fluids');
+  body.classList.remove('dark', 'fluids', 'wave');
 
   if (themeName === 'dark') {
     body.classList.add('dark');
   } else if (themeName === 'fluids') {
     body.classList.add('dark', 'fluids');
     loadFluidsScript();
+  } else if (themeName === 'wave') {
+    body.classList.add('wave');
   }
 
   localStorage.setItem('theme', themeName);
+
+  // If the initial prompt is active, close it whenever the theme is set
+  if (body.classList.contains('theme-selection-active')) {
+    body.classList.remove('theme-selection-active');
+    const themePrompt = document.getElementById('theme-prompt');
+    if (themePrompt) themePrompt.style.display = 'none';
+    sessionStorage.setItem('themePromptShown', 'true');
+  }
 }
 
 function toggleTheme() {
   const body = document.body;
   if (body.classList.contains('fluids')) {
+    window.setThemeDirectly('wave');
+  } else if (body.classList.contains('wave')) {
     window.setThemeDirectly('light');
   } else if (body.classList.contains('dark')) {
     window.setThemeDirectly('fluids');
@@ -258,7 +272,7 @@ let fluidsScriptLoaded = false;
 function loadFluidsScript() {
   if (!fluidsScriptLoaded) {
     const script = document.createElement('script');
-    script.src = 'Fluids Theme/script.js';
+    script.src = 'Themes/Fluids/script.js';
     document.body.appendChild(script);
     fluidsScriptLoaded = true;
   }

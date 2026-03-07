@@ -21,8 +21,8 @@ The frontend focuses heavily on smooth, 60fps animations utilizing both CSS3 har
 
 ## Core Architecture & Styling
 
-- **Dynamic Three-State Theming System:** Employs a modular CSS architecture orchestrated by CSS Custom Properties (`:root` variables) and state classes (`.dark`, `.fluids`). The JavaScript engine seamlessly toggles the interface between Light, Dark, and a custom "Fluids" theme. It ensures legible typography across all states and intelligently persistent theme memory utilizing the Web Storage API (`localStorage`).
-- **Dynamic Script Loading:** To optimize initial load times, the heavy WebGL simulation logic (`Fluids Theme/script.js`) is injected into the DOM asynchronously only when the user explicitly triggers the "Fluids" theme.
+- **Dynamic Four-State Theming System:** Employs a modular CSS architecture orchestrated by state classes (`.dark`, `.fluids`, `.wave`). The JavaScript engine seamlessly toggles the interface between Light, Dark, Wave, and Fluids themes. It ensures legible typography across all states and intelligently persistent theme memory utilizing the Web Storage API (`localStorage`).
+- **Dynamic Script Loading:** To optimize initial load times, the heavy WebGL simulation logic (`Themes/Fluids/script.js`) is injected into the DOM asynchronously only when the user explicitly triggers the "Fluids" theme.
 - **Glassmorphism Design Patterns:** Structural implementation relies heavily on `backdrop-filter: blur()` properties paired with low-opacity RGBA backgrounds and intersecting luminous gradient containers, resulting in realistic, frosted-glass depth rendering.
 - **Asynchronous Data Handling:** Overrides native form submission behavior to dispatch controlled `fetch()` HTTP requests. Forms are augmented with dynamic loading states—parsing response objects natively to handle error boundaries or success triggers without initiating full page reloads.
 
@@ -35,10 +35,12 @@ The frontend focuses heavily on smooth, 60fps animations utilizing both CSS3 har
 ## Software File Structure
 
 - `index.html`: The primary application entry point establishing the DOM structure, script loading protocols, and element hierarchy.
-- `projects.html`: An extensible semantic structure acting as a scalable secondary view adopting the root styling parameters.
-- `style.css`: The centralized styling sheet responsible for variable definitions, global resets, responsive media querying, structural layouts, and CSS keyframe configurations.
-- `script.js`: The application's core JavaScript implementation, registering GSAP observers, event listeners, handling animation state machines, dynamically loading modules (like the Fluids script), DOM mutations, and render timing checks.
-- `Fluids Theme/`: Contains the dedicated WebGL shader scripts and logic for mapping fluid dynamics and resolving multi-touch events over the background canvas.
+- `projects.html` & `certificates.html`: Scalable secondary views adopting the root styling and theme state parameters.
+- `style.css`: The central core stylesheet responsible for CSS variables, structural layouts, standard media queries, and global component UI logic.
+- `script.js`: The application's core JavaScript implementation, registering GSAP observers, event listeners, handling the theme state machine, dynamically loading modules, DOM mutations, and render timing checks.
+- `Themes/`: A modular directory containing isolated logic and styling variations.
+  - `Themes/Fluids/`: Contains dedicated WebGL shader scripts (`script.js`), isolated CSS (`fluids.css`), and local preview HTML for resolving multi-touch fluid dynamics over the background canvas.
+  - `Themes/Wave/`: Contains custom CSS animations (`wave.css`) and background structure overrides for the ocean-inspired dynamic wave theme.
 - `favicon.svg`: Vector-based scalable site identifier.
 
 ## License
