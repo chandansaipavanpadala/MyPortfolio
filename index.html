@@ -47,13 +47,23 @@
     </div>
 
     <div class="nav-right">
-      <!--<a class="resume-btn"
+      <a class="resume-btn"
         href="https://aseblr-my.sharepoint.com/:b:/g/personal/bl_en_u4ece23205_bl_students_amrita_edu/IQBjNb39fMKnQpcPRfDbb706AXxH6lwBaoXNFDV5zXI_F2s?e=gh9cV1"
-        target="_blank" rel="noopener noreferrer">View Resume</a>-->
+        target="_blank" rel="noopener noreferrer">View Resume</a>
       <div class="theme-toggle" title="Toggle Theme">
         <i class="fas fa-moon moon-icon"></i>
         <i class="fas fa-sun sun-icon"></i>
         <i class="fas fa-tint fluids-icon"></i>
+      </div>
+      <!-- Theme Selection Prompt -->
+      <div class="theme-selection-prompt" id="theme-prompt" style="display: none;">
+        <div class="prompt-arrow"></div>
+        <h3>Select a Theme</h3>
+        <div class="theme-options">
+          <button class="theme-opt-btn" data-theme="light"><i class="fas fa-sun"></i> Light</button>
+          <button class="theme-opt-btn" data-theme="dark"><i class="fas fa-moon"></i> Dark</button>
+          <button class="theme-opt-btn" data-theme="fluids"><i class="fas fa-tint"></i> Fluids</button>
+        </div>
       </div>
     </div>
   </nav>
