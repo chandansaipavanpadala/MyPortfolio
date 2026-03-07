@@ -74,8 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Check saved theme preference
-  if (localStorage.getItem('theme') === 'dark') {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
     document.body.classList.add('dark');
+  } else if (savedTheme === 'fluids') {
+    document.body.classList.add('dark', 'fluids');
+    loadFluidsScript();
   }
 
   // Navbar shrink on scroll effect
@@ -200,8 +204,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Theme Toggle Function defined outside the event listener
 function toggleTheme() {
-  document.body.classList.toggle('dark');
-  localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+  const body = document.body;
+  if (body.classList.contains('fluids')) {
+    body.classList.remove('dark', 'fluids');
+    localStorage.setItem('theme', 'light');
+  } else if (body.classList.contains('dark')) {
+    body.classList.add('fluids');
+    localStorage.setItem('theme', 'fluids');
+    loadFluidsScript();
+  } else {
+    body.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+let fluidsScriptLoaded = false;
+function loadFluidsScript() {
+  if (!fluidsScriptLoaded) {
+    const script = document.createElement('script');
+    script.src = 'Fluids Theme/script.js';
+    document.body.appendChild(script);
+    fluidsScriptLoaded = true;
+  }
 }
 
 // Function to handle all scroll-based animations

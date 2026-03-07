@@ -513,6 +513,12 @@ body.dark .name:hover {
   color: #ff8800;
 }
 
+.fluids-icon {
+  opacity: 0;
+  transform: translateY(20px);
+  color: #00e5ff;
+}
+
 /* ---------- HERO SECTION ---------- */
 .hero {
   min-height: 100vh;
@@ -2395,3 +2401,33 @@ body.dark .projects-carousel .project-card {
 }
 
 /* Projects Carousel styles removed as per request */
+
+/* Fluids Theme Additions */
+body.fluids .fluids-icon {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+body.fluids .moon-icon {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+body.fluids .sun-icon {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+#fluid-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  display: none;
+}
+
+body.fluids #fluid-canvas {
+  display: block;
+}
