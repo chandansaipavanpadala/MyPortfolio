@@ -82,6 +82,27 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFluidsScript();
   }
 
+  // Show theme prompt once per session (every time the site is opened)
+  if (!sessionStorage.getItem('themePromptShown')) {
+    document.body.classList.add('theme-selection-active');
+    const themePrompt = document.getElementById('theme-prompt');
+    if (themePrompt) {
+      themePrompt.style.display = 'block';
+      const btns = themePrompt.querySelectorAll('.theme-opt-btn');
+      btns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const selected = e.currentTarget.getAttribute('data-theme');
+          if (typeof window.setThemeDirectly === 'function') {
+            window.setThemeDirectly(selected);
+          }
+          document.body.classList.remove('theme-selection-active');
+          themePrompt.style.display = 'none';
+          sessionStorage.setItem('themePromptShown', 'true');
+        });
+      });
+    }
+  }
+
   // Navbar shrink on scroll effect
   window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
@@ -203,18 +224,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // Theme Toggle Function defined outside the event listener
+window.setThemeDirectly = function (themeName) {
+  const body = document.body;
+  body.classList.remove('dark', 'fluids');
+
+  if (themeName === 'dark') {
+    body.classList.add('dark');
+  } else if (themeName === 'fluids') {
+    body.classList.add('dark', 'fluids');
+    loadFluidsScript();
+  }
+
+  localStorage.setItem('theme', themeName);
+}
+
 function toggleTheme() {
   const body = document.body;
   if (body.classList.contains('fluids')) {
-    body.classList.remove('dark', 'fluids');
-    localStorage.setItem('theme', 'light');
+    window.setThemeDirectly('light');
   } else if (body.classList.contains('dark')) {
-    body.classList.add('fluids');
-    localStorage.setItem('theme', 'fluids');
-    loadFluidsScript();
+    window.setThemeDirectly('fluids');
   } else {
-    body.classList.add('dark');
-    localStorage.setItem('theme', 'dark');
+    window.setThemeDirectly('dark');
   }
 }
 

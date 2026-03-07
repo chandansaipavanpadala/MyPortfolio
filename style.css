@@ -469,6 +469,7 @@ body.dark .name:hover {
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  position: relative;
 }
 
 .resume-btn {
@@ -2430,4 +2431,129 @@ body.fluids .sun-icon {
 
 body.fluids #fluid-canvas {
   display: block;
+}
+
+.nav-right {
+  position: relative;
+}
+
+/* Theme Selection Prompt */
+.theme-selection-prompt {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(204, 0, 0, 0.2);
+  z-index: 1005;
+  min-width: 200px;
+  animation: promptFadeIn 0.5s ease forwards;
+}
+
+body.dark .theme-selection-prompt {
+  background: rgba(30, 30, 30, 0.85);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.prompt-arrow {
+  position: absolute;
+  top: -8px;
+  right: 20px;
+  width: 16px;
+  height: 16px;
+  background: var(--bg-card);
+  transform: rotate(45deg);
+  border-left: 1px solid rgba(204, 0, 0, 0.2);
+  border-top: 1px solid rgba(204, 0, 0, 0.2);
+}
+
+body.dark .prompt-arrow {
+  background: rgba(30, 30, 30, 0.85);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.theme-selection-prompt h3 {
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+  color: var(--heading-color);
+  text-align: center;
+  font-weight: 700;
+}
+
+.theme-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.theme-opt-btn {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: var(--transition);
+  color: var(--text-color);
+}
+
+body.dark .theme-opt-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.theme-opt-btn:hover {
+  background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-2px);
+}
+
+@keyframes promptFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Page blur effect when prompt is active */
+body.theme-selection-active .hero,
+body.theme-selection-active main,
+body.theme-selection-active footer,
+body.theme-selection-active .particles-container,
+body.theme-selection-active .hero-background,
+body.theme-selection-active .stars,
+body.theme-selection-active .shooting-star,
+body.theme-selection-active #fluid-canvas,
+body.theme-selection-active .container {
+  filter: blur(8px);
+  pointer-events: none;
+  user-select: none;
+  transition: filter 0.3s ease;
+}
+
+/* Background darken overlay */
+body.theme-selection-active::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 999;
+  pointer-events: all;
+  animation: promptFadeIn 0.4s ease forwards;
 }
