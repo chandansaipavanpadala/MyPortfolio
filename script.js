@@ -66,10 +66,15 @@ document.addEventListener('DOMContentLoaded', () => {
   if (portfolioName) {
     portfolioName.style.cursor = 'pointer';
     portfolioName.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
+      const pathname = window.location.pathname;
+      if (pathname.endsWith('index.html') || pathname.endsWith('/') || pathname === '') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      } else {
+        window.location.href = 'index.html';
+      }
     });
   }
 
