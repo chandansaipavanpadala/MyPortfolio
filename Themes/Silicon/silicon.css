@@ -1,0 +1,902 @@
+/* ================================================================
+   THEME: ACTIVE SILICON — "High-End Matte Black PCB meets Cyberpunk Terminal"
+   Accent Palette: Copper (#D4813F), Neon Blue (#00D4FF), Amber (#FFB400)
+   ================================================================ */
+
+/* --- Icon Visibility Rules --- */
+.silicon-icon {
+  opacity: 0;
+  transform: translateY(20px);
+  color: #00D4FF;
+}
+
+body.dark.silicon .theme-toggle .silicon-icon {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+body.dark.silicon .theme-toggle .moon-icon,
+body.dark.silicon .theme-toggle .sun-icon,
+body.dark.silicon .theme-toggle .fluids-icon,
+body.dark.silicon .theme-toggle .wave-icon,
+body.dark.silicon .theme-toggle .puzzle-icon {
+  opacity: 0 !important;
+  transform: translateY(-20px) !important;
+}
+
+/* Hide other theme backgrounds */
+body.silicon .wave-container,
+body.silicon .stars,
+body.silicon #particles-js,
+body.silicon .cursor-trail,
+body.silicon .hero-shape,
+body.silicon .hero-background {
+  display: none !important;
+}
+
+body.silicon #fluid-canvas {
+  display: none !important;
+}
+
+/* --- Root Variables Override --- */
+body.silicon {
+  --primary-color: #D4813F;
+  --secondary-color: #1a1a1a;
+  --accent-color: #00D4FF;
+  --text-color: #c8c8c8;
+  --heading-color: #e8e8e8;
+  --text-light: #999999;
+  --bg-card: rgba(18, 18, 22, 0.85);
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  --silicon-copper: #D4813F;
+  --silicon-blue: #00D4FF;
+  --silicon-amber: #FFB400;
+  --silicon-bg: #0d0d11;
+  --silicon-card: rgba(18, 18, 22, 0.85);
+  --silicon-border: rgba(212, 129, 63, 0.25);
+  --silicon-glow: rgba(0, 212, 255, 0.3);
+
+  background: var(--silicon-bg) !important;
+  color: var(--text-color);
+  animation: none !important;
+}
+
+/* PCB grid dot etching pattern — applied to <body> */
+body.silicon::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(212, 129, 63, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Silicon Canvas — full screen background */
+#silicon-canvas {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body.silicon #silicon-canvas {
+  display: block;
+}
+
+/* ================================================================
+   NAVBAR
+   ================================================================ */
+
+body.silicon .navbar {
+  background: rgba(13, 13, 17, 0.85) !important;
+  box-shadow: 0 1px 0 var(--silicon-border), 0 5px 25px rgba(0, 0, 0, 0.5) !important;
+  border-bottom: 1px solid var(--silicon-border) !important;
+}
+
+body.silicon .name {
+  background: linear-gradient(135deg, var(--silicon-copper), var(--silicon-blue)) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  filter: drop-shadow(0 0 8px rgba(212, 129, 63, 0.3)) !important;
+}
+
+body.silicon .name::before {
+  background: var(--silicon-blue) !important;
+  box-shadow: 0 0 8px var(--silicon-blue), 0 0 16px var(--silicon-blue) !important;
+  animation: silicon-dot-pulse 2s ease-in-out infinite !important;
+}
+
+@keyframes silicon-dot-pulse {
+  0%, 100% { box-shadow: 0 0 5px var(--silicon-blue); opacity: 0.7; }
+  50% { box-shadow: 0 0 12px var(--silicon-blue), 0 0 24px var(--silicon-blue); opacity: 1; }
+}
+
+body.silicon .name::after {
+  background: linear-gradient(90deg, var(--silicon-copper), var(--silicon-blue)) !important;
+}
+
+body.silicon .nav-center-list a {
+  color: rgba(200, 200, 200, 0.7) !important;
+  font-family: 'Orbitron', monospace !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.5px !important;
+}
+
+body.silicon .nav-center-list a:hover {
+  background: rgba(0, 212, 255, 0.08) !important;
+  color: var(--silicon-blue) !important;
+}
+
+body.silicon .nav-center-list a.active {
+  background: rgba(0, 212, 255, 0.12) !important;
+  color: var(--silicon-blue) !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 -2px 0 var(--silicon-blue) !important;
+}
+
+body.silicon .resume-btn {
+  background: linear-gradient(135deg, var(--silicon-copper), #b86d2f) !important;
+  color: #000 !important;
+  font-family: 'Orbitron', monospace !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 1px !important;
+  box-shadow: 0 0 15px rgba(212, 129, 63, 0.3) !important;
+  border: 1px solid rgba(212, 129, 63, 0.4) !important;
+}
+
+body.silicon .resume-btn:hover {
+  background: linear-gradient(135deg, #e09050, var(--silicon-copper)) !important;
+  box-shadow: 0 0 25px rgba(212, 129, 63, 0.5), 0 0 8px rgba(0, 212, 255, 0.3) !important;
+}
+
+body.silicon .hamburger-line {
+  background: var(--silicon-copper) !important;
+}
+
+/* ================================================================
+   CARDS — "PCB MODULE" STYLING
+   ================================================================ */
+
+body.silicon .card {
+  background: var(--silicon-card) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--silicon-border) !important;
+  box-shadow: 0 0 0 0 transparent, 0 10px 40px rgba(0, 0, 0, 0.4) !important;
+  position: relative;
+  transition: border-color 0.5s ease, box-shadow 0.5s ease !important;
+}
+
+/* Boot-up glow animation for cards entering viewport */
+body.silicon .card.silicon-powered {
+  animation: silicon-boot 0.8s ease-out forwards;
+}
+
+@keyframes silicon-boot {
+  0% {
+    border-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
+  }
+  30% {
+    border-color: var(--silicon-blue);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3), inset 0 0 30px rgba(0, 212, 255, 0.05);
+  }
+  60% {
+    border-color: var(--silicon-copper);
+    box-shadow: 0 0 15px rgba(212, 129, 63, 0.2);
+  }
+  100% {
+    border-color: var(--silicon-border);
+    box-shadow: 0 0 8px rgba(212, 129, 63, 0.1), 0 10px 40px rgba(0, 0, 0, 0.4);
+  }
+}
+
+body.silicon .card:hover {
+  border-color: var(--silicon-blue) !important;
+  box-shadow: 0 0 25px rgba(0, 212, 255, 0.15), 0 20px 50px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Card left accent line */
+body.silicon .card::before {
+  background: linear-gradient(180deg, var(--silicon-copper), var(--silicon-blue)) !important;
+}
+
+body.silicon #technical-skills.card .line-clipper::before {
+  background: linear-gradient(180deg, var(--silicon-copper), var(--silicon-blue)) !important;
+}
+
+/* Schematic background pattern inside project cards */
+body.silicon .project-card {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' opacity='0.03'%3E%3Cpath d='M10 30h15M35 30h15M30 10v15M30 35v15' stroke='%23D4813F' stroke-width='0.5' fill='none'/%3E%3Ccircle cx='30' cy='30' r='3' stroke='%23D4813F' stroke-width='0.5' fill='none'/%3E%3Ccircle cx='10' cy='30' r='2' fill='%23D4813F'/%3E%3Ccircle cx='50' cy='30' r='2' fill='%23D4813F'/%3E%3C/svg%3E"),
+    rgba(0, 0, 0, 0.35) !important;
+  border: 1px solid rgba(212, 129, 63, 0.15) !important;
+}
+
+body.silicon .project-card:hover {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' opacity='0.06'%3E%3Cpath d='M10 30h15M35 30h15M30 10v15M30 35v15' stroke='%2300D4FF' stroke-width='0.5' fill='none'/%3E%3Ccircle cx='30' cy='30' r='3' stroke='%2300D4FF' stroke-width='0.5' fill='none'/%3E%3Ccircle cx='10' cy='30' r='2' fill='%2300D4FF'/%3E%3Ccircle cx='50' cy='30' r='2' fill='%2300D4FF'/%3E%3C/svg%3E"),
+    rgba(0, 0, 0, 0.5) !important;
+  border-color: rgba(0, 212, 255, 0.3) !important;
+}
+
+/* ================================================================
+   HEADINGS & TEXT
+   ================================================================ */
+
+body.silicon h2 {
+  color: var(--silicon-copper) !important;
+  font-family: 'Orbitron', monospace !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  font-size: 1.3rem !important;
+}
+
+body.silicon h2::after {
+  background: linear-gradient(to right, var(--silicon-copper), transparent) !important;
+}
+
+body.silicon h3 {
+  color: #e0e0e0 !important;
+}
+
+body.silicon p,
+body.silicon li,
+body.silicon span,
+body.silicon .education-details p,
+body.silicon .project-details li,
+body.silicon ul li em {
+  color: #aaaaaa !important;
+}
+
+body.silicon a {
+  color: var(--silicon-blue) !important;
+}
+
+body.silicon a:hover {
+  color: var(--silicon-copper) !important;
+}
+
+body.silicon ul li::before {
+  color: var(--silicon-copper) !important;
+}
+
+/* ================================================================
+   SECTION ICONS
+   ================================================================ */
+
+body.silicon .section-icon {
+  background: rgba(212, 129, 63, 0.1) !important;
+  color: var(--silicon-copper) !important;
+  border: 1px solid rgba(212, 129, 63, 0.2) !important;
+  box-shadow: 0 0 12px rgba(212, 129, 63, 0.15) !important;
+}
+
+/* ================================================================
+   EDUCATION
+   ================================================================ */
+
+body.silicon .education-details {
+  border-left-color: rgba(212, 129, 63, 0.3) !important;
+}
+
+body.silicon .education-details::before {
+  background: var(--silicon-copper) !important;
+  box-shadow: 0 0 8px rgba(212, 129, 63, 0.5) !important;
+}
+
+/* ================================================================
+   SKILLS — Oscilloscope / Logic Analyzer Waveform Style
+   ================================================================ */
+
+body.silicon .skill-tag {
+  color: var(--silicon-blue) !important;
+  background: rgba(0, 212, 255, 0.06) !important;
+  border: 1px solid rgba(0, 212, 255, 0.2) !important;
+  font-family: 'Orbitron', monospace !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+}
+
+body.silicon .skill-tag:hover {
+  background: rgba(0, 212, 255, 0.15) !important;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.2) !important;
+  color: #fff !important;
+}
+
+body.silicon .skill-level {
+  background: linear-gradient(90deg, var(--silicon-blue), var(--silicon-copper)) !important;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.3) !important;
+}
+
+body.silicon .folder-header {
+  background: rgba(212, 129, 63, 0.08) !important;
+  border-color: rgba(212, 129, 63, 0.25) !important;
+}
+
+body.silicon .folder-header:hover {
+  background: rgba(212, 129, 63, 0.15) !important;
+}
+
+body.silicon .folder-icon {
+  color: var(--silicon-copper) !important;
+}
+
+body.silicon .folder-name {
+  color: var(--silicon-copper) !important;
+  font-family: 'Orbitron', monospace !important;
+}
+
+body.silicon .skill-corner {
+  background: rgba(13, 13, 17, 0.9) !important;
+  border: 1px solid rgba(212, 129, 63, 0.15) !important;
+}
+
+/* ================================================================
+   PROJECTS — "Datasheet" Module Look
+   ================================================================ */
+
+body.silicon .project-tag,
+body.silicon .edu-date,
+body.silicon .cert-date {
+  color: var(--silicon-amber) !important;
+  background: rgba(255, 180, 0, 0.1) !important;
+  border: 1px solid rgba(255, 180, 0, 0.25) !important;
+  font-family: 'Orbitron', monospace !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 1px !important;
+}
+
+body.silicon .project-footer {
+  border-top-color: rgba(212, 129, 63, 0.15) !important;
+}
+
+body.silicon .view-all-btn {
+  background: transparent !important;
+  color: var(--silicon-blue) !important;
+  border: 1px solid var(--silicon-blue) !important;
+  font-family: 'Orbitron', monospace !important;
+  letter-spacing: 1px !important;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.15) !important;
+}
+
+body.silicon .view-all-btn:hover {
+  background: var(--silicon-blue) !important;
+  color: #000 !important;
+  box-shadow: 0 0 25px rgba(0, 212, 255, 0.4) !important;
+}
+
+/* --- GitHub / Video Buttons as I/O Pins --- */
+body.silicon .github-btn {
+  background: rgba(212, 129, 63, 0.1) !important;
+  color: var(--silicon-copper) !important;
+  border: 1px solid rgba(212, 129, 63, 0.3) !important;
+}
+
+body.silicon .github-btn:hover {
+  background: var(--silicon-copper) !important;
+  color: #000 !important;
+  box-shadow: 0 0 15px rgba(212, 129, 63, 0.4) !important;
+}
+
+body.silicon .video-btn {
+  background: rgba(0, 212, 255, 0.1) !important;
+  color: var(--silicon-blue) !important;
+  border: 1px solid rgba(0, 212, 255, 0.3) !important;
+}
+
+body.silicon .video-btn:hover {
+  background: var(--silicon-blue) !important;
+  color: #000 !important;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.4) !important;
+}
+
+/* ================================================================
+   CERTIFICATIONS
+   ================================================================ */
+
+body.silicon .cert-item {
+  background: rgba(0, 0, 0, 0.35) !important;
+  border: 1px solid rgba(212, 129, 63, 0.12) !important;
+}
+
+body.silicon .cert-item:hover {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border-color: var(--silicon-blue) !important;
+}
+
+body.silicon .cert-icon {
+  color: var(--silicon-amber) !important;
+}
+
+body.silicon .cert-link-btn {
+  background: rgba(0, 212, 255, 0.1) !important;
+  color: var(--silicon-blue) !important;
+  border: 1px solid rgba(0, 212, 255, 0.25) !important;
+}
+
+body.silicon .cert-link-btn:hover {
+  background: var(--silicon-blue) !important;
+  color: #000 !important;
+}
+
+/* ================================================================
+   EXTRACURRICULARS
+   ================================================================ */
+
+body.silicon .extra-item {
+  background: rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(212, 129, 63, 0.1) !important;
+}
+
+body.silicon .extra-item:hover {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border-color: var(--silicon-blue) !important;
+}
+
+body.silicon .extra-icon {
+  color: var(--silicon-copper) !important;
+}
+
+/* ================================================================
+   CONTACT SECTION
+   ================================================================ */
+
+body.silicon .contact-item {
+  background: rgba(0, 0, 0, 0.35) !important;
+  border: 1px solid var(--silicon-border) !important;
+}
+
+body.silicon .contact-item:hover {
+  background: rgba(0, 0, 0, 0.55) !important;
+  border-color: var(--silicon-blue) !important;
+}
+
+body.silicon .contact-item i {
+  color: var(--silicon-copper) !important;
+}
+
+body.silicon .contact-item a {
+  color: var(--silicon-blue) !important;
+}
+
+body.silicon .contact-form input,
+body.silicon .contact-form textarea {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(212, 129, 63, 0.2) !important;
+  color: #ccc !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+body.silicon .contact-form input::placeholder,
+body.silicon .contact-form textarea::placeholder {
+  color: rgba(200, 200, 200, 0.35) !important;
+}
+
+body.silicon .contact-form input:focus,
+body.silicon .contact-form textarea:focus {
+  border-color: var(--silicon-blue) !important;
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.2) !important;
+  background: rgba(0, 0, 0, 0.55) !important;
+}
+
+body.silicon .submit-btn {
+  background: linear-gradient(135deg, var(--silicon-copper), #b86d2f) !important;
+  color: #000 !important;
+  font-family: 'Orbitron', monospace !important;
+  letter-spacing: 1px !important;
+  border: none !important;
+  box-shadow: 0 0 15px rgba(212, 129, 63, 0.3) !important;
+}
+
+body.silicon .submit-btn:hover {
+  box-shadow: 0 0 25px rgba(212, 129, 63, 0.5), 0 0 8px rgba(0, 212, 255, 0.3) !important;
+}
+
+/* ================================================================
+   HERO SECTION
+   ================================================================ */
+
+body.silicon .hero-greeting,
+body.silicon .hero h1 {
+  color: #e8e8e8 !important;
+  -webkit-text-fill-color: #e8e8e8 !important;
+}
+
+body.silicon .hero-subtitle {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid var(--silicon-border) !important;
+  color: var(--silicon-blue) !important;
+  font-family: 'Orbitron', monospace !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 1px !important;
+}
+
+body.silicon .cursor {
+  color: var(--silicon-blue) !important;
+  text-shadow: 0 0 8px var(--silicon-blue) !important;
+}
+
+body.silicon .social-icon {
+  color: #aaa !important;
+  background: rgba(212, 129, 63, 0.08) !important;
+  border: 1px solid rgba(212, 129, 63, 0.2) !important;
+}
+
+body.silicon .social-icon:hover {
+  background: var(--silicon-copper) !important;
+  color: #000 !important;
+  border-color: var(--silicon-copper) !important;
+  box-shadow: 0 0 15px rgba(212, 129, 63, 0.4) !important;
+}
+
+/* ================================================================
+   CLOCK — 7-SEGMENT LED DISPLAY with Red Glow
+   ================================================================ */
+
+body.silicon .sliding-clock-container {
+  background: rgba(0, 0, 0, 0.7) !important;
+  border: 2px solid rgba(212, 129, 63, 0.3) !important;
+  box-shadow:
+    0 0 20px rgba(0, 0, 0, 0.5),
+    inset 0 0 30px rgba(0, 0, 0, 0.5),
+    0 0 6px rgba(212, 129, 63, 0.15) !important;
+}
+
+body.silicon .tape-strip div {
+  color: #ff2222 !important;
+  font-family: 'Orbitron', monospace !important;
+  text-shadow:
+    0 0 8px rgba(255, 34, 34, 0.9),
+    0 0 20px rgba(255, 34, 34, 0.5),
+    0 0 40px rgba(255, 34, 34, 0.2) !important;
+}
+
+body.silicon .tape-separator {
+  color: #ff2222 !important;
+  text-shadow:
+    0 0 8px rgba(255, 34, 34, 0.9),
+    0 0 20px rgba(255, 34, 34, 0.5) !important;
+}
+
+body.silicon .tape-highlight {
+  background: rgba(255, 34, 34, 0.05) !important;
+  border-color: rgba(255, 34, 34, 0.3) !important;
+  box-shadow: 0 0 12px rgba(255, 34, 34, 0.15) !important;
+}
+
+body.silicon .clock-date-display,
+body.silicon .clock-label-display {
+  color: var(--silicon-amber) !important;
+  font-family: 'Orbitron', monospace !important;
+  text-shadow: 0 0 6px rgba(255, 180, 0, 0.3) !important;
+}
+
+/* ================================================================
+   FOOTER
+   ================================================================ */
+
+body.silicon footer {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border-top: 1px solid var(--silicon-border) !important;
+  color: rgba(200, 200, 200, 0.5) !important;
+}
+
+body.silicon footer p {
+  color: rgba(200, 200, 200, 0.5) !important;
+}
+
+/* ================================================================
+   BACK TO TOP
+   ================================================================ */
+
+body.silicon #back-to-top {
+  background: rgba(13, 13, 17, 0.9) !important;
+  color: var(--silicon-blue) !important;
+  border: 1px solid rgba(0, 212, 255, 0.3) !important;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.15) !important;
+}
+
+body.silicon #back-to-top:hover {
+  background: var(--silicon-blue) !important;
+  color: #000 !important;
+}
+
+/* ================================================================
+   THEME SETTINGS PROMPT — Silicon overrides
+   ================================================================ */
+
+body.silicon .theme-selection-prompt {
+  background: rgba(13, 13, 17, 0.95) !important;
+  border: 1px solid var(--silicon-border) !important;
+}
+
+body.silicon .prompt-arrow {
+  background: rgba(13, 13, 17, 0.95) !important;
+  border-color: var(--silicon-border) !important;
+}
+
+body.silicon .theme-selection-prompt h3 {
+  color: var(--silicon-copper) !important;
+  border-bottom-color: var(--silicon-border) !important;
+}
+
+body.silicon .theme-category-title {
+  color: var(--silicon-blue) !important;
+  background: rgba(0, 212, 255, 0.06) !important;
+}
+
+body.silicon .theme-checkbox-lbl {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(212, 129, 63, 0.15) !important;
+  color: #ccc !important;
+}
+
+body.silicon .theme-checkbox-lbl:hover {
+  background: rgba(0, 212, 255, 0.08) !important;
+}
+
+body.silicon .theme-check {
+  border-color: rgba(212, 129, 63, 0.5) !important;
+}
+
+body.silicon .theme-check:checked {
+  background-color: var(--silicon-copper) !important;
+  border-color: var(--silicon-copper) !important;
+}
+
+body.silicon .theme-check:checked::after {
+  background-color: #000 !important;
+}
+
+body.silicon .theme-settings-btn {
+  color: var(--silicon-copper) !important;
+}
+
+/* ================================================================
+   MOBILE NAV OVERLAY
+   ================================================================ */
+
+@media (max-width: 900px) {
+  body.silicon .nav-center {
+    background: rgba(13, 13, 17, 0.97) !important;
+  }
+}
+
+/* ================================================================
+   SELECTION COLOR
+   ================================================================ */
+
+body.silicon ::selection {
+  background: var(--silicon-copper) !important;
+  color: #000 !important;
+}
+
+ / *   = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+       R A D A R   S H A D E R   ( T a s k   1 ) 
+       = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =   * / 
+ # s i l i c o n - r a d a r - c a n v a s   { 
+     d i s p l a y :   n o n e ; 
+     p o s i t i o n :   a b s o l u t e ; 
+     t o p :   0 ; 
+     l e f t :   0 ; 
+     w i d t h :   1 0 0 % ; 
+     h e i g h t :   1 0 0 % ; 
+     z - i n d e x :   - 1 ; 
+     p o i n t e r - e v e n t s :   n o n e ; 
+     o p a c i t y :   1 ; 
+ } 
+ 
+ b o d y . s i l i c o n   # s i l i c o n - r a d a r - c a n v a s   { 
+     d i s p l a y :   b l o c k ; 
+ } 
+ 
+ / *   = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+       C A D   E M U L A T I O N   M O D A L   ( T a s k   2 ) 
+       = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =   * / 
+ . c a d - m o d a l - o v e r l a y   { 
+     p o s i t i o n :   f i x e d ; 
+     t o p :   0 ; 
+     l e f t :   0 ; 
+     w i d t h :   1 0 0 v w ; 
+     h e i g h t :   1 0 0 v h ; 
+     b a c k g r o u n d :   r g b a ( 1 3 ,   1 3 ,   1 7 ,   0 . 9 5 ) ; 
+     z - i n d e x :   9 9 9 9 ; 
+     d i s p l a y :   n o n e ; 
+     j u s t i f y - c o n t e n t :   c e n t e r ; 
+     a l i g n - i t e m s :   c e n t e r ; 
+     o p a c i t y :   0 ; 
+     b a c k d r o p - f i l t e r :   b l u r ( 5 p x ) ; 
+ } 
+ 
+ b o d y . s i l i c o n   . c a d - m o d a l - o v e r l a y . a c t i v e   { 
+     d i s p l a y :   f l e x ; 
+ } 
+ 
+ . c a d - m o d a l - c o n t a i n e r   { 
+     w i d t h :   9 0 v w ; 
+     m a x - w i d t h :   1 0 0 0 p x ; 
+     h e i g h t :   8 0 v h ; 
+     b a c k g r o u n d :   # 0 d 0 d 1 1 ; 
+     b o r d e r :   1 p x   s o l i d   v a r ( - - s i l i c o n - c o p p e r ) ; 
+     p o s i t i o n :   r e l a t i v e ; 
+     b o x - s h a d o w :   0   0   3 0 p x   r g b a ( 0 ,   0 ,   0 ,   0 . 8 ) ,   i n s e t   0   0   2 0 p x   r g b a ( 2 1 2 ,   1 2 9 ,   6 3 ,   0 . 1 ) ; 
+     o v e r f l o w :   h i d d e n ; 
+     f o n t - f a m i l y :    
+ \ O r b i t r o n \ ' ,   m o n o s p a c e ,   C o n s o l a s ,   " C o u r i e r   N e w " ; 
+ } 
+ 
+ . c a d - b o r d e r - r u l e r s   . r u l e r   { 
+     p o s i t i o n :   a b s o l u t e ; 
+     b a c k g r o u n d :   # 1 5 1 5 1 a ; 
+     c o l o r :   v a r ( - - s i l i c o n - a m b e r ) ; 
+     f o n t - s i z e :   0 . 6 5 r e m ; 
+     d i s p l a y :   f l e x ; 
+     a l i g n - i t e m s :   c e n t e r ; 
+     j u s t i f y - c o n t e n t :   s p a c e - a r o u n d ; 
+     b o r d e r :   1 p x   s o l i d   r g b a ( 2 1 2 ,   1 2 9 ,   6 3 ,   0 . 3 ) ; 
+     z - i n d e x :   1 0 ; 
+ } 
+ 
+ . r u l e r - t o p   { 
+     t o p :   0 ;   l e f t :   3 0 p x ;   r i g h t :   0 ;   h e i g h t :   3 0 p x ; 
+     b o r d e r - b o t t o m :   2 p x   d a s h e d   r g b a ( 2 1 2 ,   1 2 9 ,   6 3 ,   0 . 5 ) ; 
+ } 
+ 
+ . r u l e r - l e f t   { 
+     t o p :   3 0 p x ;   l e f t :   0 ;   b o t t o m :   0 ;   w i d t h :   3 0 p x ; 
+     f l e x - d i r e c t i o n :   c o l u m n ; 
+     b o r d e r - r i g h t :   2 p x   d a s h e d   r g b a ( 2 1 2 ,   1 2 9 ,   6 3 ,   0 . 5 ) ; 
+     t e x t - a l i g n :   c e n t e r ; 
+ } 
+ 
+ . c a d - m o d a l - c o n t e n t   { 
+     p o s i t i o n :   a b s o l u t e ; 
+     t o p :   3 0 p x ;   l e f t :   3 0 p x ;   r i g h t :   0 ;   b o t t o m :   0 ; 
+     p a d d i n g :   3 0 p x ; 
+     o v e r f l o w - y :   a u t o ; 
+     z - i n d e x :   5 ; 
+ } 
+ 
+ . c a d - g r i d - b g   { 
+     p o s i t i o n :   a b s o l u t e ; 
+     i n s e t :   0 ; 
+     b a c k g r o u n d - i m a g e :   r a d i a l - g r a d i e n t ( c i r c l e ,   r g b a ( 2 5 5 ,   2 5 5 ,   2 5 5 ,   0 . 0 5 )   1 p x ,   t r a n s p a r e n t   1 p x ) ; 
+     b a c k g r o u n d - s i z e :   2 0 p x   2 0 p x ; 
+     z - i n d e x :   0 ; 
+     p o i n t e r - e v e n t s :   n o n e ; 
+ } 
+ 
+ . c a d - s v g - l i n e s   { 
+     p o s i t i o n :   a b s o l u t e ; 
+     t o p :   0 ;   l e f t :   0 ;   w i d t h :   1 0 0 % ;   h e i g h t :   1 0 0 % ; 
+     z - i n d e x :   1 ; 
+     p o i n t e r - e v e n t s :   n o n e ; 
+ } 
+ 
+ . c a d - h e a d e r ,   . c a d - b o d y   { 
+     p o s i t i o n :   r e l a t i v e ; 
+     z - i n d e x :   2 ; 
+     o p a c i t y :   0 ; 
+ } 
+ 
+ . c a d - h e a d e r   { 
+     b o r d e r - b o t t o m :   2 p x   s o l i d   r g b a ( 0 ,   2 1 2 ,   2 5 5 ,   0 . 3 ) ; 
+     p a d d i n g - b o t t o m :   1 0 p x ; 
+     m a r g i n - b o t t o m :   2 0 p x ; 
+     d i s p l a y :   f l e x ; 
+     j u s t i f y - c o n t e n t :   s p a c e - b e t w e e n ; 
+     a l i g n - i t e m s :   f l e x - e n d ; 
+ } 
+ 
+ . c a d - h e a d e r   h 2   { 
+     c o l o r :   v a r ( - - s i l i c o n - b l u e )   ! i m p o r t a n t ; 
+     m a r g i n :   0 ; 
+     f o n t - f a m i l y :   \ O r b i t r o n \ ' ,   m o n o s p a c e ,   C o n s o l a s ; 
+     f o n t - s i z e :   1 . 5 r e m ; 
+     l e t t e r - s p a c i n g :   2 p x ; 
+     t e x t - t r a n s f o r m :   u p p e r c a s e ; 
+     t e x t - s h a d o w :   0   0   1 0 p x   r g b a ( 0 ,   2 1 2 ,   2 5 5 ,   0 . 4 ) ; 
+ } 
+ 
+ . c a d - s t a t u s   { 
+     c o l o r :   # 0 f 0 ; 
+     f o n t - s i z e :   0 . 8 r e m ; 
+     t e x t - s h a d o w :   0   0   5 p x   # 0 f 0 ; 
+ } 
+ 
+ . c a d - b o d y   p ,   . c a d - b o d y   l i   { 
+     c o l o r :   # c c c   ! i m p o r t a n t ; 
+     f o n t - f a m i l y :   C o n s o l a s ,   " C o u r i e r   N e w " ,   m o n o s p a c e   ! i m p o r t a n t ; 
+     f o n t - s i z e :   0 . 9 5 r e m ; 
+     l i n e - h e i g h t :   1 . 6 ; 
+ } 
+ 
+ . c a d - b o d y   u l   { 
+     l i s t - s t y l e :   s q u a r e ; 
+     p a d d i n g - l e f t :   2 0 p x ; 
+ } 
+ 
+ . c a d - b o d y   l i : : m a r k e r   { 
+     c o l o r :   v a r ( - - s i l i c o n - a m b e r ) ; 
+ } 
+ 
+ . c a d - c l o s e - b t n   { 
+     p o s i t i o n :   f i x e d ; 
+     t o p :   3 5 p x ;   r i g h t :   3 5 p x ; 
+     b a c k g r o u n d :   r g b a ( 1 3 ,   1 3 ,   1 7 ,   0 . 8 ) ; 
+     b o r d e r :   1 p x   s o l i d   v a r ( - - s i l i c o n - c o p p e r ) ; 
+     c o l o r :   v a r ( - - s i l i c o n - c o p p e r ) ; 
+     f o n t - s i z e :   1 . 2 r e m ; 
+     c u r s o r :   p o i n t e r ; 
+     z - i n d e x :   2 0 ; 
+     w i d t h :   4 0 p x ;   h e i g h t :   4 0 p x ; 
+     d i s p l a y :   f l e x ;   a l i g n - i t e m s :   c e n t e r ;   j u s t i f y - c o n t e n t :   c e n t e r ; 
+     t r a n s i t i o n :   a l l   0 . 3 s ; 
+ } 
+ 
+ . c a d - c l o s e - b t n : h o v e r   { 
+     b a c k g r o u n d :   v a r ( - - s i l i c o n - c o p p e r ) ; 
+     c o l o r :   # 0 d 0 d 1 1 ; 
+     b o x - s h a d o w :   0   0   1 5 p x   r g b a ( 2 1 2 ,   1 2 9 ,   6 3 ,   0 . 5 ) ; 
+ } 
+ 
+ / *   = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+       I / O   P I N   M E N U   E X P A N S I O N   ( T a s k   4 ) 
+       = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =   * / 
+ b o d y . s i l i c o n   . h a m b u r g e r   . d e f a u l t - l i n e   { 
+     d i s p l a y :   n o n e   ! i m p o r t a n t ; 
+ } 
+ 
+ b o d y . s i l i c o n   . h a m b u r g e r   { 
+     b a c k g r o u n d :   t r a n s p a r e n t   ! i m p o r t a n t ; 
+     b o r d e r :   n o n e   ! i m p o r t a n t ; 
+     b o x - s h a d o w :   n o n e   ! i m p o r t a n t ; 
+     w i d t h :   4 0 p x ; 
+     h e i g h t :   4 0 p x ; 
+     p a d d i n g :   0 ; 
+     d i s p l a y :   f l e x ; 
+     j u s t i f y - c o n t e n t :   c e n t e r ; 
+     a l i g n - i t e m s :   c e n t e r ; 
+     o v e r f l o w :   v i s i b l e ; 
+ } 
+ 
+ b o d y . s i l i c o n   . s i l i c o n - c h i p - i c o n   { 
+     d i s p l a y :   b l o c k   ! i m p o r t a n t ; 
+     w i d t h :   1 0 0 % ; 
+     h e i g h t :   1 0 0 % ; 
+     m i n - w i d t h :   4 0 p x ; 
+     t r a n s i t i o n :   t r a n s f o r m   0 . 3 s ; 
+ } 
+ 
+ b o d y . s i l i c o n   . s i l i c o n - c h i p - i c o n : h o v e r   { 
+     t r a n s f o r m :   s c a l e ( 1 . 1 ) ; 
+     f i l t e r :   d r o p - s h a d o w ( 0   0   5 p x   v a r ( - - s i l i c o n - c o p p e r ) ) ; 
+ } 
+ 
+ b o d y . s i l i c o n   . n a v - c e n t e r . o p e n   { 
+     b a c k g r o u n d :   t r a n s p a r e n t   ! i m p o r t a n t ; 
+     b o x - s h a d o w :   n o n e   ! i m p o r t a n t ; 
+ } 
+ 
+ b o d y . s i l i c o n   . n a v - c e n t e r - l i s t   { 
+     p o s i t i o n :   r e l a t i v e ; 
+     z - i n d e x :   9 0 1 ; 
+ } 
+ 
+ b o d y . s i l i c o n   . n a v - c e n t e r - l i s t   a   { 
+     t r a n s i t i o n :   o p a c i t y   0 . 3 s ; 
+ } 
+ 
+ # s i l i c o n - n a v - t r a c e s   { 
+     d i s p l a y :   n o n e ; 
+ }  
+ 

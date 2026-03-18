@@ -79,14 +79,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Active Themes (max 2)
   let activeThemes = JSON.parse(localStorage.getItem('activeThemes'));
   if (!activeThemes || !Array.isArray(activeThemes)) {
-    activeThemes = ['wave', 'fluids']; // Default two themes
+    activeThemes = ['silicon', 'wave']; // Default two themes
     localStorage.setItem('activeThemes', JSON.stringify(activeThemes));
   }
 
   // Check saved theme preference or use default
   let savedTheme = localStorage.getItem('theme');
   if (!savedTheme) {
-    savedTheme = 'wave';
+    savedTheme = 'silicon';
     localStorage.setItem('theme', savedTheme);
   }
 
@@ -101,24 +101,31 @@ document.addEventListener('DOMContentLoaded', () => {
   } else if (savedTheme === 'puzzle') {
     document.body.classList.add('dark', 'puzzle');
     loadPuzzleScript();
+  } else if (savedTheme === 'silicon') {
+    document.body.classList.add('dark', 'silicon');
+    loadSiliconScript();
+  } else if (savedTheme === 'doppler') {
+    document.body.classList.add('dark', 'doppler');
+    loadDopplerScript();
   } else if (savedTheme === 'light') {
     // light theme uses default CSS
   } else {
-    // fallback to wave
-    document.body.classList.add('wave');
-    savedTheme = 'wave';
+    // fallback to silicon
+    document.body.classList.add('dark', 'silicon');
+    loadSiliconScript();
+    savedTheme = 'silicon';
   }
 
   // Theme Toggle Logic
   const themeToggleButton = document.querySelector('.theme-toggle');
   if (themeToggleButton) {
     themeToggleButton.addEventListener('click', () => {
-      let currentActive = JSON.parse(localStorage.getItem('activeThemes')) || ['wave', 'puzzle'];
+      let currentActive = JSON.parse(localStorage.getItem('activeThemes')) || ['silicon', 'wave'];
       if (currentActive.length === 0) return;
-      
-      const currentTheme = localStorage.getItem('theme') || 'wave';
+
+      const currentTheme = localStorage.getItem('theme') || 'silicon';
       let idx = currentActive.indexOf(currentTheme);
-      
+
       // If current theme is not in the active list, switch to the first one
       if (idx === -1) {
         window.setThemeDirectly(currentActive[0]);
@@ -133,23 +140,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeSettingsBtn = document.getElementById('theme-settings-btn');
   const themeSettingsPrompt = document.getElementById('theme-settings-prompt');
   const themeCheckboxes = document.querySelectorAll('.theme-check');
-  
+
   if (themeSettingsBtn && themeSettingsPrompt) {
     // Sync checkboxes with localStorage
     themeCheckboxes.forEach(cb => {
       cb.checked = activeThemes.includes(cb.value);
-      
+
       cb.addEventListener('change', (e) => {
+        // Doppler caution popup
+        if (e.target.value === 'doppler' && e.target.checked) {
+          const confirmed = confirm(
+            'CAUTION: Doppler Radar Theme\n\n' +
+            'This theme runs continuous GPU-accelerated canvas rendering ' +
+            'with real-time radar sweep, motion detection, and data stream animations.\n\n' +
+            'Requirements:\n' +
+            '  - A device with a dedicated or high-performance integrated GPU\n' +
+            '  - Plugging in your charger is strongly recommended to prevent battery drain\n\n' +
+            'Do you wish to continue?'
+          );
+          if (!confirmed) {
+            e.target.checked = false;
+            return;
+          }
+        }
+
         const checkedBoxes = Array.from(themeCheckboxes).filter(box => box.checked);
         if (checkedBoxes.length > 2) {
           e.target.checked = false;
           alert('You can select a maximum of 2 themes to toggle between.');
           return;
         }
-        
+
         const newActiveThemes = checkedBoxes.map(box => box.value);
         localStorage.setItem('activeThemes', JSON.stringify(newActiveThemes));
-        
+
         // If current theme was unselected and we have other themes, switch to one of them
         const currentTh = localStorage.getItem('theme');
         if (!newActiveThemes.includes(currentTh) && newActiveThemes.length > 0) {
@@ -163,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.stopPropagation();
       themeSettingsPrompt.classList.toggle('show');
     });
-    
+
     // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
       if (!themeSettingsPrompt.contains(e.target) && !themeSettingsBtn.contains(e.target)) {
@@ -300,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Theme Toggle Function defined outside the event listener
 window.setThemeDirectly = function (themeName) {
   const body = document.body;
-  body.classList.remove('dark', 'fluids', 'wave', 'puzzle');
+  body.classList.remove('dark', 'fluids', 'wave', 'puzzle', 'silicon', 'doppler');
 
   if (themeName === 'dark') {
     body.classList.add('dark');
@@ -312,6 +336,12 @@ window.setThemeDirectly = function (themeName) {
   } else if (themeName === 'puzzle') {
     body.classList.add('dark', 'puzzle');
     loadPuzzleScript();
+  } else if (themeName === 'silicon') {
+    body.classList.add('dark', 'silicon');
+    loadSiliconScript();
+  } else if (themeName === 'doppler') {
+    body.classList.add('dark', 'doppler');
+    loadDopplerScript();
   }
 
   localStorage.setItem('theme', themeName);
@@ -336,6 +366,26 @@ function loadPuzzleScript() {
     script.src = 'Themes/Puzzle/script.js';
     document.body.appendChild(script);
     puzzleScriptLoadedMain = true;
+  }
+}
+
+let siliconScriptLoadedMain = false;
+function loadSiliconScript() {
+  if (!siliconScriptLoadedMain) {
+    const script = document.createElement('script');
+    script.src = 'Themes/Silicon/script.js';
+    document.body.appendChild(script);
+    siliconScriptLoadedMain = true;
+  }
+}
+
+let dopplerScriptLoadedMain = false;
+function loadDopplerScript() {
+  if (!dopplerScriptLoadedMain) {
+    const script = document.createElement('script');
+    script.src = 'Themes/Doppler/script.js';
+    document.body.appendChild(script);
+    dopplerScriptLoadedMain = true;
   }
 }
 

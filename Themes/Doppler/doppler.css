@@ -1,0 +1,943 @@
+/* ================================================================
+   THEME: DOPPLER RADAR — "Next-Gen Tactical Surveillance & Motion Detection"
+   Accent Palette: Phosphor Green (#00FF6A), Deep Cyan (#00E5FF), 
+                   Target Crimson (#FF2D2D), Thermal Orange (#FF6B1A)
+   Background: OLED Black (#000000)
+   ================================================================ */
+
+/* ================================================================
+   CUSTOM FONTS — Share Tech Mono for that military HUD feel
+   ================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+/* --- Icon Visibility Rules --- */
+.doppler-icon {
+  opacity: 0;
+  transform: translateY(20px);
+  color: #00FF6A;
+}
+
+body.dark.doppler .theme-toggle .doppler-icon {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+body.dark.doppler .theme-toggle .moon-icon,
+body.dark.doppler .theme-toggle .sun-icon,
+body.dark.doppler .theme-toggle .fluids-icon,
+body.dark.doppler .theme-toggle .wave-icon,
+body.dark.doppler .theme-toggle .puzzle-icon,
+body.dark.doppler .theme-toggle .silicon-icon {
+  opacity: 0 !important;
+  transform: translateY(-20px) !important;
+}
+
+/* Hide other theme backgrounds */
+body.doppler .wave-container,
+body.doppler .stars,
+body.doppler #particles-js,
+body.doppler .cursor-trail,
+body.doppler .hero-shape,
+body.doppler .hero-background {
+  display: none !important;
+}
+
+body.doppler #fluid-canvas,
+body.doppler #silicon-canvas {
+  display: none !important;
+}
+
+/* --- Root Variables Override --- */
+body.doppler {
+  --primary-color: #00FF6A;
+  --secondary-color: #000000;
+  --accent-color: #00E5FF;
+  --text-color: #b0d4b8;
+  --heading-color: #00FF6A;
+  --text-light: #5a8a65;
+  --bg-card: rgba(0, 8, 2, 0.88);
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  --doppler-green: #00FF6A;
+  --doppler-cyan: #00E5FF;
+  --doppler-crimson: #FF2D2D;
+  --doppler-orange: #FF6B1A;
+  --doppler-bg: #000000;
+  --doppler-card: rgba(0, 10, 2, 0.88);
+  --doppler-border: rgba(0, 255, 106, 0.18);
+  --doppler-glow: rgba(0, 255, 106, 0.25);
+  --doppler-font: 'Share Tech Mono', 'Orbitron', monospace;
+
+  background: var(--doppler-bg) !important;
+  color: var(--text-color);
+  animation: none !important;
+  font-family: var(--doppler-font);
+}
+
+/* CRT scanlines + polar grid texture */
+body.doppler::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    /* CRT scanlines */
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 255, 106, 0.02) 2px,
+      rgba(0, 255, 106, 0.02) 4px
+    );
+  mix-blend-mode: screen;
+}
+
+body.doppler::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* Polar grid: concentric circles + radial lines via SVG */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800' viewBox='0 0 800 800'%3E%3Cg stroke='%2300FF6A' fill='none' stroke-width='0.3' opacity='0.06'%3E%3Ccircle cx='400' cy='400' r='50'/%3E%3Ccircle cx='400' cy='400' r='100'/%3E%3Ccircle cx='400' cy='400' r='150'/%3E%3Ccircle cx='400' cy='400' r='200'/%3E%3Ccircle cx='400' cy='400' r='250'/%3E%3Ccircle cx='400' cy='400' r='300'/%3E%3Ccircle cx='400' cy='400' r='350'/%3E%3Ccircle cx='400' cy='400' r='400'/%3E%3Cline x1='400' y1='0' x2='400' y2='800'/%3E%3Cline x1='0' y1='400' x2='800' y2='400'/%3E%3Cline x1='117' y1='117' x2='683' y2='683'/%3E%3Cline x1='683' y1='117' x2='117' y2='683'/%3E%3Cline x1='246' y1='54' x2='554' y2='746'/%3E%3Cline x1='554' y1='54' x2='246' y2='746'/%3E%3Cline x1='54' y1='246' x2='746' y2='554'/%3E%3Cline x1='746' y1='246' x2='54' y2='554'/%3E%3C/g%3E%3Cg fill='%2300FF6A' opacity='0.08' font-family='monospace' font-size='8'%3E%3Ctext x='402' y='12'%3E000%3C/text%3E%3Ctext x='402' y='796'%3E180%3C/text%3E%3Ctext x='4' y='404'%3E270%3C/text%3E%3Ctext x='770' y='404'%3E090%3C/text%3E%3C/g%3E%3C/svg%3E");
+  background-size: 800px 800px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+
+/* Doppler Radar Canvas — full screen background */
+#doppler-canvas {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body.doppler #doppler-canvas {
+  display: block;
+}
+
+/* Doppler Data Stream Panel (right edge) */
+#doppler-data-stream {
+  display: none;
+  position: fixed;
+  top: 70px;
+  right: 0;
+  width: 180px;
+  height: calc(100vh - 70px);
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+  font-family: var(--doppler-font);
+  font-size: 0.65rem;
+  line-height: 1.4;
+  color: rgba(0, 255, 106, 0.35);
+  padding: 8px 6px;
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.6));
+  border-left: 1px solid rgba(0, 255, 106, 0.08);
+}
+
+body.doppler #doppler-data-stream {
+  display: block;
+}
+
+/* ================================================================
+   BOOT SEQUENCE OVERLAY
+   ================================================================ */
+#doppler-boot-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #000000;
+  font-family: var(--doppler-font);
+  color: #00FF6A;
+  padding: 40px;
+  overflow: hidden;
+}
+
+body.doppler #doppler-boot-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+body.doppler #doppler-boot-overlay.boot-complete {
+  display: none;
+}
+
+#boot-log {
+  font-size: 0.85rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  max-width: 700px;
+}
+
+#boot-log .log-time {
+  color: rgba(0, 255, 106, 0.5);
+}
+
+#boot-log .log-ok {
+  color: #00FF6A;
+  text-shadow: 0 0 8px rgba(0, 255, 106, 0.6);
+}
+
+#boot-log .log-warn {
+  color: #FF6B1A;
+}
+
+#boot-log .log-error {
+  color: #FF2D2D;
+  text-shadow: 0 0 6px rgba(255, 45, 45, 0.4);
+}
+
+#boot-target-reticle {
+  display: inline-block;
+  opacity: 0;
+  font-size: 1.6rem;
+  font-weight: bold;
+  letter-spacing: 4px;
+  margin-top: 30px;
+  padding: 12px 24px;
+  border: 2px solid transparent;
+  position: relative;
+}
+
+#boot-target-reticle.locked {
+  opacity: 1;
+  border-color: #FF2D2D;
+  box-shadow: 
+    0 0 30px rgba(255, 45, 45, 0.6),
+    0 0 60px rgba(255, 45, 45, 0.3),
+    inset 0 0 20px rgba(255, 45, 45, 0.1);
+  color: #fff;
+  text-shadow: 0 0 12px #FF2D2D;
+  animation: targetFlash 0.15s ease-out;
+}
+
+@keyframes targetFlash {
+  0% { box-shadow: 0 0 80px rgba(255,45,45,1), 0 0 150px rgba(255,45,45,0.5); }
+  100% { box-shadow: 0 0 30px rgba(255,45,45,0.6), 0 0 60px rgba(255,45,45,0.3); }
+}
+
+/* Corner brackets on lock target */
+#boot-target-reticle.locked::before,
+#boot-target-reticle.locked::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: #FF2D2D;
+  border-style: solid;
+}
+
+#boot-target-reticle.locked::before {
+  top: -4px;
+  left: -4px;
+  border-width: 3px 0 0 3px;
+}
+
+#boot-target-reticle.locked::after {
+  bottom: -4px;
+  right: -4px;
+  border-width: 0 3px 3px 0;
+}
+
+/* ================================================================
+   NAVBAR — Tactical HUD Bar
+   ================================================================ */
+
+body.doppler .navbar {
+  background: rgba(0, 0, 0, 0.92) !important;
+  box-shadow: 0 1px 0 var(--doppler-border), 0 5px 25px rgba(0, 0, 0, 0.8) !important;
+  border-bottom: 1px solid var(--doppler-border) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+body.doppler .name {
+  background: linear-gradient(135deg, var(--doppler-green), var(--doppler-cyan)) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 106, 0.4)) !important;
+  font-family: var(--doppler-font) !important;
+}
+
+body.doppler .name::before {
+  background: var(--doppler-green) !important;
+  box-shadow: 0 0 8px var(--doppler-green), 0 0 16px var(--doppler-green) !important;
+  animation: doppler-dot-pulse 1.5s ease-in-out infinite !important;
+}
+
+@keyframes doppler-dot-pulse {
+  0%, 100% { box-shadow: 0 0 5px var(--doppler-green); opacity: 0.6; }
+  50% { box-shadow: 0 0 14px var(--doppler-green), 0 0 28px var(--doppler-green); opacity: 1; }
+}
+
+body.doppler .name::after {
+  background: linear-gradient(90deg, var(--doppler-green), var(--doppler-cyan)) !important;
+}
+
+/* Nav links styled as azimuth coordinates */
+body.doppler .nav-center-list a {
+  color: rgba(0, 255, 106, 0.55) !important;
+  font-family: var(--doppler-font) !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 1.5px !important;
+  text-transform: uppercase !important;
+  position: relative;
+}
+
+body.doppler .nav-center-list a:hover {
+  background: rgba(0, 255, 106, 0.06) !important;
+  color: var(--doppler-green) !important;
+  text-shadow: 0 0 8px rgba(0, 255, 106, 0.4) !important;
+}
+
+body.doppler .nav-center-list a.active {
+  background: rgba(0, 255, 106, 0.1) !important;
+  color: var(--doppler-green) !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 -2px 0 var(--doppler-green) !important;
+  text-shadow: 0 0 10px rgba(0, 255, 106, 0.5) !important;
+}
+
+body.doppler .resume-btn {
+  background: transparent !important;
+  color: var(--doppler-green) !important;
+  font-family: var(--doppler-font) !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 2px !important;
+  box-shadow: 0 0 10px rgba(0, 255, 106, 0.15) !important;
+  border: 1px solid rgba(0, 255, 106, 0.4) !important;
+  text-transform: uppercase !important;
+}
+
+body.doppler .resume-btn:hover {
+  background: rgba(0, 255, 106, 0.12) !important;
+  box-shadow: 0 0 25px rgba(0, 255, 106, 0.3), 0 0 8px rgba(0, 229, 255, 0.2) !important;
+  color: #fff !important;
+}
+
+body.doppler .hamburger-line {
+  background: var(--doppler-green) !important;
+}
+
+/* ================================================================
+   CARDS — Tactical Module Panels
+   ================================================================ */
+
+body.doppler .card {
+  background: var(--doppler-card) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid var(--doppler-border) !important;
+  box-shadow: 0 0 0 0 transparent, 0 10px 40px rgba(0, 0, 0, 0.6) !important;
+  position: relative;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+/* Target-lock hover effect — crosshairs */
+body.doppler .card:hover,
+body.doppler .project-card:hover {
+  border-color: var(--doppler-crimson) !important;
+  box-shadow: 
+    0 0 20px rgba(255, 45, 45, 0.15),
+    0 20px 50px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Left accent line */
+body.doppler .card::before {
+  background: linear-gradient(180deg, var(--doppler-green), var(--doppler-cyan)) !important;
+}
+
+body.doppler #technical-skills.card .line-clipper::before {
+  background: linear-gradient(180deg, var(--doppler-green), var(--doppler-cyan)) !important;
+}
+
+/* Crosshair corner brackets on cards (target-acquired) */
+body.doppler .card .doppler-crosshair {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--doppler-green);
+  border-style: solid;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 0;
+  z-index: 5;
+}
+
+body.doppler .card:hover .doppler-crosshair {
+  opacity: 1;
+  border-color: var(--doppler-crimson);
+}
+
+body.doppler .card .doppler-crosshair.ch-tl {
+  top: -8px; left: -8px;
+  border-width: 2px 0 0 2px;
+}
+body.doppler .card:hover .doppler-crosshair.ch-tl {
+  top: 6px; left: 6px;
+}
+
+body.doppler .card .doppler-crosshair.ch-tr {
+  top: -8px; right: -8px;
+  border-width: 2px 2px 0 0;
+}
+body.doppler .card:hover .doppler-crosshair.ch-tr {
+  top: 6px; right: 6px;
+}
+
+body.doppler .card .doppler-crosshair.ch-bl {
+  bottom: -8px; left: -8px;
+  border-width: 0 0 2px 2px;
+}
+body.doppler .card:hover .doppler-crosshair.ch-bl {
+  bottom: 6px; left: 6px;
+}
+
+body.doppler .card .doppler-crosshair.ch-br {
+  bottom: -8px; right: -8px;
+  border-width: 0 2px 2px 0;
+}
+body.doppler .card:hover .doppler-crosshair.ch-br {
+  bottom: 6px; right: 6px;
+}
+
+/* Schematic radar grid inside project cards */
+body.doppler .project-card {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='25' stroke='%2300FF6A' stroke-width='0.3' fill='none'/%3E%3Ccircle cx='30' cy='30' r='15' stroke='%2300FF6A' stroke-width='0.3' fill='none'/%3E%3Cline x1='30' y1='5' x2='30' y2='55' stroke='%2300FF6A' stroke-width='0.2'/%3E%3Cline x1='5' y1='30' x2='55' y2='30' stroke='%2300FF6A' stroke-width='0.2'/%3E%3C/svg%3E"),
+    rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(0, 255, 106, 0.1) !important;
+}
+
+body.doppler .project-card:hover {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='25' stroke='%23FF2D2D' stroke-width='0.3' fill='none'/%3E%3Ccircle cx='30' cy='30' r='15' stroke='%23FF2D2D' stroke-width='0.3' fill='none'/%3E%3Cline x1='30' y1='5' x2='30' y2='55' stroke='%23FF2D2D' stroke-width='0.2'/%3E%3Cline x1='5' y1='30' x2='55' y2='30' stroke='%23FF2D2D' stroke-width='0.2'/%3E%3C/svg%3E"),
+    rgba(0, 0, 0, 0.65) !important;
+  border-color: rgba(255, 45, 45, 0.35) !important;
+}
+
+/* ================================================================
+   HEADINGS & TEXT — Phosphor Green Typography
+   ================================================================ */
+
+body.doppler h2 {
+  color: var(--doppler-green) !important;
+  font-family: var(--doppler-font) !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  font-size: 1.2rem !important;
+  text-shadow: 0 0 8px rgba(0, 255, 106, 0.3) !important;
+}
+
+body.doppler h2::after {
+  background: linear-gradient(to right, var(--doppler-green), transparent) !important;
+}
+
+body.doppler h3 {
+  color: #c8e8cc !important;
+  font-family: var(--doppler-font) !important;
+}
+
+body.doppler p,
+body.doppler li,
+body.doppler span,
+body.doppler .education-details p,
+body.doppler .project-details li,
+body.doppler ul li em {
+  color: rgba(0, 255, 106, 0.55) !important;
+  font-family: var(--doppler-font) !important;
+}
+
+body.doppler a {
+  color: var(--doppler-cyan) !important;
+}
+
+body.doppler a:hover {
+  color: var(--doppler-green) !important;
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.4) !important;
+}
+
+body.doppler ul li::before {
+  color: var(--doppler-green) !important;
+}
+
+/* ================================================================
+   SECTION ICONS — Tactical Module Identifier
+   ================================================================ */
+
+body.doppler .section-icon {
+  background: rgba(0, 255, 106, 0.06) !important;
+  color: var(--doppler-green) !important;
+  border: 1px solid rgba(0, 255, 106, 0.2) !important;
+  box-shadow: 0 0 12px rgba(0, 255, 106, 0.1) !important;
+}
+
+/* ================================================================
+   EDUCATION
+   ================================================================ */
+
+body.doppler .education-details {
+  border-left-color: rgba(0, 255, 106, 0.2) !important;
+}
+
+body.doppler .education-details::before {
+  background: var(--doppler-green) !important;
+  box-shadow: 0 0 8px rgba(0, 255, 106, 0.5) !important;
+}
+
+/* ================================================================
+   SKILLS — Radar Ping Display
+   ================================================================ */
+
+body.doppler .skill-tag {
+  color: var(--doppler-cyan) !important;
+  background: rgba(0, 229, 255, 0.05) !important;
+  border: 1px solid rgba(0, 229, 255, 0.18) !important;
+  font-family: var(--doppler-font) !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase !important;
+}
+
+body.doppler .skill-tag:hover {
+  background: rgba(0, 229, 255, 0.12) !important;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.25) !important;
+  color: #fff !important;
+}
+
+body.doppler .skill-level {
+  background: linear-gradient(90deg, var(--doppler-green), var(--doppler-cyan)) !important;
+  box-shadow: 0 0 8px rgba(0, 255, 106, 0.3) !important;
+}
+
+body.doppler .folder-header {
+  background: rgba(0, 255, 106, 0.04) !important;
+  border-color: rgba(0, 255, 106, 0.2) !important;
+}
+
+body.doppler .folder-header:hover {
+  background: rgba(0, 255, 106, 0.1) !important;
+}
+
+body.doppler .folder-icon {
+  color: var(--doppler-green) !important;
+}
+
+body.doppler .folder-name {
+  color: var(--doppler-green) !important;
+  font-family: var(--doppler-font) !important;
+}
+
+body.doppler .skill-corner {
+  background: rgba(0, 0, 0, 0.9) !important;
+  border: 1px solid rgba(0, 255, 106, 0.1) !important;
+}
+
+/* ================================================================
+   PROJECTS — Tactical Readout
+   ================================================================ */
+
+body.doppler .project-tag,
+body.doppler .edu-date,
+body.doppler .cert-date {
+  color: var(--doppler-orange) !important;
+  background: rgba(255, 107, 26, 0.08) !important;
+  border: 1px solid rgba(255, 107, 26, 0.25) !important;
+  font-family: var(--doppler-font) !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 1.5px !important;
+  text-transform: uppercase !important;
+}
+
+body.doppler .project-footer {
+  border-top-color: rgba(0, 255, 106, 0.1) !important;
+}
+
+body.doppler .view-all-btn {
+  background: transparent !important;
+  color: var(--doppler-green) !important;
+  border: 1px solid var(--doppler-green) !important;
+  font-family: var(--doppler-font) !important;
+  letter-spacing: 2px !important;
+  box-shadow: 0 0 10px rgba(0, 255, 106, 0.12) !important;
+  text-transform: uppercase !important;
+}
+
+body.doppler .view-all-btn:hover {
+  background: var(--doppler-green) !important;
+  color: #000 !important;
+  box-shadow: 0 0 30px rgba(0, 255, 106, 0.4) !important;
+}
+
+/* --- GitHub / Video Buttons --- */
+body.doppler .github-btn {
+  background: rgba(0, 255, 106, 0.06) !important;
+  color: var(--doppler-green) !important;
+  border: 1px solid rgba(0, 255, 106, 0.25) !important;
+}
+
+body.doppler .github-btn:hover {
+  background: var(--doppler-green) !important;
+  color: #000 !important;
+  box-shadow: 0 0 15px rgba(0, 255, 106, 0.4) !important;
+}
+
+body.doppler .video-btn {
+  background: rgba(0, 229, 255, 0.06) !important;
+  color: var(--doppler-cyan) !important;
+  border: 1px solid rgba(0, 229, 255, 0.25) !important;
+}
+
+body.doppler .video-btn:hover {
+  background: var(--doppler-cyan) !important;
+  color: #000 !important;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.4) !important;
+}
+
+/* ================================================================
+   CERTIFICATIONS
+   ================================================================ */
+
+body.doppler .cert-item {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(0, 255, 106, 0.08) !important;
+}
+
+body.doppler .cert-item:hover {
+  background: rgba(0, 0, 0, 0.7) !important;
+  border-color: var(--doppler-cyan) !important;
+}
+
+body.doppler .cert-icon {
+  color: var(--doppler-orange) !important;
+}
+
+body.doppler .cert-link-btn {
+  background: rgba(0, 229, 255, 0.06) !important;
+  color: var(--doppler-cyan) !important;
+  border: 1px solid rgba(0, 229, 255, 0.2) !important;
+}
+
+body.doppler .cert-link-btn:hover {
+  background: var(--doppler-cyan) !important;
+  color: #000 !important;
+}
+
+/* ================================================================
+   EXTRACURRICULARS
+   ================================================================ */
+
+body.doppler .extra-item {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(0, 255, 106, 0.06) !important;
+}
+
+body.doppler .extra-item:hover {
+  background: rgba(0, 0, 0, 0.6) !important;
+  border-color: var(--doppler-cyan) !important;
+}
+
+body.doppler .extra-icon {
+  color: var(--doppler-green) !important;
+}
+
+/* ================================================================
+   CONTACT SECTION
+   ================================================================ */
+
+body.doppler .contact-item {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid var(--doppler-border) !important;
+}
+
+body.doppler .contact-item:hover {
+  background: rgba(0, 0, 0, 0.7) !important;
+  border-color: var(--doppler-cyan) !important;
+}
+
+body.doppler .contact-item i {
+  color: var(--doppler-green) !important;
+}
+
+body.doppler .contact-item a {
+  color: var(--doppler-cyan) !important;
+}
+
+body.doppler .contact-form input,
+body.doppler .contact-form textarea {
+  background: rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid rgba(0, 255, 106, 0.15) !important;
+  color: var(--doppler-green) !important;
+  font-family: var(--doppler-font) !important;
+}
+
+body.doppler .contact-form input::placeholder,
+body.doppler .contact-form textarea::placeholder {
+  color: rgba(0, 255, 106, 0.25) !important;
+}
+
+body.doppler .contact-form input:focus,
+body.doppler .contact-form textarea:focus {
+  border-color: var(--doppler-cyan) !important;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.2) !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+}
+
+body.doppler .submit-btn {
+  background: transparent !important;
+  color: var(--doppler-green) !important;
+  font-family: var(--doppler-font) !important;
+  letter-spacing: 2px !important;
+  border: 1px solid var(--doppler-green) !important;
+  box-shadow: 0 0 15px rgba(0, 255, 106, 0.15) !important;
+  text-transform: uppercase !important;
+}
+
+body.doppler .submit-btn:hover {
+  background: var(--doppler-green) !important;
+  color: #000 !important;
+  box-shadow: 0 0 30px rgba(0, 255, 106, 0.4) !important;
+}
+
+/* ================================================================
+   HERO SECTION — Tactical Briefing Screen
+   ================================================================ */
+
+body.doppler .hero-greeting,
+body.doppler .hero h1 {
+  color: #e0ffe8 !important;
+  -webkit-text-fill-color: #e0ffe8 !important;
+  font-family: var(--doppler-font) !important;
+}
+
+body.doppler .hero-name {
+  text-shadow: 0 0 20px rgba(0, 255, 106, 0.3) !important;
+}
+
+body.doppler .hero-subtitle {
+  background: rgba(0, 0, 0, 0.7) !important;
+  border: 1px solid var(--doppler-border) !important;
+  color: var(--doppler-green) !important;
+  font-family: var(--doppler-font) !important;
+  font-size: 0.9rem !important;
+  letter-spacing: 2px !important;
+}
+
+body.doppler .cursor {
+  color: var(--doppler-green) !important;
+  text-shadow: 0 0 10px var(--doppler-green) !important;
+}
+
+body.doppler .social-icon {
+  color: rgba(0, 255, 106, 0.5) !important;
+  background: rgba(0, 255, 106, 0.04) !important;
+  border: 1px solid rgba(0, 255, 106, 0.15) !important;
+}
+
+body.doppler .social-icon:hover {
+  background: var(--doppler-green) !important;
+  color: #000 !important;
+  border-color: var(--doppler-green) !important;
+  box-shadow: 0 0 20px rgba(0, 255, 106, 0.4) !important;
+}
+
+/* ================================================================
+   CLOCK — Mission Timer / SIGINT Telemetry
+   ================================================================ */
+
+body.doppler .sliding-clock-container {
+  background: rgba(0, 0, 0, 0.85) !important;
+  border: 2px solid rgba(0, 255, 106, 0.2) !important;
+  box-shadow:
+    0 0 20px rgba(0, 0, 0, 0.8),
+    inset 0 0 30px rgba(0, 0, 0, 0.5),
+    0 0 8px rgba(0, 255, 106, 0.1) !important;
+}
+
+body.doppler .tape-strip div {
+  color: var(--doppler-green) !important;
+  font-family: var(--doppler-font) !important;
+  text-shadow:
+    0 0 8px rgba(0, 255, 106, 0.8),
+    0 0 20px rgba(0, 255, 106, 0.4),
+    0 0 40px rgba(0, 255, 106, 0.15) !important;
+  /* Signal jitter animation */
+  animation: signalJitter 0.1s infinite;
+}
+
+@keyframes signalJitter {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(0.3px, -0.2px); }
+  50% { transform: translate(-0.2px, 0.3px); }
+  75% { transform: translate(0.2px, 0.1px); }
+  100% { transform: translate(0, 0); }
+}
+
+body.doppler .tape-separator {
+  color: var(--doppler-green) !important;
+  text-shadow:
+    0 0 8px rgba(0, 255, 106, 0.8),
+    0 0 20px rgba(0, 255, 106, 0.4) !important;
+}
+
+body.doppler .tape-highlight {
+  background: rgba(0, 255, 106, 0.04) !important;
+  border-color: rgba(0, 255, 106, 0.2) !important;
+  box-shadow: 0 0 12px rgba(0, 255, 106, 0.1) !important;
+}
+
+body.doppler .clock-date-display {
+  color: var(--doppler-cyan) !important;
+  font-family: var(--doppler-font) !important;
+  text-shadow: 0 0 6px rgba(0, 229, 255, 0.3) !important;
+  letter-spacing: 2px !important;
+}
+
+body.doppler .clock-label-display {
+  color: var(--doppler-crimson) !important;
+  font-family: var(--doppler-font) !important;
+  text-shadow: 0 0 6px rgba(255, 45, 45, 0.4) !important;
+  letter-spacing: 3px !important;
+}
+
+/* ================================================================
+   FOOTER
+   ================================================================ */
+
+body.doppler footer {
+  background: rgba(0, 0, 0, 0.8) !important;
+  border-top: 1px solid var(--doppler-border) !important;
+  color: rgba(0, 255, 106, 0.3) !important;
+}
+
+body.doppler footer p {
+  color: rgba(0, 255, 106, 0.3) !important;
+  font-family: var(--doppler-font) !important;
+}
+
+/* ================================================================
+   BACK TO TOP
+   ================================================================ */
+
+body.doppler #back-to-top {
+  background: rgba(0, 0, 0, 0.9) !important;
+  color: var(--doppler-green) !important;
+  border: 1px solid rgba(0, 255, 106, 0.25) !important;
+  box-shadow: 0 0 10px rgba(0, 255, 106, 0.12) !important;
+}
+
+body.doppler #back-to-top:hover {
+  background: var(--doppler-green) !important;
+  color: #000 !important;
+}
+
+/* ================================================================
+   THEME SETTINGS PROMPT
+   ================================================================ */
+
+body.doppler .theme-selection-prompt {
+  background: rgba(0, 0, 0, 0.97) !important;
+  border: 1px solid var(--doppler-border) !important;
+}
+
+body.doppler .prompt-arrow {
+  background: rgba(0, 0, 0, 0.97) !important;
+  border-color: var(--doppler-border) !important;
+}
+
+body.doppler .theme-selection-prompt h3 {
+  color: var(--doppler-green) !important;
+  border-bottom-color: var(--doppler-border) !important;
+  font-family: var(--doppler-font) !important;
+}
+
+body.doppler .theme-category-title {
+  color: var(--doppler-cyan) !important;
+  background: rgba(0, 229, 255, 0.04) !important;
+  font-family: var(--doppler-font) !important;
+}
+
+body.doppler .theme-checkbox-lbl {
+  background: rgba(0, 255, 106, 0.02) !important;
+  border-color: rgba(0, 255, 106, 0.1) !important;
+  color: rgba(0, 255, 106, 0.6) !important;
+  font-family: var(--doppler-font) !important;
+}
+
+body.doppler .theme-checkbox-lbl:hover {
+  background: rgba(0, 255, 106, 0.06) !important;
+}
+
+body.doppler .theme-check {
+  border-color: rgba(0, 255, 106, 0.4) !important;
+}
+
+body.doppler .theme-check:checked {
+  background-color: var(--doppler-green) !important;
+  border-color: var(--doppler-green) !important;
+}
+
+body.doppler .theme-check:checked::after {
+  background-color: #000 !important;
+}
+
+body.doppler .theme-settings-btn {
+  color: var(--doppler-green) !important;
+}
+
+/* ================================================================
+   MOBILE NAV OVERLAY
+   ================================================================ */
+
+@media (max-width: 900px) {
+  body.doppler .nav-center {
+    background: rgba(0, 0, 0, 0.98) !important;
+  }
+  
+  #doppler-data-stream {
+    display: none !important;
+  }
+}
+
+/* ================================================================
+   SELECTION COLOR
+   ================================================================ */
+
+body.doppler ::selection {
+  background: var(--doppler-green) !important;
+  color: #000 !important;
+}
+
+/* ================================================================
+   SCROLLBAR
+   ================================================================ */
+body.doppler::-webkit-scrollbar {
+  width: 6px;
+}
+body.doppler::-webkit-scrollbar-track {
+  background: #000;
+}
+body.doppler::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 106, 0.3);
+  border-radius: 3px;
+}
+body.doppler::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 106, 0.6);
+}
+
+/* ================================================================
+   NAV NAME
+   ================================================================ */
+body.doppler .nav-name {
+  font-family: var(--doppler-font) !important;
+  color: var(--doppler-green) !important;
+  -webkit-text-fill-color: var(--doppler-green) !important;
+}
