@@ -40,9 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Theme Toggle Functionality - Fixed function assignment
-  const themeToggleButton = document.querySelector('.theme-toggle');
-  themeToggleButton.addEventListener('click', toggleTheme);
+  // Theme Toggle Functionality will be initialized below
 
   // Hamburger menu toggle
   const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -78,8 +76,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Check saved theme preference
-  const savedTheme = localStorage.getItem('theme');
+  // Initialize Active Themes (max 2)
+  let activeThemes = JSON.parse(localStorage.getItem('activeThemes'));
+  if (!activeThemes || !Array.isArray(activeThemes)) {
+    activeThemes = ['wave', 'fluids']; // Default two themes
+    localStorage.setItem('activeThemes', JSON.stringify(activeThemes));
+  }
+
+  // Check saved theme preference or use default
+  let savedTheme = localStorage.getItem('theme');
+  if (!savedTheme) {
+    savedTheme = 'wave';
+    localStorage.setItem('theme', savedTheme);
+  }
+
+  // Apply theme on load
   if (savedTheme === 'dark') {
     document.body.classList.add('dark');
   } else if (savedTheme === 'fluids') {
@@ -87,27 +98,83 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFluidsScript();
   } else if (savedTheme === 'wave') {
     document.body.classList.add('wave');
+  } else if (savedTheme === 'puzzle') {
+    document.body.classList.add('dark', 'puzzle');
+    loadPuzzleScript();
+  } else if (savedTheme === 'light') {
+    // light theme uses default CSS
+  } else {
+    // fallback to wave
+    document.body.classList.add('wave');
+    savedTheme = 'wave';
   }
 
-  // Show theme prompt once per session (every time the site is opened)
-  if (!sessionStorage.getItem('themePromptShown')) {
-    document.body.classList.add('theme-selection-active');
-    const themePrompt = document.getElementById('theme-prompt');
-    if (themePrompt) {
-      themePrompt.style.display = 'block';
-      const btns = themePrompt.querySelectorAll('.theme-opt-btn');
-      btns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const selected = e.currentTarget.getAttribute('data-theme');
-          if (typeof window.setThemeDirectly === 'function') {
-            window.setThemeDirectly(selected);
-          }
-          document.body.classList.remove('theme-selection-active');
-          themePrompt.style.display = 'none';
-          sessionStorage.setItem('themePromptShown', 'true');
-        });
+  // Theme Toggle Logic
+  const themeToggleButton = document.querySelector('.theme-toggle');
+  if (themeToggleButton) {
+    themeToggleButton.addEventListener('click', () => {
+      let currentActive = JSON.parse(localStorage.getItem('activeThemes')) || ['wave', 'puzzle'];
+      if (currentActive.length === 0) return;
+      
+      const currentTheme = localStorage.getItem('theme') || 'wave';
+      let idx = currentActive.indexOf(currentTheme);
+      
+      // If current theme is not in the active list, switch to the first one
+      if (idx === -1) {
+        window.setThemeDirectly(currentActive[0]);
+      } else {
+        const nextIdx = (idx + 1) % currentActive.length;
+        window.setThemeDirectly(currentActive[nextIdx]);
+      }
+    });
+  }
+
+  // Theme Settings Dropdown Logic
+  const themeSettingsBtn = document.getElementById('theme-settings-btn');
+  const themeSettingsPrompt = document.getElementById('theme-settings-prompt');
+  const themeCheckboxes = document.querySelectorAll('.theme-check');
+  
+  if (themeSettingsBtn && themeSettingsPrompt) {
+    // Sync checkboxes with localStorage
+    themeCheckboxes.forEach(cb => {
+      cb.checked = activeThemes.includes(cb.value);
+      
+      cb.addEventListener('change', (e) => {
+        const checkedBoxes = Array.from(themeCheckboxes).filter(box => box.checked);
+        if (checkedBoxes.length > 2) {
+          e.target.checked = false;
+          alert('You can select a maximum of 2 themes to toggle between.');
+          return;
+        }
+        
+        const newActiveThemes = checkedBoxes.map(box => box.value);
+        localStorage.setItem('activeThemes', JSON.stringify(newActiveThemes));
+        
+        // If current theme was unselected and we have other themes, switch to one of them
+        const currentTh = localStorage.getItem('theme');
+        if (!newActiveThemes.includes(currentTh) && newActiveThemes.length > 0) {
+          window.setThemeDirectly(newActiveThemes[0]);
+        }
       });
-    }
+    });
+
+    // Toggle dropdown
+    themeSettingsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      themeSettingsPrompt.classList.toggle('show');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!themeSettingsPrompt.contains(e.target) && !themeSettingsBtn.contains(e.target)) {
+        themeSettingsPrompt.classList.remove('show');
+      }
+    });
+
+    // Prevent closing when clicking inside the prompt
+    themeSettingsPrompt.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
   }
 
   // Navbar shrink on scroll effect
@@ -233,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Theme Toggle Function defined outside the event listener
 window.setThemeDirectly = function (themeName) {
   const body = document.body;
-  body.classList.remove('dark', 'fluids', 'wave');
+  body.classList.remove('dark', 'fluids', 'wave', 'puzzle');
 
   if (themeName === 'dark') {
     body.classList.add('dark');
@@ -242,31 +309,15 @@ window.setThemeDirectly = function (themeName) {
     loadFluidsScript();
   } else if (themeName === 'wave') {
     body.classList.add('wave');
+  } else if (themeName === 'puzzle') {
+    body.classList.add('dark', 'puzzle');
+    loadPuzzleScript();
   }
 
   localStorage.setItem('theme', themeName);
-
-  // If the initial prompt is active, close it whenever the theme is set
-  if (body.classList.contains('theme-selection-active')) {
-    body.classList.remove('theme-selection-active');
-    const themePrompt = document.getElementById('theme-prompt');
-    if (themePrompt) themePrompt.style.display = 'none';
-    sessionStorage.setItem('themePromptShown', 'true');
-  }
 }
 
-function toggleTheme() {
-  const body = document.body;
-  if (body.classList.contains('fluids')) {
-    window.setThemeDirectly('wave');
-  } else if (body.classList.contains('wave')) {
-    window.setThemeDirectly('light');
-  } else if (body.classList.contains('dark')) {
-    window.setThemeDirectly('fluids');
-  } else {
-    window.setThemeDirectly('dark');
-  }
-}
+// toggleTheme is now handled dynamically in DOMContentLoaded based on activeThemes
 
 let fluidsScriptLoaded = false;
 function loadFluidsScript() {
@@ -275,6 +326,16 @@ function loadFluidsScript() {
     script.src = 'Themes/Fluids/script.js';
     document.body.appendChild(script);
     fluidsScriptLoaded = true;
+  }
+}
+
+let puzzleScriptLoadedMain = false;
+function loadPuzzleScript() {
+  if (!puzzleScriptLoadedMain) {
+    const script = document.createElement('script');
+    script.src = 'Themes/Puzzle/script.js';
+    document.body.appendChild(script);
+    puzzleScriptLoadedMain = true;
   }
 }
 

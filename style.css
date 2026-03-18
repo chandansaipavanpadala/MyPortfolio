@@ -2438,10 +2438,35 @@ body.fluids #fluid-canvas {
   position: relative;
 }
 
-/* Theme Selection Prompt */
+/* Theme Settings Button */
+.theme-settings-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: var(--text-color);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+}
+
+.theme-settings-btn:hover {
+  transform: scale(1.1);
+}
+
+body.dark .theme-settings-btn {
+  color: #fff;
+}
+
+/* Theme Settings Prompt */
 .theme-selection-prompt {
   position: absolute;
-  top: 60px;
+  top: 70px;
   right: 0;
   background: var(--bg-card);
   backdrop-filter: blur(20px);
@@ -2452,7 +2477,17 @@ body.fluids #fluid-canvas {
   border: 1px solid rgba(204, 0, 0, 0.2);
   z-index: 1005;
   min-width: 200px;
-  animation: promptFadeIn 0.5s ease forwards;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+/* Toggled via JS */
+.theme-selection-prompt.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 body.dark .theme-selection-prompt {
@@ -2478,33 +2513,107 @@ body.dark .prompt-arrow {
 }
 
 .theme-selection-prompt h3 {
-  font-size: 1rem;
-  margin-bottom: 1.2rem;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(204, 0, 0, 0.2);
   color: var(--heading-color);
   text-align: center;
   font-weight: 700;
 }
 
-.theme-options {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+body.dark .theme-selection-prompt h3 {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
-.theme-opt-btn {
+.theme-settings-desc {
+  display: none;
+}
+
+.theme-category-title {
+  font-size: 0.8rem;
+  color: var(--heading-color);
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  display: block;
+  text-align: center;
+}
+
+body.dark .theme-category-title {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.theme-options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.theme-checkbox-lbl {
   background: rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0.8rem 1rem;
-  border-radius: 12px;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 500;
   display: flex;
   align-items: center;
   gap: 1rem;
   transition: var(--transition);
   color: var(--text-color);
+}
+
+.theme-checkbox-lbl:hover {
+  background: rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.theme-check {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  min-width: 18px;
+  height: 18px;
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  background: transparent;
+  transition: all 0.2s ease;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.theme-check:checked {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.theme-check:checked::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+body.dark .theme-check {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+body.dark .theme-check:checked {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
 }
 
 body.dark .theme-opt-btn {
@@ -2520,42 +2629,4 @@ body.dark .theme-opt-btn {
   transform: translateY(-2px);
 }
 
-@keyframes promptFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Page blur effect when prompt is active */
-body.theme-selection-active .hero,
-body.theme-selection-active main,
-body.theme-selection-active footer,
-body.theme-selection-active .particles-container,
-body.theme-selection-active .hero-background,
-body.theme-selection-active .stars,
-body.theme-selection-active .shooting-star,
-body.theme-selection-active #fluid-canvas,
-body.theme-selection-active .wave-container,
-body.theme-selection-active .container {
-  filter: blur(8px);
-  pointer-events: none;
-  user-select: none;
-  transition: filter 0.3s ease;
-}
-
-/* Background darken overlay */
-body.theme-selection-active::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.25);
-  z-index: 999;
-  pointer-events: all;
-  animation: promptFadeIn 0.4s ease forwards;
-}
+/* End of theme selection prompt styling */

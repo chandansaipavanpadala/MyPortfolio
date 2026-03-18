@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="Themes/Wave/wave.css" />
   <link rel="stylesheet" href="Themes/Fluids/fluids.css" />
+  <link rel="stylesheet" href="Themes/Puzzle/puzzle.css?v=13" />
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;500;700&display=swap"
     rel="stylesheet" />
@@ -54,22 +55,36 @@
       <a class="resume-btn"
         href="https://aseblr-my.sharepoint.com/:b:/g/personal/bl_en_u4ece23205_bl_students_amrita_edu/IQCUHM5loOrGTI2a_mGnIsp6AYSs-JfBI9svElYQMGdba4k?e=NVsgWp"
         target="_blank" rel="noopener noreferrer">View Resume</a>
-      <div class="theme-toggle" title="Toggle Theme">
-        <i class="fas fa-moon moon-icon"></i>
-        <i class="fas fa-sun sun-icon"></i>
-        <i class="fas fa-tint fluids-icon"></i>
-        <i class="fas fa-water wave-icon"></i>
+      <div class="theme-controls" style="display: flex; align-items: center; gap: 10px;">
+        <div class="theme-toggle" id="theme-toggle-btn" title="Toggle Theme">
+          <i class="fas fa-moon moon-icon"></i>
+          <i class="fas fa-sun sun-icon"></i>
+          <i class="fas fa-tint fluids-icon"></i>
+          <i class="fas fa-water wave-icon"></i>
+          <i class="fas fa-puzzle-piece puzzle-icon"></i>
+        </div>
+        <button class="theme-settings-btn" id="theme-settings-btn" title="Theme Settings">
+          <i class="fas fa-cog"></i>
+        </button>
       </div>
-      <!-- Theme Selection Prompt -->
-      <div class="theme-selection-prompt" id="theme-prompt" style="display: none;">
+      <!-- Theme Settings Prompt -->
+      <div class="theme-selection-prompt" id="theme-settings-prompt">
         <div class="prompt-arrow"></div>
-        <h3>Select a Theme</h3>
-        <div class="theme-options">
-          <button class="theme-opt-btn" data-theme="wave"><i class="fas fa-water"></i> Wave</button>
-          <button class="theme-opt-btn" data-theme="light"><i class="fas fa-sun"></i> Light</button>
-          <hr class="theme-divider">
-          <button class="theme-opt-btn" data-theme="dark"><i class="fas fa-moon"></i> Dark</button>
-          <button class="theme-opt-btn" data-theme="fluids"><i class="fas fa-tint"></i> Fluids</button>
+        <h3>Theme Settings</h3>
+        
+        <h4 class="theme-category-title">Basic</h4>
+        <div class="theme-options-grid">
+          <label class="theme-checkbox-lbl"><input type="checkbox" class="theme-check" value="light"> <i class="fas fa-sun"></i> Light</label>
+          <label class="theme-checkbox-lbl"><input type="checkbox" class="theme-check" value="dark"> <i class="fas fa-moon"></i> Dark</label>
+        </div>
+        
+        <hr class="theme-divider">
+        
+        <h4 class="theme-category-title">New</h4>
+        <div class="theme-options-grid">
+          <label class="theme-checkbox-lbl"><input type="checkbox" class="theme-check" value="wave"> <i class="fas fa-water"></i> Wave</label>
+          <label class="theme-checkbox-lbl"><input type="checkbox" class="theme-check" value="fluids"> <i class="fas fa-tint"></i> Fluids</label>
+          <label class="theme-checkbox-lbl"><input type="checkbox" class="theme-check" value="puzzle"> <i class="fas fa-puzzle-piece"></i> Puzzle</label>
         </div>
       </div>
     </div>

@@ -1,0 +1,257 @@
+/* Themes/Puzzle/puzzle.css */
+
+/* ---- ICON FIX: triple-class specificity to beat body.dark rules ---- */
+.puzzle-icon {
+  opacity: 0;
+  transform: translateY(20px);
+  color: #a855f7;
+}
+
+body.dark.puzzle .theme-toggle .puzzle-icon {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+body.dark.puzzle .theme-toggle .moon-icon {
+  opacity: 0 !important;
+  transform: translateY(20px) !important;
+}
+
+body.dark.puzzle .theme-toggle .sun-icon,
+body.dark.puzzle .theme-toggle .fluids-icon,
+body.dark.puzzle .theme-toggle .wave-icon {
+  opacity: 0 !important;
+  transform: translateY(-20px) !important;
+}
+
+body.puzzle .wave-container,
+body.puzzle .stars {
+  display: none !important;
+}
+
+body.puzzle .hero-graphic {
+  display: none !important;
+}
+
+/* ---------------------------------------- */
+/* Puzzle Container: inside hero, right side */
+/* ---------------------------------------- */
+
+.puzzle-container {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: auto;
+  height: auto;
+  display: none;
+  z-index: 3;
+}
+
+body.puzzle .puzzle-container {
+  display: block;
+}
+
+/* ---------------------------------------- */
+/* The Puzzle Grid                          */
+/* ---------------------------------------- */
+
+.puzzle-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  width: 70vh;
+  height: 70vh;
+  max-width: 650px;
+  max-height: 650px;
+  gap: 4px;
+}
+
+/* ---------------------------------------- */
+/* Each puzzle cell                         */
+/* ---------------------------------------- */
+
+.puzzle-block {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 800px;
+}
+
+.puzzle-block.empty {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.puzzle-block-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.puzzle-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------------------------------------- */
+/* Front Face: SOLID BLACK blocks           */
+/* ---------------------------------------- */
+
+.puzzle-face-front {
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.9);
+  z-index: 2;
+  transform: rotateY(0deg);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ---- Content Styles: Vivid & Attractive ---- */
+
+/* Time digits (HH:MM:SS) — BIG, bright, glowing */
+.puzzle-time-digit {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.8rem, 4.5vh, 3.2rem);
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow:
+    0 0 12px rgba(255, 95, 109, 0.9),
+    0 0 25px rgba(255, 95, 109, 0.5),
+    0 0 50px rgba(255, 95, 109, 0.2);
+  letter-spacing: 2px;
+  pointer-events: none;
+}
+
+.puzzle-time-digit.colon {
+  font-size: clamp(2rem, 5vh, 3.5rem);
+  color: #ff5f6d;
+  animation: colonBlink 1.2s ease-in-out infinite;
+}
+
+@keyframes colonBlink {
+  0%, 100% { opacity: 1; text-shadow: 0 0 15px rgba(255, 95, 109, 1), 0 0 30px rgba(255, 95, 109, 0.6); }
+  50% { opacity: 0.3; text-shadow: none; }
+}
+
+/* Date text (day, month, date number, year digits) — vivid accent color */
+.puzzle-date-text {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(0.9rem, 2.2vh, 1.4rem);
+  font-weight: 700;
+  color: #ff5f6d;
+  text-shadow: 0 0 8px rgba(255, 95, 109, 0.6), 0 0 20px rgba(255, 95, 109, 0.3);
+  letter-spacing: 3px;
+  pointer-events: none;
+}
+
+/* Static label characters (SYSTEM) — subtle metallic */
+.puzzle-label {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(0.8rem, 2vh, 1.2rem);
+  font-weight: 600;
+  letter-spacing: 4px;
+  pointer-events: none;
+}
+
+.puzzle-label.label-char {
+  color: rgba(255, 255, 255, 0.3);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+}
+
+/* ACTIVE label — bright green glow with pulse */
+.puzzle-label.active-char {
+  color: #00ff88;
+  text-shadow:
+    0 0 8px rgba(0, 255, 136, 0.8),
+    0 0 20px rgba(0, 255, 136, 0.4);
+  animation: activePulse 2.5s ease-in-out infinite;
+}
+
+@keyframes activePulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; text-shadow: 0 0 12px rgba(0, 255, 136, 1), 0 0 30px rgba(0, 255, 136, 0.6); }
+}
+
+/* Decorative indicators */
+.puzzle-indicator {
+  font-size: clamp(0.6rem, 1.5vh, 1rem);
+  pointer-events: none;
+}
+
+.puzzle-indicator.dot-green {
+  color: #00ff88;
+  text-shadow: 0 0 12px rgba(0, 255, 136, 0.9);
+  animation: activePulse 2s ease-in-out infinite;
+}
+
+.puzzle-indicator.dot-purple {
+  color: #ff5f6d;
+  text-shadow: 0 0 10px rgba(255, 95, 109, 0.6);
+}
+
+.puzzle-indicator.dot-dim {
+  color: rgba(255, 255, 255, 0.15);
+}
+
+/* Hover glow: subtle warm red edge glow on pure black */
+.puzzle-block:not([data-opened="true"]):hover .puzzle-face-front {
+  background: #111111;
+  border-color: rgba(255, 95, 109, 0.5);
+  box-shadow: inset 0 0 15px rgba(255, 95, 109, 0.15), 0 0 12px rgba(255, 95, 109, 0.15);
+}
+
+/* ---------------------------------------- */
+/* Back Face                                */
+/* ---------------------------------------- */
+
+.puzzle-face-back {
+  background-color: #000;
+  background-repeat: no-repeat;
+  transform: rotateY(180deg);
+  z-index: 1;
+  opacity: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 5px;
+}
+
+/* ---------------------------------------- */
+/* Responsive                               */
+/* ---------------------------------------- */
+
+@media (max-width: 1024px) {
+  .puzzle-container {
+    position: relative;
+    top: auto;
+    right: auto;
+    transform: none;
+    display: none;
+    margin: 2rem auto 0;
+  }
+  body.puzzle .puzzle-container {
+    display: flex;
+    justify-content: center;
+  }
+  .puzzle-grid {
+    width: 85vw;
+    height: 85vw;
+    max-width: 420px;
+    max-height: 420px;
+  }
+}
+
+@media (max-width: 420px) {
+  .puzzle-grid {
+    width: 92vw;
+    height: 92vw;
+  }
+}

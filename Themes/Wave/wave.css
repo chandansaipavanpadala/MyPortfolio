@@ -212,6 +212,11 @@ body.wave .resume-btn {
   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.25) !important;
 }
 
+body.wave .resume-btn:hover {
+  background: #e0e0e0 !important;
+  color: #000000 !important;
+}
+
 body.wave .hamburger-line {
   background: #fff !important;
 }
@@ -273,7 +278,7 @@ body.wave a {
 }
 
 body.wave a:hover {
-  color: #66e5ff !important;
+  color: #cccccc !important;
 }
 
 body.wave ul li::before {
@@ -352,6 +357,11 @@ body.wave .view-all-btn {
   background: #ffffff !important;
   color: #000000 !important;
   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2) !important;
+}
+
+body.wave .view-all-btn:hover {
+  background: #e0e0e0 !important;
+  color: #000000 !important;
 }
 
 body.wave .github-btn {
@@ -528,17 +538,50 @@ body.wave #back-to-top {
 
 /* --- Theme Selection Prompt in Wave --- */
 body.wave .theme-selection-prompt {
-  background: rgba(10, 20, 40, 0.9) !important;
+  background: rgba(0, 0, 0, 0.9) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 body.wave .prompt-arrow {
-  background: rgba(10, 20, 40, 0.9) !important;
+  background: rgba(0, 0, 0, 0.9) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-body.wave .theme-selection-prompt h3 {
+body.wave .theme-selection-prompt h3,
+body.wave .theme-category-title {
   color: #fff !important;
+}
+
+body.wave .theme-selection-prompt h3 {
+  border-bottom-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+body.wave .theme-category-title {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.wave .theme-checkbox-lbl {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+body.wave .theme-checkbox-lbl:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+}
+
+body.wave .theme-check {
+  border-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.wave .theme-check:checked {
+  background-color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+body.wave .theme-check:checked::after {
+  background-color: #000000 !important;
 }
 
 body.wave .theme-opt-btn {
@@ -555,6 +598,6 @@ body.wave .theme-opt-btn:hover {
 /* --- Mobile Nav Overlay in Wave --- */
 @media (max-width: 900px) {
   body.wave .nav-center {
-    background: rgba(10, 20, 40, 0.97) !important;
+    background: rgba(0, 0, 0, 0.97) !important;
   }
 }
