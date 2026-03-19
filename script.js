@@ -1,25 +1,7 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-  // Check for hash in URL and scroll to that section after page load
-  if (window.location.hash) {
-    const targetElement = document.querySelector(window.location.hash);
-    if (targetElement) {
-      setTimeout(() => {
-        const navHeight = document.querySelector('.navbar').offsetHeight;
-        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
-
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
-        });
-
-        targetElement.classList.add('highlight-section');
-        setTimeout(() => {
-          targetElement.classList.remove('highlight-section');
-        }, 1500);
-      }, 500); // Longer delay to ensure everything is loaded
-    }
-  }
+  // Scroll Trigger and Theme Toggle Functionality will be initialized below
+  
   // Initialize GSAP ScrollTrigger
   gsap.registerPlugin(ScrollTrigger);
 
@@ -39,8 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
       retina_detect: true
     });
   }
-
-  // Theme Toggle Functionality will be initialized below
 
   // Hamburger menu toggle
   const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -240,9 +220,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const offset = document.querySelector('.navbar') ? document.querySelector('.navbar').offsetHeight + 10 : 80;
     const scrollPos = window.pageYOffset + offset;
 
-    let current = items[0];
+    let current = null;
     for (let i = 0; i < items.length; i++) {
       const rectTop = items[i].el.getBoundingClientRect().top + window.pageYOffset;
+      // Use a smaller buffer to detect when we've actually passed into a section
       if (scrollPos >= rectTop) current = items[i];
     }
 
@@ -252,6 +233,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (current && current.hash !== currentHash && !isPopStateScrolling) {
       currentHash = current.hash;
       history.replaceState({ section: currentHash }, '', currentHash);
+    } else if (!current && currentHash !== '' && !isPopStateScrolling) {
+      // Clear hash when at the top (hero section)
+      currentHash = '';
+      history.replaceState({ section: '' }, '', window.location.pathname);
+    }
+  }
+
+  // Optimized scroll function that accounts for navbar height
+  function scrollToTarget(targetEl, highlight = false) {
+    if (!targetEl) return;
+    const navbar = document.querySelector('.navbar');
+    const navHeight = navbar ? navbar.offsetHeight : 80;
+    const targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - navHeight;
+
+    window.scrollTo({
+      top: targetPosition,
+      behavior: 'smooth'
+    });
+
+    if (highlight) {
+      targetEl.classList.add('highlight-section');
+      setTimeout(() => {
+        targetEl.classList.remove('highlight-section');
+      }, 1500);
     }
   }
 
@@ -263,8 +268,8 @@ document.addEventListener('DOMContentLoaded', () => {
       currentHash = hash;
       // Push a new history entry so Back button can navigate
       history.pushState({ section: hash }, '', hash);
-      // Smooth scroll to the section
-      item.el.scrollIntoView({ behavior: 'smooth' });
+      // Clean smooth scroll to the section
+      scrollToTarget(item.el, true);
     });
   });
 
@@ -276,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (targetEl) {
         isPopStateScrolling = true;
         currentHash = hash;
-        targetEl.scrollIntoView({ behavior: 'smooth' });
+        scrollToTarget(targetEl);
         // Reset flag after scroll finishes
         setTimeout(() => { isPopStateScrolling = false; }, 1000);
         return;
@@ -296,7 +301,8 @@ document.addEventListener('DOMContentLoaded', () => {
       currentHash = window.location.hash;
       // Replace the initial state so popstate has context
       history.replaceState({ section: currentHash }, '', currentHash);
-      setTimeout(() => targetEl.scrollIntoView({ behavior: 'smooth' }), 300);
+      // Wait a bit for other dynamic elements (like boot sequence) to potentially finish
+      setTimeout(() => scrollToTarget(targetEl, true), 800);
     }
   } else {
     // Set initial state for the top of the page
