@@ -1646,6 +1646,7 @@ body.dark .skill-corner .skill-tag:hover {
 .project-footer {
   display: flex;
   justify-content: flex-end;
+  gap: 12px;
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -2630,3 +2631,843 @@ body.dark .theme-opt-btn {
 }
 
 /* End of theme selection prompt styling */
+
+/* ========== HERO SOCIAL PILLS ========== */
+.hero-social-pills {
+  display: flex;
+  gap: 14px;
+  margin-top: 1.2rem;
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  max-width: 460px;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.8s;
+  position: relative;
+  z-index: 5;
+}
+
+.hero-social-pills li {
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hero-social-pills li::before {
+  content: none;
+}
+
+.hero-social-pills li a {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 48px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, background 0.5s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-social-pills li a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 48px;
+  background: linear-gradient(45deg, var(--i), var(--j));
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.hero-social-pills li a::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  width: 100%;
+  height: 100%;
+  border-radius: 48px;
+  background: linear-gradient(45deg, var(--i), var(--j));
+  transition: opacity 0.5s ease;
+  filter: blur(12px);
+  z-index: -1;
+  opacity: 0;
+}
+
+.hero-social-pills li a:hover {
+  width: 140px;
+  box-shadow: none;
+}
+
+.hero-social-pills li a:hover::before {
+  opacity: 1;
+}
+
+.hero-social-pills li a:hover::after {
+  opacity: 0.45;
+}
+
+.hero-social-pills .pill-icon {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-social-pills .pill-icon i {
+  color: #555;
+  font-size: 1.3em;
+  transition: transform 0.5s ease, color 0.4s ease;
+  transition-delay: 0.15s;
+}
+
+.hero-social-pills li a:hover .pill-icon i {
+  transform: scale(0);
+  color: #fff;
+  transition-delay: 0s;
+}
+
+.hero-social-pills .pill-title {
+  position: absolute;
+  color: #111;
+  font-size: 0.85em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: scale(0);
+  transition: transform 0.5s ease;
+  transition-delay: 0s;
+  z-index: 2;
+}
+
+.hero-social-pills li a:hover .pill-title {
+  transform: scale(1);
+  transition-delay: 0.2s;
+}
+
+/* Dark mode hero pills */
+body.dark .hero-social-pills li a {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body.dark .hero-social-pills .pill-icon i {
+  color: #bbb;
+}
+
+body.dark .hero-social-pills .pill-title {
+  color: #fff;
+}
+
+@media (max-width: 780px) {
+  .hero-social-pills {
+    justify-content: center;
+  }
+
+  .hero-social-pills li a {
+    width: 42px;
+    height: 42px;
+  }
+
+  .hero-social-pills li a:hover {
+    width: 120px;
+  }
+
+  .hero-social-pills .pill-icon i {
+    font-size: 1.1em;
+  }
+}
+
+/* ========== CONTACT 3D LINKS ========== */
+.contact-3d-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.contact-3d-links li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contact-3d-links li::before {
+  content: none;
+}
+
+.contact-3d-links li a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.85);
+  text-align: left;
+  padding-left: 18px;
+  transform: none;
+  transition: all .4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .08);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-3d-links li a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent-color, #cc0000), var(--primary-color, #ff5f6d));
+  transition: width .4s ease;
+  border-radius: 0 0 12px 12px;
+}
+
+.contact-3d-links li a::after {
+  content: none;
+}
+
+.contact-3d-links li a:hover {
+  transform: translateX(8px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, .15);
+}
+
+.contact-3d-links li a:hover::before {
+  width: 100%;
+}
+
+.contact-3d-links .contact-3d-icon {
+  font-size: 1.5rem;
+  color: var(--heading-color);
+  margin-right: 14px;
+  transition: color .4s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.contact-3d-links li a span {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--heading-color);
+  letter-spacing: 2px;
+  transition: color .4s ease;
+  position: relative;
+  z-index: 2;
+}
+
+/* Brand colors on hover */
+.contact-3d-links li:nth-child(1) a:hover {
+  background: #0077b5;
+}
+
+.contact-3d-links li:nth-child(1) a:hover::before {
+  background: #005f8d;
+}
+
+.contact-3d-links li:nth-child(1) a:hover::after {
+  background: #3d99c7;
+}
+
+.contact-3d-links li:nth-child(2) a:hover {
+  background: #333;
+}
+
+.contact-3d-links li:nth-child(2) a:hover::before {
+  background: #222;
+}
+
+.contact-3d-links li:nth-child(2) a:hover::after {
+  background: #555;
+}
+
+.contact-3d-links li:nth-child(3) a:hover {
+  background: #25d366;
+}
+
+.contact-3d-links li:nth-child(3) a:hover::before {
+  background: #1da851;
+}
+
+.contact-3d-links li:nth-child(3) a:hover::after {
+  background: #5ce088;
+}
+
+.contact-3d-links li:nth-child(4) a:hover {
+  background: #ea4335;
+}
+
+.contact-3d-links li:nth-child(4) a:hover::before {
+  background: #b33a2b;
+}
+
+.contact-3d-links li:nth-child(4) a:hover::after {
+  background: #e66a5a;
+}
+
+.contact-3d-links li:nth-child(5) a:hover {
+  background: #e4405f;
+}
+
+.contact-3d-links li:nth-child(5) a:hover::before {
+  background: #d81c3f;
+}
+
+.contact-3d-links li:nth-child(5) a:hover::after {
+  background: #e86880;
+}
+
+.contact-3d-links li:hover .contact-3d-icon,
+.contact-3d-links li:hover span {
+  color: #fff;
+}
+
+/* Dark mode contact 3d */
+body.dark .contact-3d-links li a {
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .3);
+}
+
+body.dark .contact-3d-links li a::before {
+  background: linear-gradient(90deg, #ff5f6d, #ffc371);
+}
+
+body.dark .contact-3d-links .contact-3d-icon {
+  color: #ccc;
+}
+
+body.dark .contact-3d-links li a span {
+  color: #ccc;
+}
+
+@media (max-width: 768px) {
+  .contact-3d-links li a {
+    height: 52px;
+    padding-left: 14px;
+  }
+}
+
+/* ========== CIRCULAR FILL-FROM-BOTTOM LINK BUTTONS ========== */
+.link-btn-circle {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  border: 2px solid currentColor;
+}
+
+.link-btn-circle .icon {
+  position: relative;
+  z-index: 3;
+  transition: color .4s ease, transform .4s ease;
+}
+
+.link-btn-circle:hover .icon {
+  color: #fff !important;
+  transform: rotateY(360deg);
+}
+
+.link-btn-circle::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: top .4s ease;
+  z-index: 2;
+  border-radius: 50%;
+}
+
+.link-btn-circle:hover::before {
+  top: 0;
+}
+
+/* GitHub button fill color */
+.link-btn-circle.github-btn {
+  border-color: #333;
+}
+
+.link-btn-circle.github-btn .icon {
+  color: #333;
+}
+
+.link-btn-circle.github-btn::before {
+  background: #333;
+}
+
+.link-btn-circle.github-btn {
+  background: transparent;
+}
+
+/* Cert/Streamlit link fill color */
+.link-btn-circle.cert-link-btn {
+  border-color: var(--accent-color);
+}
+
+.link-btn-circle.cert-link-btn .icon {
+  color: var(--accent-color);
+}
+
+.link-btn-circle.cert-link-btn::before {
+  background: var(--accent-color);
+}
+
+.link-btn-circle.cert-link-btn {
+  background: transparent;
+}
+
+/* Video button fill color */
+.link-btn-circle.video-btn {
+  border-color: #ff4b4b;
+}
+
+.link-btn-circle.video-btn .icon {
+  color: #ff4b4b;
+}
+
+.link-btn-circle.video-btn::before {
+  background: #ff4b4b;
+}
+
+.link-btn-circle.video-btn {
+  background: transparent;
+}
+
+/* Dark mode link buttons */
+body.dark .link-btn-circle.github-btn {
+  border-color: #aaa;
+}
+
+body.dark .link-btn-circle.github-btn .icon {
+  color: #aaa;
+}
+
+body.dark .link-btn-circle.github-btn::before {
+  background: #aaa;
+}
+
+body.dark .link-btn-circle.cert-link-btn {
+  border-color: #ff8c8c;
+}
+
+body.dark .link-btn-circle.cert-link-btn .icon {
+  color: #ff8c8c;
+}
+
+body.dark .link-btn-circle.cert-link-btn::before {
+  background: #ff8c8c;
+}
+
+/* ========== DOMAIN FILTER BAR ========== */
+.domain-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 1.5rem 0;
+  padding: 10px 0;
+}
+
+.filter-btn {
+  padding: 0.45rem 1.1rem;
+  border: 2px solid rgba(204, 0, 0, 0.2);
+  background: transparent;
+  color: var(--text-color);
+  border-radius: 999px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.filter-btn:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(204, 0, 0, 0.25);
+}
+
+body.dark .filter-btn {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #ccc;
+}
+
+body.dark .filter-btn:hover {
+  border-color: #ff8c8c;
+  color: #ff8c8c;
+}
+
+body.dark .filter-btn.active {
+  background: linear-gradient(45deg, #ff5f6d, #ffc371);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Filter animations */
+.project-card.filter-hidden,
+.cert-item.filter-hidden {
+  display: none !important;
+}
+
+/* ========== THEME-SPECIFIC COLOR OVERRIDES ========== */
+
+/* --- Wave Theme --- */
+body.wave .hero-social-pills li a {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+body.wave .hero-social-pills .pill-icon i {
+  color: #fff;
+}
+
+body.wave .hero-social-pills .pill-title {
+  color: #fff;
+}
+
+body.wave .contact-3d-links li a {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .2);
+}
+
+body.wave .contact-3d-links li a::before {
+  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.5));
+}
+
+body.wave .contact-3d-links .contact-3d-icon {
+  color: #fff;
+}
+
+body.wave .contact-3d-links li a span {
+  color: #fff;
+}
+
+body.wave .filter-btn {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+body.wave .filter-btn:hover {
+  border-color: #fff;
+  color: #fff;
+}
+
+body.wave .filter-btn.active {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);
+}
+
+body.wave .link-btn-circle.github-btn {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+body.wave .link-btn-circle.github-btn .icon {
+  color: #fff;
+}
+
+body.wave .link-btn-circle.github-btn::before {
+  background: #fff;
+}
+
+body.wave .link-btn-circle.github-btn:hover .icon {
+  color: #000 !important;
+}
+
+body.wave .link-btn-circle.cert-link-btn {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+body.wave .link-btn-circle.cert-link-btn .icon {
+  color: #fff;
+}
+
+body.wave .link-btn-circle.cert-link-btn::before {
+  background: #fff;
+}
+
+body.wave .link-btn-circle.cert-link-btn:hover .icon {
+  color: #000 !important;
+}
+
+body.wave .link-btn-circle.video-btn {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+body.wave .link-btn-circle.video-btn .icon {
+  color: #fff;
+}
+
+body.wave .link-btn-circle.video-btn::before {
+  background: #fff;
+}
+
+body.wave .link-btn-circle.video-btn:hover .icon {
+  color: #000 !important;
+}
+
+/* --- Fluids Theme --- */
+body.fluids .hero-social-pills li a {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+body.fluids .hero-social-pills .pill-icon i {
+  color: #bbb;
+}
+
+body.fluids .hero-social-pills .pill-title {
+  color: #fff;
+}
+
+body.fluids .contact-3d-links li a {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+body.fluids .contact-3d-links li a::before {
+  background: linear-gradient(90deg, #ff5f6d, #ffc371);
+}
+
+body.fluids .contact-3d-links .contact-3d-icon {
+  color: #ccc;
+}
+
+body.fluids .contact-3d-links li a span {
+  color: #ccc;
+}
+
+body.fluids .filter-btn {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #ccc;
+}
+
+body.fluids .filter-btn:hover {
+  border-color: #ff8c8c;
+  color: #ff8c8c;
+}
+
+body.fluids .filter-btn.active {
+  background: linear-gradient(45deg, #ff5f6d, #ffc371);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* --- Silicon Theme --- */
+body.silicon .hero-social-pills li a {
+  background: rgba(212, 129, 63, 0.08);
+  border: 1px solid rgba(212, 129, 63, 0.2);
+}
+
+body.silicon .hero-social-pills .pill-icon i {
+  color: var(--silicon-copper);
+}
+
+body.silicon .hero-social-pills .pill-title {
+  color: #fff;
+}
+
+body.silicon .contact-3d-links li a {
+  background: rgba(212, 129, 63, 0.06);
+  border: 1px solid rgba(212, 129, 63, 0.15);
+}
+
+body.silicon .contact-3d-links li a::before {
+  background: linear-gradient(90deg, var(--silicon-copper), var(--silicon-blue));
+}
+
+body.silicon .contact-3d-links .contact-3d-icon {
+  color: var(--silicon-copper);
+}
+
+body.silicon .contact-3d-links li a span {
+  color: #ccc;
+}
+
+body.silicon .filter-btn {
+  border-color: rgba(212, 129, 63, 0.25);
+  color: rgba(200, 200, 200, 0.7);
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+body.silicon .filter-btn:hover {
+  border-color: var(--silicon-blue);
+  color: var(--silicon-blue);
+}
+
+body.silicon .filter-btn.active {
+  background: linear-gradient(135deg, var(--silicon-copper), #b86d2f);
+  color: #000;
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(212, 129, 63, 0.3);
+}
+
+body.silicon .link-btn-circle.github-btn {
+  border-color: var(--silicon-copper);
+}
+
+body.silicon .link-btn-circle.github-btn .icon {
+  color: var(--silicon-copper);
+}
+
+body.silicon .link-btn-circle.github-btn::before {
+  background: var(--silicon-copper);
+}
+
+body.silicon .link-btn-circle.cert-link-btn {
+  border-color: var(--silicon-blue);
+}
+
+body.silicon .link-btn-circle.cert-link-btn .icon {
+  color: var(--silicon-blue);
+}
+
+body.silicon .link-btn-circle.cert-link-btn::before {
+  background: var(--silicon-blue);
+}
+
+body.silicon .link-btn-circle.video-btn {
+  border-color: var(--silicon-blue);
+}
+
+body.silicon .link-btn-circle.video-btn .icon {
+  color: var(--silicon-blue);
+}
+
+body.silicon .link-btn-circle.video-btn::before {
+  background: var(--silicon-blue);
+}
+
+/* --- Doppler Theme --- */
+body.doppler .hero-social-pills li a {
+  background: rgba(0, 255, 106, 0.06);
+  border: 1px solid rgba(0, 255, 106, 0.15);
+}
+
+body.doppler .hero-social-pills .pill-icon i {
+  color: rgba(0, 255, 106, 0.7);
+}
+
+body.doppler .hero-social-pills .pill-title {
+  color: #fff;
+  font-family: var(--doppler-font);
+}
+
+body.doppler .contact-3d-links li a {
+  background: rgba(0, 255, 106, 0.04);
+  border: 1px solid rgba(0, 255, 106, 0.1);
+}
+
+body.doppler .contact-3d-links li a::before {
+  background: linear-gradient(90deg, #00FF6A, #00E5FF);
+}
+
+body.doppler .contact-3d-links .contact-3d-icon {
+  color: rgba(0, 255, 106, 0.7);
+}
+
+body.doppler .contact-3d-links li a span {
+  color: rgba(0, 255, 106, 0.55);
+  font-family: var(--doppler-font);
+}
+
+body.doppler .filter-btn {
+  border-color: rgba(0, 255, 106, 0.2);
+  color: rgba(0, 255, 106, 0.6);
+  font-family: var(--doppler-font);
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+}
+
+body.doppler .filter-btn:hover {
+  border-color: #00FF6A;
+  color: #00FF6A;
+  text-shadow: 0 0 8px rgba(0, 255, 106, 0.3);
+}
+
+body.doppler .filter-btn.active {
+  background: rgba(0, 255, 106, 0.15);
+  color: #00FF6A;
+  border-color: #00FF6A;
+  box-shadow: 0 0 15px rgba(0, 255, 106, 0.2);
+}
+
+body.doppler .link-btn-circle.github-btn {
+  border-color: rgba(0, 255, 106, 0.3);
+}
+
+body.doppler .link-btn-circle.github-btn .icon {
+  color: #00FF6A;
+}
+
+body.doppler .link-btn-circle.github-btn::before {
+  background: #00FF6A;
+}
+
+body.doppler .link-btn-circle.github-btn:hover .icon {
+  color: #000 !important;
+}
+
+body.doppler .link-btn-circle.cert-link-btn {
+  border-color: rgba(0, 229, 255, 0.3);
+}
+
+body.doppler .link-btn-circle.cert-link-btn .icon {
+  color: #00E5FF;
+}
+
+body.doppler .link-btn-circle.cert-link-btn::before {
+  background: #00E5FF;
+}
+
+body.doppler .link-btn-circle.cert-link-btn:hover .icon {
+  color: #000 !important;
+}
+
+body.doppler .link-btn-circle.video-btn {
+  border-color: rgba(0, 229, 255, 0.3);
+}
+
+body.doppler .link-btn-circle.video-btn .icon {
+  color: #00E5FF;
+}
+
+body.doppler .link-btn-circle.video-btn::before {
+  background: #00E5FF;
+}
+
+body.doppler .link-btn-circle.video-btn:hover .icon {
+  color: #000 !important;
+}
+
+/* --- Puzzle Theme --- */
+body.puzzle .filter-btn {
+  border-color: rgba(255, 107, 107, 0.25);
+}
+
+body.puzzle .filter-btn:hover {
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
+
+body.puzzle .filter-btn.active {
+  background: linear-gradient(45deg, #ff6b6b, #ffa07a);
+  color: #fff;
+  border-color: transparent;
+}

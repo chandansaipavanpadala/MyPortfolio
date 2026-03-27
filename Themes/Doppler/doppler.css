@@ -82,13 +82,11 @@ body.doppler::before {
   pointer-events: none;
   background-image:
     /* CRT scanlines */
-    repeating-linear-gradient(
-      0deg,
+    repeating-linear-gradient(0deg,
       transparent,
       transparent 2px,
       rgba(0, 255, 106, 0.02) 2px,
-      rgba(0, 255, 106, 0.02) 4px
-    );
+      rgba(0, 255, 106, 0.02) 4px);
   mix-blend-mode: screen;
 }
 
@@ -211,7 +209,7 @@ body.doppler #doppler-boot-overlay.boot-complete {
 #boot-target-reticle.locked {
   opacity: 1;
   border-color: #FF2D2D;
-  box-shadow: 
+  box-shadow:
     0 0 30px rgba(255, 45, 45, 0.6),
     0 0 60px rgba(255, 45, 45, 0.3),
     inset 0 0 20px rgba(255, 45, 45, 0.1);
@@ -221,8 +219,13 @@ body.doppler #doppler-boot-overlay.boot-complete {
 }
 
 @keyframes targetFlash {
-  0% { box-shadow: 0 0 80px rgba(255,45,45,1), 0 0 150px rgba(255,45,45,0.5); }
-  100% { box-shadow: 0 0 30px rgba(255,45,45,0.6), 0 0 60px rgba(255,45,45,0.3); }
+  0% {
+    box-shadow: 0 0 80px rgba(255, 45, 45, 1), 0 0 150px rgba(255, 45, 45, 0.5);
+  }
+
+  100% {
+    box-shadow: 0 0 30px rgba(255, 45, 45, 0.6), 0 0 60px rgba(255, 45, 45, 0.3);
+  }
 }
 
 /* Corner brackets on lock target */
@@ -275,8 +278,17 @@ body.doppler .name::before {
 }
 
 @keyframes doppler-dot-pulse {
-  0%, 100% { box-shadow: 0 0 5px var(--doppler-green); opacity: 0.6; }
-  50% { box-shadow: 0 0 14px var(--doppler-green), 0 0 28px var(--doppler-green); opacity: 1; }
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px var(--doppler-green);
+    opacity: 0.6;
+  }
+
+  50% {
+    box-shadow: 0 0 14px var(--doppler-green), 0 0 28px var(--doppler-green);
+    opacity: 1;
+  }
 }
 
 body.doppler .name::after {
@@ -346,7 +358,7 @@ body.doppler .card {
 body.doppler .card:hover,
 body.doppler .project-card:hover {
   border-color: var(--doppler-crimson) !important;
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(255, 45, 45, 0.15),
     0 20px 50px rgba(0, 0, 0, 0.7) !important;
 }
@@ -378,35 +390,47 @@ body.doppler .card:hover .doppler-crosshair {
 }
 
 body.doppler .card .doppler-crosshair.ch-tl {
-  top: -8px; left: -8px;
+  top: -8px;
+  left: -8px;
   border-width: 2px 0 0 2px;
 }
+
 body.doppler .card:hover .doppler-crosshair.ch-tl {
-  top: 6px; left: 6px;
+  top: 6px;
+  left: 6px;
 }
 
 body.doppler .card .doppler-crosshair.ch-tr {
-  top: -8px; right: -8px;
+  top: -8px;
+  right: -8px;
   border-width: 2px 2px 0 0;
 }
+
 body.doppler .card:hover .doppler-crosshair.ch-tr {
-  top: 6px; right: 6px;
+  top: 6px;
+  right: 6px;
 }
 
 body.doppler .card .doppler-crosshair.ch-bl {
-  bottom: -8px; left: -8px;
+  bottom: -8px;
+  left: -8px;
   border-width: 0 0 2px 2px;
 }
+
 body.doppler .card:hover .doppler-crosshair.ch-bl {
-  bottom: 6px; left: 6px;
+  bottom: 6px;
+  left: 6px;
 }
 
 body.doppler .card .doppler-crosshair.ch-br {
-  bottom: -8px; right: -8px;
+  bottom: -8px;
+  right: -8px;
   border-width: 0 2px 2px 0;
 }
+
 body.doppler .card:hover .doppler-crosshair.ch-br {
-  bottom: 6px; right: 6px;
+  bottom: 6px;
+  right: 6px;
 }
 
 /* Schematic radar grid inside project cards */
@@ -774,11 +798,25 @@ body.doppler .tape-strip div {
 }
 
 @keyframes signalJitter {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(0.3px, -0.2px); }
-  50% { transform: translate(-0.2px, 0.3px); }
-  75% { transform: translate(0.2px, 0.1px); }
-  100% { transform: translate(0, 0); }
+  0% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(0.3px, -0.2px);
+  }
+
+  50% {
+    transform: translate(-0.2px, 0.3px);
+  }
+
+  75% {
+    transform: translate(0.2px, 0.1px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 body.doppler .tape-separator {
@@ -901,7 +939,7 @@ body.doppler .theme-settings-btn {
   body.doppler .nav-center {
     background: rgba(0, 0, 0, 0.98) !important;
   }
-  
+
   #doppler-data-stream {
     display: none !important;
   }
@@ -922,13 +960,16 @@ body.doppler ::selection {
 body.doppler::-webkit-scrollbar {
   width: 6px;
 }
+
 body.doppler::-webkit-scrollbar-track {
   background: #000;
 }
+
 body.doppler::-webkit-scrollbar-thumb {
   background: rgba(0, 255, 106, 0.3);
   border-radius: 3px;
 }
+
 body.doppler::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 255, 106, 0.6);
 }

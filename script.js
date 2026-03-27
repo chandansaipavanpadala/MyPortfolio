@@ -916,4 +916,36 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 
+  // Domain Filter Logic (Projects & Certificates)
+  document.querySelectorAll('.domain-filter-bar').forEach(bar => {
+    const btns = bar.querySelectorAll('.filter-btn');
+    // Find the filterable container next to this bar
+    const container = bar.nextElementSibling;
+    if (!container) return;
+    const items = container.querySelectorAll('[data-domain]');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Toggle active
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+        items.forEach(item => {
+          if (filter === 'all') {
+            item.classList.remove('filter-hidden');
+          } else {
+            const domains = item.dataset.domain.split(' ');
+            if (domains.includes(filter)) {
+              item.classList.remove('filter-hidden');
+            } else {
+              item.classList.add('filter-hidden');
+            }
+          }
+        });
+      });
+    });
+  });
+
+
 });

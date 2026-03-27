@@ -114,9 +114,19 @@
                         <h2>Technical Projects</h2>
                         <a href="index.html" class="view-all-btn">&larr; Back</a>
                     </div>
+                    <!-- Domain Filter Bar -->
+                    <div class="domain-filter-bar" id="project-filter-bar">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="embedded">Embedded</button>
+                        <button class="filter-btn" data-filter="iot">IoT</button>
+                        <button class="filter-btn" data-filter="web">Web</button>
+                        <button class="filter-btn" data-filter="vlsi">VLSI</button>
+                        <button class="filter-btn" data-filter="software">Software</button>
+                        <button class="filter-btn" data-filter="analog">Analog</button>
+                    </div>
 
-                    <div class="projects-list">
-                        <div class="project-card">
+                    <div class="projects-list" id="filterable-projects">
+                        <div class="project-card" data-domain="embedded software">
                             <div class="project-header">
                                 <h3><i class="fas fa-car"></i> TÁRA - Tracking Adaptive Road Autonomous Car</h3><span
                                     class="project-tag">Present</span>
@@ -134,13 +144,13 @@
 
                                 <div class="project-footer">
                                     <a href="https://github.com/chandansaipavanpadala/TARA-Tracking_Adaptive_Road_Autonomous_Car"
-                                        target="_blank" class="github-btn" title="View GitHub"><i
-                                            class="fab fa-github"></i></a>
+                                        target="_blank" class="link-btn-circle github-btn" title="View GitHub"><i
+                                            class="fab fa-github icon"></i></a>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="project-card">
+                        <div class="project-card" data-domain="embedded iot">
                             <div class="project-header">
                                 <h3><i class="fas fa-satellite-dish"></i> H.A.W.K - Human Activity Detection</h3><span
                                     class="project-tag">Present</span>
@@ -157,13 +167,13 @@
 
                                 <div class="project-footer">
                                     <a href="https://github.com/chandansaipavanpadala/H.A.W.K-HumanActivityDetectionThroughWallsUsingMicrowaveKinetics"
-                                        target="_blank" class="github-btn" title="View GitHub"><i
-                                            class="fab fa-github"></i></a>
+                                        target="_blank" class="link-btn-circle github-btn" title="View GitHub"><i
+                                            class="fab fa-github icon"></i></a>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="project-card">
+                        <div class="project-card" data-domain="web embedded">
                             <div class="project-header">
                                 <h3><i class="fas fa-microchip"></i> Web-Based Digital IC Tester</h3><span
                                     class="project-tag">Present</span>
@@ -180,13 +190,13 @@
 
                                 <div class="project-footer">
                                     <a href="https://github.com/chandansaipavanpadala/Web-Based_Digital_IC_Tester"
-                                        target="_blank" class="github-btn" title="View GitHub"><i
-                                            class="fab fa-github"></i></a>
+                                        target="_blank" class="link-btn-circle github-btn" title="View GitHub"><i
+                                            class="fab fa-github icon"></i></a>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="project-card">
+                        <div class="project-card" data-domain="web software">
                             <div class="project-header">
                                 <h3><i class="fas fa-broadcast-tower"></i> WebRTC Audio Broadcaster</h3><span
                                     class="project-tag">December 2025</span>
@@ -203,13 +213,13 @@
 
                                 <div class="project-footer">
                                     <a href="https://github.com/chandansaipavanpadala/WebRTC_Audio_Broadcaster"
-                                        target="_blank" class="github-btn" title="View GitHub"><i
-                                            class="fab fa-github"></i></a>
+                                        target="_blank" class="link-btn-circle github-btn" title="View GitHub"><i
+                                            class="fab fa-github icon"></i></a>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="project-card">
+                        <div class="project-card" data-domain="vlsi">
                             <div class="project-header">
                                 <h3><i class="fas fa-microchip"></i> Ultra Low-Voltage Low-Power CMOS 5-2 Compressor
                                     Implementation</h3><span class="project-tag">November 2025</span>
@@ -218,7 +228,7 @@
                                 <ul>
                                     <li>Implemented a 5:2 compressor circuit using Cadence Virtuoso for fast arithmetic
                                         applications.</li>
-                                    <li>Designed, simulated, and analyzed the circuit’s power and delay performance
+                                    <li>Designed, simulated, and analyzed the circuit's power and delay performance
                                         under low-voltage operation.</li>
                                     <li><em>Learnt advanced VLSI circuit design principles and power-delay optimization
                                             techniques using Cadence Virtuoso.</em></li>
@@ -226,13 +236,34 @@
 
                                 <div class="project-footer">
                                     <a href="https://github.com/chandansaipavanpadala/UltraLowVoltageLowPowerCompressor-CadenceVirtuoso"
-                                        target="_blank" class="github-btn" title="View GitHub"><i
-                                            class="fab fa-github"></i></a>
+                                        target="_blank" class="link-btn-circle github-btn" title="View GitHub"><i
+                                            class="fab fa-github icon"></i></a>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="project-card">
+                        <div class="project-card" data-domain="software web">
+                            <div class="project-header">
+                                <h3><i class="fas fa-project-diagram"></i> DRIP - Dynamic Root Locus Integration Platform</h3><span
+                                    class="project-tag">April 2025</span>
+                            </div>
+                            <div class="project-details">
+                                <ul>
+                                    <li>Engineered an advanced, interactive web application using Streamlit to facilitate comprehensive Root Locus analysis and real-time visualization of dynamic control systems.</li>
+                                    <li>Implemented dynamic gain interactivity and transient response analytics, enabling instant evaluation of system stability, pole migrations, and critical performance metrics.</li>
+                                    <li><em>Leveraged a robust scientific computing stack—including the Python Control System Library, NumPy, Pandas, and Matplotlib—to compute complex system diagnostics.</em></li>
+                                </ul>
+                                <div class="project-footer">
+                                    <a href="https://dripsimu.streamlit.app/" target="_blank"
+                                        class="link-btn-circle cert-link-btn" title="View Streamlit"><i
+                                            class="fas fa-external-link-alt icon"></i></a>
+                                    <a href="https://github.com/rushikesh-D69/DRIP-root-locus-app" target="_blank"
+                                        class="link-btn-circle github-btn" title="View GitHub"><i class="fab fa-github icon"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-card" data-domain="embedded">
                             <div class="project-header">
                                 <h3><i class="fas fa-gamepad"></i> Tic Tac Toe on LPC2148</h3><span
                                     class="project-tag">April 2025</span>
@@ -246,12 +277,12 @@
                                 </ul>
                                 <div class="project-footer">
                                     <a href="https://github.com/rushikesh-D69/Tic-Tac-Toe-Using-LPC2138" target="_blank"
-                                        class="github-btn" title="View GitHub"><i class="fab fa-github"></i></a>
+                                        class="link-btn-circle github-btn" title="View GitHub"><i class="fab fa-github icon"></i></a>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="project-card">
+                        <div class="project-card" data-domain="embedded">
                             <div class="project-header">
                                 <h3><i class="fas fa-dragon"></i> Chrome Dino Runner on LPC2148</h3><span
                                     class="project-tag">April 2025</span>
@@ -265,12 +296,12 @@
                                 </ul>
                                 <div class="project-footer">
                                     <a href="https://github.com/rushikesh-D69/Dino-Game-Using-LPC2138" target="_blank"
-                                        class="github-btn" title="View GitHub"><i class="fab fa-github"></i></a>
+                                        class="link-btn-circle github-btn" title="View GitHub"><i class="fab fa-github icon"></i></a>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="project-card">
+                        <div class="project-card" data-domain="software web">
                             <div class="project-header">
                                 <h3><i class="fas fa-sliders-h"></i> Music Recommendation System Based on Acoustic
                                     Features</h3><span class="project-tag">April 2025</span>
@@ -288,16 +319,16 @@
                                 </ul>
                                 <div class="project-footer">
                                     <a href="https://mrsboafk.streamlit.app/" target="_blank"
-                                        style="margin-right: 12px;" class="cert-link-btn" title="View Streamlit"><i
-                                            class="fas fa-external-link-alt"></i></a>
+                                        class="link-btn-circle cert-link-btn" title="View Streamlit"><i
+                                            class="fas fa-external-link-alt icon"></i></a>
                                     <a href="https://github.com/rushikesh-D69/Music-Recommendation-System-Based-on-Acoustic-Features"
-                                        target="_blank" class="github-btn" title="View GitHub"><i
-                                            class="fab fa-github"></i></a>
+                                        target="_blank" class="link-btn-circle github-btn" title="View GitHub"><i
+                                            class="fab fa-github icon"></i></a>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="project-card">
+                        <div class="project-card" data-domain="analog">
                             <div class="project-header">
                                 <h3><i class="fas fa-keyboard"></i> Analog Electronic Piano</h3><span
                                     class="project-tag">March 2025</span>
@@ -311,13 +342,13 @@
                                 </ul>
                                 <div class="project-footer">
                                     <a href="https://aseblr-my.sharepoint.com/:v:/g/personal/bl_en_u4ece23205_bl_students_amrita_edu/EVqiDR1U-RpMrDGlHkfDCxgBJb2RyW2JM9UBsHcVQjrFKw?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=PeSsyK"
-                                        target="_blank" class="video-btn" title="Watch Video"><i
-                                            class="fas fa-play"></i></a>
+                                        target="_blank" class="link-btn-circle video-btn" title="Watch Video"><i
+                                            class="fas fa-play icon"></i></a>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="project-card">
+                        <div class="project-card" data-domain="analog embedded">
                             <div class="project-header">
                                 <h3><i class="fas fa-clock"></i> Digital Clock</h3><span class="project-tag">September
                                     2024</span>
@@ -333,17 +364,17 @@
                                 </ul>
 
                                 <div class="project-footer">
-                                    <a href="https://aseblr-my.sharepoint.com/:v:/g/personal/bl_en_u4ece23205_bl_students_amrita_edu/EaQ-0H6UbAhPm0Bs-					S3Sc5UBS0bEykf8AvlmzO8Bkk7faQ?											nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=B3g8vI"
-                                        style="margin-right: 12px;" target="_blank" class="video-btn"
-                                        title="Watch Video"><i class="fas fa-play"></i></a>
+                                    <a href="https://aseblr-my.sharepoint.com/:v:/g/personal/bl_en_u4ece23205_bl_students_amrita_edu/EaQ-0H6UbAhPm0Bs-					S3Sc5UBS0bEykf8AvlmzO8Bkk7faQ?										nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=B3g8vI"
+                                        style="margin-right: 12px;" target="_blank" class="link-btn-circle video-btn"
+                                        title="Watch Video"><i class="fas fa-play icon"></i></a>
                                     <a href="https://github.com/rushikesh-D69/Discrete-Logic-Based-Digital-Clock"
-                                        target="_blank" class="github-btn" title="View GitHub"><i
-                                            class="fab fa-github"></i></a>
+                                        target="_blank" class="link-btn-circle github-btn" title="View GitHub"><i
+                                            class="fab fa-github icon"></i></a>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="project-card">
+                        <div class="project-card" data-domain="iot embedded">
                             <div class="project-header">
                                 <h3><i class="fas fa-shield-alt"></i> IoT Security System</h3><span
                                     class="project-tag">April 2024</span>
@@ -359,8 +390,8 @@
                                 <button class="read-more-btn">Read More <i class="fas fa-chevron-down"></i></button>
                                 <div class="project-footer">
                                     <a href="https://github.com/chandansaipavanpadala/SafeHouse-ArduinoUno"
-                                        target="_blank" class="github-btn" title="View GitHub"><i
-                                            class="fab fa-github"></i></a>
+                                        target="_blank" class="link-btn-circle github-btn" title="View GitHub"><i
+                                            class="fab fa-github icon"></i></a>
                                 </div>
                             </div>
                         </div>
